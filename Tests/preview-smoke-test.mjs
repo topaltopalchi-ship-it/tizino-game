@@ -267,7 +267,7 @@ for (const grade of [1, 2]) {
         && question.options.every(option => typeof option === "string" && option.trim().length > 0),
         `${label} must have three non-empty answer options`);
       const normalizedOptions = question.options.map(option =>
-        option.normalize("NFKC").trim().replace(/\\s+/gu, " ").toLocaleUpperCase("fa"));
+        option.normalize("NFKC").trim().replace(/\s+/gu, " ").toLocaleUpperCase("fa"));
       check(new Set(normalizedOptions).size === normalizedOptions.length,
         `${label} has duplicate answer options after normalization`);
       check(Number.isInteger(question.correctOptionIndex)
