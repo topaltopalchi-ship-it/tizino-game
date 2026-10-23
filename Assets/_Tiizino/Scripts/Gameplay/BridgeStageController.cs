@@ -275,8 +275,21 @@ namespace Tiizino.Gameplay
                 feedbackText.text = "یک بار دیگر فکر کن! " + explanations[questionIndex];
             }
 
-            // Keep the first prototype simple: proceed after either answer.
-            Invoke(nameof(NextQuestion), 1.8f);
+            if (correct)
+            {
+                Invoke(nameof(NextQuestion), 1.8f);
+            }
+            else
+            {
+                Invoke(nameof(AllowRetry), 1.8f);
+            }
+        }
+
+        private void AllowRetry()
+        {
+            if (questionIndex >= prompts.Length) return;
+            feedbackText.text = "دوباره امتحان کن؛ تو می‌تونی!";
+            foreach (Button button in answerButtons) button.interactable = true;
         }
 
         private void NextQuestion()
