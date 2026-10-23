@@ -420,8 +420,10 @@ namespace Tiizino.Gameplay
                         Debug.LogWarning("Tiizino: invalid question at JSON index " + i + "; using built-in sample questions.", this);
                         return;
                     }
-                    string normalizedPrompt = string.Join(" ",
-                        flattened[i].prompt.Trim().Split((char[])null, System.StringSplitOptions.RemoveEmptyEntries));
+                    string normalizedPrompt = flattened[i].prompt.Normalize(System.Text.NormalizationForm.FormKC)
+                        .Trim().ToUpperInvariant();
+                    normalizedPrompt = string.Join(" ", normalizedPrompt.Split((char[])null,
+                        System.StringSplitOptions.RemoveEmptyEntries));
                     if (!seenPrompts.Add(normalizedPrompt))
                     {
                         Debug.LogWarning("Tiizino: question " + i + " duplicates an earlier prompt; using built-in sample questions.", this);
