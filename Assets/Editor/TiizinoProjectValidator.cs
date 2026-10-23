@@ -139,9 +139,9 @@ namespace Tiizino.EditorTools
 
         private static string NormalizeOption(string option)
         {
-            return string.IsNullOrWhiteSpace(option)
-                ? string.Empty
-                : string.Join(" ", option.Trim().Split((char[])null, StringSplitOptions.RemoveEmptyEntries));
+            if (string.IsNullOrWhiteSpace(option)) return string.Empty;
+            string normalized = option.Normalize(System.Text.NormalizationForm.FormKC).Trim();
+            return string.Join(" ", normalized.Split((char[])null, StringSplitOptions.RemoveEmptyEntries));
         }
 
         private static bool IsValid(Question question)
