@@ -152,6 +152,8 @@ check(bootstrap.includes("new System.Collections.Generic.List<EditorBuildSetting
 const validator = readFileSync(new URL("../Assets/Editor/TiizinoProjectValidator.cs", import.meta.url), "utf8");
 check(validator.includes('MenuItem("Tools/Tiizino/Validate Project Setup")'),
   "Unity editor must expose a setup validation command");
+check(validator.includes("NormalizePrompt") && validator.includes("HashSet<string> seenPrompts"), "Unity setup validator must reject duplicate prompts across levels");
+check(validator.includes("question.options[0]?.Trim()") && validator.includes("question.options[2]?.Trim()"), "Unity setup validator must reject duplicate answer choices");
 check(validator.includes("Grade1_QuestionBank.json")
   && validator.includes("Grade2_QuestionBank.json")
   && validator.includes("correctOptionIndex")
