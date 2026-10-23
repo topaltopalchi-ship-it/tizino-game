@@ -14,6 +14,7 @@ for (const { grade, path } of banks) {
 
   const seenLevelIds = new Set();
   let totalQuestions = 0;
+  let expectedOptionCount = null;
   for (const [levelIndex, level] of bank.levels.entries()) {
     assert.ok(level.name?.trim(), `Grade ${grade}, level ${levelIndex + 1}: name is required`);
     assert.ok(level.skill?.trim(), `Grade ${grade}, level ${levelIndex + 1}: skill is required`);
@@ -32,6 +33,9 @@ for (const { grade, path } of banks) {
       assert.ok(q.options.every(option => typeof option === "string" && option.trim()),
         `${label}: every option must be non-empty text`);
       assert.ok(new Set(q.options).size === q.options.length, `${label}: duplicate answer options`);
+      if (expectedOptionCount == null) expectedOptionCount = q.options.length;
+      assert.equal(q.options.length, expectedOptionCount,
+        `${label}: option count must match other questions because the runtime UI uses a shared button row`);
       assert.ok(Number.isInteger(q.correctOptionIndex)
         && q.correctOptionIndex >= 0 && q.correctOptionIndex < q.options.length,
         `${label}: correctOptionIndex is outside the options array`);
