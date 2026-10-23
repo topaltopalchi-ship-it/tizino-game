@@ -30,7 +30,7 @@ for (const { grade, path } of banks) {
     for (const [questionIndex, q] of level.questions.entries()) {
       const label = `Grade ${grade}, level ${levelIndex + 1}, question ${questionIndex + 1}`;
       assert.ok(q.prompt?.trim(), `${label}: prompt is required`);
-      const normalizedPrompt = q.prompt.trim().replace(/\\s+/g, " ");
+      const normalizedPrompt = q.prompt.normalize("NFKC").trim().replace(/\s+/g, " ").toLocaleLowerCase("fa");
       assert.ok(!seenPrompts.has(normalizedPrompt), `${label}: duplicate question prompt`);
       seenPrompts.add(normalizedPrompt);
       assert.ok(Array.isArray(q.options) && q.options.length >= 2, `${label}: at least two options required`);
