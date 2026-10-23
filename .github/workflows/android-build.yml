@@ -1,0 +1,73 @@
+name: Build Tiizino Android APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "Assets/**"
+      - "Packages/**"
+      - "ProjectSettings/**"
+      - ".github/workflows/android-build.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  android-build:
+    name: Build Android APK in Unity
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Check required Unity project files
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s ProjectSettings/ProjectVersion.txt
+          test -s Packages/manifest.json
+          test -s Assets/Editor/TiizinoAndroidBuild.cs
+          test -s Assets/_Tiizino/Resources/Grade1_QuestionBank.json
+          test -s Assets/_Tiizino/Resources/Grade2_QuestionBank.json
+          if [ -f Assets/_Tiizino/Art/tiizino-icon.png ]; then
+            echo "Official icon file is present."
+          else
+            echo "::warning::Official source icon is missing. The build must not substitute or redraw it."
+          fi
+
+      - name: Build APK with Unity
+        uses: game-ci/unity-builder@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          targetPlatform: Android
+          unityVersion: 6000.0.32f1
+          buildMethod: Tiizino.EditorTools.TiizinoAndroidBuild.BuildAndroidApk
+          buildsPath: Builds
+          buildName: Tiizino.apk
+          versioning: None
+          allowDirtyBuild: true
+
+      - name: Verify APK exists
+        shell: bash
+        run: |
+          set -euo pipefail
+          APK="Builds/Android/Tiizino.apk"
+          if [ ! -s "$APK" ]; then
+            echo "::error::Unity did not create $APK"
+            find Builds -maxdepth 4 -type f -print || true
+            exit 1
+          fi
+          file "$APK"
+          ls -lh "$APK"
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Tiizino-Android-APK
+          path: Builds/Android/Tiizino.apk
+          if-no-files-found: error
+          retention-days: 14
