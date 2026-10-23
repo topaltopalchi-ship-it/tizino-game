@@ -404,16 +404,33 @@ namespace Tiizino.Gameplay
             return button;
         }
 
+        private int CurrentLevelEnd()
+        {
+            if (levelEndIndices == null || levelEndIndices.Length == 0) return prompts.Length;
+            return levelEndIndices[Mathf.Clamp(currentLevelIndex, 0, levelEndIndices.Length - 1)];
+        }
+
         private void ShowQuestion()
         {
-            if (questionIndex >= prompts.Length)
+            if (levelText != null)
+                levelText.text = "لول " + (currentLevelIndex + 1) + " از " + levelNames.Length + " — " + levelNames[currentLevelIndex];
+            if (questionIndex >= CurrentLevelEnd())
             {
-                promptText.text = "آفرین! پل جنگل نجات پیدا کرد!";
-                feedbackText.text = "ستاره‌های به‌دست‌آمده: " + stars + " از " + prompts.Length;
                 foreach (Button button in answerButtons) button.gameObject.SetActive(false);
+                if (continueLevelButton != null) continueLevelButton.gameObject.SetActive(currentLevelIndex + 1 < levelNames.Length);
+                if (currentLevelIndex + 1 < levelNames.Length)
+                {
+                    promptText.text = "آفرین! این لول را تمام کردی.";
+                    feedbackText.text = "ستاره‌های جمع‌شده: " + stars;
+                }
+                else
+                {
+                    promptText.text = "آفرین! پل جنگل نجات پیدا کرد!";
+                    feedbackText.text = "همهٔ لول‌ها تمام شدند. ستاره‌ها: " + stars + " از " + prompts.Length;
+                }
                 return;
             }
-
+            if (continueLevelButton != null) continueLevelButton.gameObject.SetActive(false);
             promptText.text = prompts[questionIndex];
             feedbackText.text = "بهترین پاسخ را انتخاب کن";
             SpeakCurrentQuestion();
@@ -423,6 +440,13 @@ namespace Tiizino.Gameplay
                 answerButtons[i].interactable = true;
                 answerButtons[i].GetComponentInChildren<Text>().text = options[questionIndex][i];
             }
+        }
+
+        private void ContinueToNextLevel()
+        {
+            if (currentLevelIndex + 1 >= levelNames.Length || questionIndex < CurrentLevelEnd()) return;
+            currentLevelIndex++;
+            ShowQuestion();
         }
 
         public void RepeatCurrentQuestion()
