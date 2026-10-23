@@ -1,0 +1,159 @@
+{
+  "stageId": "grade2_forest_bridge",
+  "stageName": "grade2_forest_bridge",
+  "levels": [
+    {
+      "levelId": 1,
+      "name": "جنگل الگوهای پیشرفته",
+      "skill": "الگوی چندمرحله‌ای",
+      "questions": [
+        {
+          "prompt": "۲، ۴، ۲، ۴، ؟",
+          "options": [
+            "۶",
+            "۲",
+            "۴"
+          ],
+          "correctOptionIndex": 1,
+          "explanation": "الگوی ۲ و ۴ تکرار می‌شود.",
+          "difficulty": 1
+        },
+        {
+          "prompt": "🔺 🔵 🔵 🔺 🔵 🔵؛ بعدی چیست؟",
+          "options": [
+            "🔺",
+            "🔵",
+            "🟩"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "یک مثلث و دو دایره تکرار می‌شوند.",
+          "difficulty": 1
+        },
+        {
+          "prompt": "۵، ۶، ۷، ؟",
+          "options": [
+            "۹",
+            "۸",
+            "۶"
+          ],
+          "correctOptionIndex": 1,
+          "explanation": "هر بار یک واحد اضافه می‌شود.",
+          "difficulty": 1
+        },
+        {
+          "prompt": "دایره، مربع، مثلث، دایره، مربع، ؟",
+          "options": [
+            "دایره",
+            "مثلث",
+            "مربع"
+          ],
+          "correctOptionIndex": 1,
+          "explanation": "ترتیب سه‌شکلی دوباره آغاز می‌شود.",
+          "difficulty": 1
+        }
+      ]
+    },
+    {
+      "levelId": 2,
+      "name": "پل مقایسه‌ها",
+      "skill": "ویژگی و دسته‌بندی",
+      "questions": [
+        {
+          "prompt": "کدام عدد زوج است؟",
+          "options": [
+            "۳",
+            "۷",
+            "۸"
+          ],
+          "correctOptionIndex": 2,
+          "explanation": "عدد ۸ بر ۲ بخش‌پذیر است.",
+          "difficulty": 1
+        },
+        {
+          "prompt": "کدام مورد با بقیه فرق دارد؟",
+          "options": [
+            "گلابی",
+            "هویج",
+            "سیب"
+          ],
+          "correctOptionIndex": 1,
+          "explanation": "هویج سبزی است؛ دو مورد دیگر میوه‌اند.",
+          "difficulty": 1
+        },
+        {
+          "prompt": "کدام شکل چهار ضلع دارد؟",
+          "options": [
+            "مثلث",
+            "مربع",
+            "دایره"
+          ],
+          "correctOptionIndex": 1,
+          "explanation": "مربع چهار ضلع دارد.",
+          "difficulty": 1
+        },
+        {
+          "prompt": "اگر همهٔ قایق‌ها روی آب حرکت کنند، کدام وسیله مناسب آب است؟",
+          "options": [
+            "قایق",
+            "دوچرخه",
+            "کفش"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "قایق برای حرکت روی آب ساخته شده است.",
+          "difficulty": 1
+        }
+      ]
+    },
+    {
+      "levelId": 3,
+      "name": "دروازهٔ منطق",
+      "skill": "استنتاج کوتاه و عدد",
+      "questions": [
+        {
+          "prompt": "سارا از مینا بلندتر است. مینا از ندا بلندتر است. چه کسی کوتاه‌تر است؟",
+          "options": [
+            "سارا",
+            "مینا",
+            "ندا"
+          ],
+          "correctOptionIndex": 2,
+          "explanation": "ندا از مینا و سارا کوتاه‌تر است.",
+          "difficulty": 1
+        },
+        {
+          "prompt": "۱۲ مهره داریم و ۴ مهره را برمی‌داریم. چند مهره می‌ماند؟",
+          "options": [
+            "۸",
+            "۹",
+            "۱۶"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "۱۲ منهای ۴ برابر ۸ است.",
+          "difficulty": 1
+        },
+        {
+          "prompt": "یک چراغ در هر مرحله روشن و خاموش می‌شود. اگر اکنون روشن است، مرحلهٔ بعد چیست؟",
+          "options": [
+            "روشن",
+            "خاموش",
+            "شکسته"
+          ],
+          "correctOptionIndex": 1,
+          "explanation": "وضعیت هر بار عوض می‌شود.",
+          "difficulty": 1
+        },
+        {
+          "prompt": "سه جعبه داریم؛ توپ در جعبهٔ قرمز نیست و در جعبهٔ آبی است. توپ کجاست؟",
+          "options": [
+            "قرمز",
+            "آبی",
+            "زرد"
+          ],
+          "correctOptionIndex": 1,
+          "explanation": "سرنخ می‌گوید توپ در جعبهٔ آبی است.",
+          "difficulty": 1
+        }
+      ]
+    }
+  ]
+}
