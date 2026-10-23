@@ -14,6 +14,7 @@ check(html.includes('$("bridgeCount").textContent=fa(stars)'), "Bridge counter m
 const renderBody = html.match(/function render\(\)\{([\s\S]*?)\nfunction choose\(/)?.[1] ?? "";
 check(renderBody.indexOf('$("bridgeCount").textContent=fa(stars)') >= 0, "Render must update bridge counter");
 check(renderBody.indexOf('$("bridgeCount").textContent=fa(stars)') < renderBody.indexOf("if(!q)"), "Bridge counter must update before the stage-complete early return");
+check(renderBody.includes('$("repeat").disabled=!q'), "Repeat-question control should be disabled after stage completion");
 check(html.includes("restart") || html.includes("شروع دوباره"), "Restart control should be present");
 check(html.includes("feedback"), "Answer feedback region should be present");
 check(html.includes('role="status" aria-live="polite"'), "Feedback should be announced to assistive technology");
