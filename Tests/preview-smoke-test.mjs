@@ -167,6 +167,9 @@ check(controller.includes("if (!currentQuestionResolved && answerButtons != null
 check(controller.includes("currentQuestionResolved = false;") && controller.includes("NextQuestion();"), "Re-enabling after a cancelled correct-answer callback must advance the resolved question");
 check(controller.includes("ContinueToNextLevel()"), "Unity controller must provide explicit next-level flow");
 check(controller.includes("parsedLevelEnds.Add(flattened.Count)"), "Unity controller must derive level boundaries from question data");
+check(controller.includes("HashSet<int> seenLevelIds")
+  && controller.includes("level.levelId < 1 || !seenLevelIds.Add(level.levelId)"),
+  "Runtime question-bank loading must reject missing, non-positive, or duplicate level IDs");
 check(controller.includes("لول ") && controller.includes("از "), "Unity controller should display current level progress");
 check(controller.includes("پرسش ") && controller.includes("questionsInLevel") && controller.includes("questionInLevel"), "Unity UI should show the current question number within each level");
 check(controller.includes('Tiizino.Grade" + grade + ".BestStars'), "Unity controller must persist a separate best-star record for each grade");
