@@ -10,7 +10,7 @@ namespace Tiizino.EditorTools
     public static class TiizinoProjectValidator
     {
         private const string ScenePath = "Assets/_Tiizino/Scenes/Stage01_Bridge.unity";
-        private const string QuestionPath = "Assets/_Tiizino/Resources/Stage01_FourLevels_DRAFT.json";
+        private const string QuestionPath = "Assets/_Tiizino/Resources/Grade1_QuestionBank.json";
 
         [Serializable] private sealed class QuestionBank
         {
@@ -43,7 +43,7 @@ namespace Tiizino.EditorTools
 
             if (!File.Exists(QuestionPath))
             {
-                Debug.LogError("Tiizino setup: packaged question bank is missing at " + QuestionPath);
+                Debug.LogError("Tiizino setup: grade 1 question bank is missing at " + QuestionPath);
                 hasErrors = true;
             }
             else
