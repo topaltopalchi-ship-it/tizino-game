@@ -6,11 +6,14 @@ on:
       - "Preview/**"
       - "Tests/**"
       - "Assets/_Tiizino/Data/Questions/**"
+      - "Assets/_Tiizino/Scripts/Gameplay/**"
       - ".github/workflows/preview-check.yml"
   pull_request:
     paths:
       - "Preview/**"
       - "Tests/**"
+      - "Assets/_Tiizino/Data/Questions/**"
+      - "Assets/_Tiizino/Scripts/Gameplay/**"
       - ".github/workflows/preview-check.yml"
 
 jobs:
