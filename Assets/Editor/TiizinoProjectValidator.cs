@@ -24,6 +24,7 @@ namespace Tiizino.EditorTools
         }
         [Serializable] private sealed class Level
         {
+            public int levelId;
             public string name;
             public string skill;
             public Question[] questions;
@@ -72,6 +73,18 @@ namespace Tiizino.EditorTools
                     HashSet<string> seenPrompts = new HashSet<string>(StringComparer.Ordinal);
                     if (bank.levels != null && bank.levels.Length > 0)
                     {
+                        HashSet<int> seenLevelIds = new HashSet<int>();
+                        for (int i = 0; i < bank.levels.Length; i++)
+                        {
+                            Level level = bank.levels[i];
+                            if (level == null) continue;
+                            if (level.levelId < 1 || !seenLevelIds.Add(level.levelId))
+                            {
+                                Debug.LogError("Tiizino setup: missing or duplicate levelId at level "
+                                    + (i + 1) + " in " + questionPath);
+                                hasErrors = true;
+                            }
+                        }
                         for (int i = 0; i < bank.levels.Length; i++)
                         {
                             Level level = bank.levels[i];
