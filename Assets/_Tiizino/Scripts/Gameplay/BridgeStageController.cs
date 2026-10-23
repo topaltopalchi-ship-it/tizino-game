@@ -58,16 +58,137 @@ namespace Tiizino.Gameplay
         private Button[] answerButtons;
         private Button continueLevelButton;
         private GameObject bridgeRoot;
+        private GameObject titleScreenRoot;
         private GameObject[] planks;
 
         private void Start()
         {
-            if (buildOnStart) BuildStage();
+            if (buildOnStart) ShowGradeSelection();
+        }
+
+        private void ShowGradeSelection()
+        {
+            if (titleScreenRoot != null) Destroy(titleScreenRoot);
+            titleScreenRoot = new GameObject("Tiizino Grade Selection");
+            Canvas canvas = titleScreenRoot.AddComponent<Canvas>();
+            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            CanvasScaler scaler = titleScreenRoot.AddComponent<CanvasScaler>();
+            scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+            scaler.referenceResolution = new Vector2(1080, 1920);
+            titleScreenRoot.AddComponent<GraphicRaycaster>();
+
+            UnityEngine.EventSystems.EventSystem eventSystem =
+                FindObjectOfType<UnityEngine.EventSystems.EventSystem>();
+            if (eventSystem == null)
+            {
+                GameObject eventObject = new GameObject("EventSystem");
+                eventSystem = eventObject.AddComponent<UnityEngine.EventSystems.EventSystem>();
+            }
+            if (eventSystem.GetComponent<UnityEngine.EventSystems.BaseInputModule>() == null)
+                eventSystem.gameObject.AddComponent<UnityEngine.EventSystems.StandaloneInputModule>();
+
+            Text title = CreateMenuText(titleScreenRoot.transform, "Tiizino Title",
+                new Vector2(0.5f, 0.88f), new Vector2(900f, 150f), 54);
+            title.text = "تیزینو\nماجراجویی و معما";
+            Text subtitle = CreateMenuText(titleScreenRoot.transform, "Grade Prompt",
+                new Vector2(0.5f, 0.76f), new Vector2(900f, 100f), 32);
+            subtitle.text = "پایهٔ تحصیلی‌ات را انتخاب کن";
+
+            for (int grade = 1; grade <= 6; grade++)
+            {
+                int capturedGrade = grade;
+                int column = (grade - 1) % 2;
+                int row = (grade - 1) / 2;
+                Vector2 anchor = new Vector2(column == 0 ? 0.28f : 0.72f, 0.62f - row * 0.16f);
+                Button button = CreateMenuButton(titleScreenRoot.transform, "Grade " + grade,
+                    anchor, new Vector2(390f, 130f));
+                Text label = button.GetComponentInChildren<Text>();
+                label.text = grade <= 2 ? "پایهٔ " + ToPersianDigits(grade) : "پایهٔ " + ToPersianDigits(grade) + "\nبه‌زودی";
+                if (grade <= 2)
+                {
+                    button.onClick.AddListener(() => SelectGradeAndStart(capturedGrade));
+                }
+                else
+                {
+                    button.interactable = false;
+                    button.GetComponent<Image>().color = new Color(0.48f, 0.50f, 0.56f);
+                }
+            }
+
+            Text note = CreateMenuText(titleScreenRoot.transform, "Available Grades Note",
+                new Vector2(0.5f, 0.08f), new Vector2(920f, 110f), 24);
+            note.text = "فعلاً پایه‌های اول و دوم قابل بازی هستند؛ پایه‌های ۳ تا ۶ بعداً فعال می‌شوند.";
+        }
+
+        private void SelectGradeAndStart(int grade)
+        {
+            PlayerPrefs.SetInt("Tiizino.SelectedGrade", Mathf.Clamp(grade, 1, 2));
+            PlayerPrefs.Save();
+            questionBankJson = null;
+            BuildStage();
+        }
+
+        private static string ToPersianDigits(int number)
+        {
+            return number.ToString().Replace("0", "۰").Replace("1", "۱")
+                .Replace("2", "۲").Replace("3", "۳").Replace("4", "۴")
+                .Replace("5", "۵").Replace("6", "۶").Replace("7", "۷")
+                .Replace("8", "۸").Replace("9", "۹");
+        }
+
+        private Text CreateMenuText(Transform parent, string name, Vector2 anchor,
+            Vector2 size, int fontSize)
+        {
+            GameObject go = new GameObject(name);
+            go.transform.SetParent(parent, false);
+            RectTransform rect = go.AddComponent<RectTransform>();
+            rect.anchorMin = rect.anchorMax = anchor;
+            rect.sizeDelta = size;
+            rect.anchoredPosition = Vector2.zero;
+            Text text = go.AddComponent<Text>();
+            text.font = uiFont != null ? uiFont : Resources.GetBuiltinResource<Font>("Arial.ttf");
+            text.fontSize = fontSize;
+            text.alignment = TextAnchor.MiddleCenter;
+            text.color = Color.white;
+            text.horizontalOverflow = HorizontalWrapMode.Wrap;
+            text.verticalOverflow = VerticalWrapMode.Overflow;
+            text.resizeTextForBestFit = true;
+            text.resizeTextMinSize = 18;
+            text.resizeTextMaxSize = fontSize;
+            text.text = name;
+            return text;
+        }
+
+        private Button CreateMenuButton(Transform parent, string name, Vector2 anchor, Vector2 size)
+        {
+            GameObject go = new GameObject(name);
+            go.transform.SetParent(parent, false);
+            RectTransform rect = go.AddComponent<RectTransform>();
+            rect.anchorMin = rect.anchorMax = anchor;
+            rect.sizeDelta = size;
+            rect.anchoredPosition = Vector2.zero;
+            Image image = go.AddComponent<Image>();
+            image.color = new Color(0.98f, 0.68f, 0.18f);
+            Button button = go.AddComponent<Button>();
+            Text label = CreateMenuText(go.transform, "Label", new Vector2(0.5f, 0.5f),
+                new Vector2(size.x - 20f, size.y - 20f), 34);
+            RectTransform labelRect = label.GetComponent<RectTransform>();
+            labelRect.anchorMin = Vector2.zero;
+            labelRect.anchorMax = Vector2.one;
+            labelRect.offsetMin = new Vector2(10f, 10f);
+            labelRect.offsetMax = new Vector2(-10f, -10f);
+            label.color = new Color(0.12f, 0.12f, 0.2f);
+            return button;
         }
 
         [ContextMenu("Build Tiizino Bridge Stage")]
         public void BuildStage()
         {
+            if (titleScreenRoot != null)
+            {
+                Destroy(titleScreenRoot);
+                titleScreenRoot = null;
+            }
             // Reset runtime state so rebuilding the stage always starts cleanly.
             CancelInvoke();
             questionIndex = 0;
