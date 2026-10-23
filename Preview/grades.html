@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#143c63">
 <title>تیزینو — آزمون پایهٔ اول و دوم</title>
 <style>
-:root{color-scheme:light;--navy:#143c63;--blue:#2677d9;--paper:#fffdf6;--green:#16845f}*{box-sizing:border-box}body{margin:0;font-family:Tahoma,Arial,sans-serif;background:linear-gradient(#c6edff,#f6fbff 42%,#e8f7d9);color:var(--navy);min-height:100vh}header{padding:18px 12px;text-align:center;background:var(--navy);color:#fff}h1{margin:0;font-size:clamp(1.25rem,4vw,2rem)}header p{margin:8px 0 0;color:#d7edff}main{max-width:820px;margin:auto;padding:14px;display:grid;gap:14px}.panel{background:var(--paper);border:1px solid #d6e7f5;border-radius:18px;padding:18px;box-shadow:0 7px 20px #143c6310}.grades,.answers,.actions{display:flex;gap:10px;flex-wrap:wrap}.grades button,.answer,.action{font:inherit;cursor:pointer;touch-action:manipulation;border-radius:12px;padding:12px;border:2px solid #d7e7f5;background:white;color:var(--navy);font-weight:bold;min-height:48px}.grades button{flex:1}.grades button[aria-pressed=true]{background:#e5f2ff;border-color:var(--blue)}.progress{display:flex;align-items:center;gap:10px;font-weight:bold}.track{height:10px;background:#e2edf6;border-radius:20px;overflow:hidden;flex:1}.fill{height:100%;width:0;background:linear-gradient(90deg,#24b78c,#1686d0)}h2{text-align:center;line-height:1.9;font-size:clamp(1.05rem,3vw,1.35rem)}.answers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}.answer{min-height:62px}.answer:focus-visible,button:focus-visible{outline:3px solid #f0a51a;outline-offset:3px}.answer:disabled,button:disabled{opacity:.6;cursor:default}.feedback{min-height:48px;line-height:1.8;text-align:center;font-weight:bold;color:var(--green)}.action{background:#eaf3fb}.primary{background:var(--blue);color:white;border-color:var(--blue)}.foot{text-align:center;color:#47677f;font-size:.82rem;line-height:1.8}.hidden{display:none!important}@media(max-width:520px){main{padding:10px}.panel{padding:14px}.answers{grid-template-columns:1fr}.answer{min-height:50px}}
+:root{color-scheme:light;--navy:#143c63;--blue:#2677d9;--paper:#fffdf6;--green:#16845f}*{box-sizing:border-box}body{margin:0;font-family:Tahoma,Arial,sans-serif;background:linear-gradient(#c6edff,#f6fbff 42%,#e8f7d9);color:var(--navy);min-height:100vh}header{padding:18px 12px;text-align:center;background:var(--navy);color:#fff}h1{margin:0;font-size:clamp(1.25rem,4vw,2rem)}header p{margin:8px 0 0;color:#d7edff}main{max-width:820px;margin:auto;padding:14px;display:grid;gap:14px}.panel{background:var(--paper);border:1px solid #d6e7f5;border-radius:18px;padding:18px;box-shadow:0 7px 20px #143c6310}.grades,.answers,.actions{display:flex;gap:10px;flex-wrap:wrap}.grades button,.answer,.action{font:inherit;cursor:pointer;touch-action:manipulation;border-radius:12px;padding:12px;border:2px solid #d7e7f5;background:white;color:var(--navy);font-weight:bold;min-height:48px}.grades button{flex:1}.grades button[aria-pressed=true]{background:#e5f2ff;border-color:var(--blue)}.progress{display:flex;align-items:center;gap:10px;font-weight:bold}.track{height:10px;background:#e2edf6;border-radius:20px;overflow:hidden;flex:1}.fill{height:100%;width:0;background:linear-gradient(90deg,#24b78c,#1686d0)}h2{text-align:center;line-height:1.9;font-size:clamp(1.05rem,3vw,1.35rem)}.answers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}.answer{min-height:62px}.answer:focus-visible,button:focus-visible{outline:3px solid #f0a51a;outline-offset:3px}.answer:disabled,button:disabled{opacity:.6;cursor:default}.feedback{min-height:48px;line-height:1.8;text-align:center;font-weight:bold;color:var(--green)}.feedback.correct{color:#08784d}.feedback.incorrect{color:#b42318}.feedback.neutral{color:#47677f}.action{background:#eaf3fb}.primary{background:var(--blue);color:white;border-color:var(--blue)}.foot{text-align:center;color:#47677f;font-size:.82rem;line-height:1.8}.hidden{display:none!important}@media(max-width:520px){main{padding:10px}.panel{padding:14px}.answers{grid-template-columns:1fr}.answer{min-height:50px}}
 </style>
 </head>
 <body>
@@ -23,7 +23,7 @@ let grade=1,bank=null,levelIndex=0,questionIndex=0,stars=0,locked=false,timer=nu
 const fa=n=>String(n).replace(/[0-9]/g,d=>"۰۱۲۳۴۵۶۷۸۹"[Number(d)]);
 function currentLevel(){return bank?.levels?.[levelIndex]??null}
 function currentQuestion(){return currentLevel()?.questions?.[questionIndex]??null}
-function stopTimer(){if(timer!==null){clearTimeout(timer);timer=null}}
+function stopTimer(){if(timer!==null){clearTimeout(timer);timer=null}}\nfunction setFeedback(message,state="neutral"){const el=$("feedback");el.textContent=message;el.classList.remove("correct","incorrect","neutral");el.classList.add(state)}
 function setGradeButtons(){for(const g of [1,2])$("grade"+g).setAttribute("aria-pressed",String(g===grade))}
 function render(){
  locked=false;const level=currentLevel(),q=currentQuestion();$("stars").textContent=fa(stars);
@@ -31,18 +31,18 @@ function render(){
  $("questionCount").textContent=level&&q?"سؤال "+fa(questionIndex+1)+" از "+fa(level.questions.length):"همهٔ سؤال‌ها تمام شد";
  $("fill").style.width=bank?((levelIndex+(level?questionIndex/Math.max(1,level.questions.length):1))/bank.levels.length*100)+"%":"0%";
  $("answers").replaceChildren();$("repeat").disabled=!q;
- if(!q){$("prompt").textContent="🎉 آفرین! همهٔ مرحله‌ها را تمام کردی."; $("feedback").textContent=fa(stars)+" ستاره گرفتی. برای بازی دوباره دکمه را بزن.";return}
- $("prompt").textContent=q.prompt;$("feedback").textContent=level?.skill??"";
+ if(!q){$("prompt").textContent="🎉 آفرین! همهٔ مرحله‌ها را تمام کردی."; setFeedback(fa(stars)+" ستاره گرفتی. برای بازی دوباره دکمه را بزن.","correct");return}
+ $("prompt").textContent=q.prompt;setFeedback(level?.skill??"","neutral");
  q.options.forEach((option,i)=>{const b=document.createElement("button");b.type="button";b.className="answer";b.textContent=option;b.addEventListener("click",()=>choose(i));$("answers").appendChild(b)});
 }
 function choose(choice){
  const q=currentQuestion();if(locked||!q)return;locked=true;$("repeat").disabled=true;$("answers").querySelectorAll("button").forEach(b=>b.disabled=true);
- if(choice===q.correctOptionIndex){stars++;$("stars").textContent=fa(stars);$("feedback").textContent="آفرین! "+q.explanation;
+ if(choice===q.correctOptionIndex){stars++;$("stars").textContent=fa(stars);setFeedback("آفرین! "+q.explanation,"correct");
  timer=setTimeout(()=>{timer=null;questionIndex++;if(questionIndex>=currentLevel().questions.length){levelIndex++;questionIndex=0}render()},900)}
- else{$("feedback").textContent="نزدیک بود! "+q.explanation;timer=setTimeout(()=>{timer=null;locked=false;$("repeat").disabled=false;$("answers").querySelectorAll("button").forEach(b=>b.disabled=false);$("feedback").textContent="یک گزینهٔ دیگر را امتحان کن."},900)}
+ else{setFeedback("نزدیک بود! "+q.explanation,"incorrect");timer=setTimeout(()=>{timer=null;locked=false;$("repeat").disabled=false;$("answers").querySelectorAll("button").forEach(b=>b.disabled=false);setFeedback("یک گزینهٔ دیگر را امتحان کن.","neutral")},900)}
 }
 async function loadGrade(nextGrade){
- stopTimer();grade=nextGrade;bank=null;levelIndex=0;questionIndex=0;stars=0;locked=true;setGradeButtons();$("prompt").textContent="در حال بارگذاری…";$("answers").replaceChildren();$("feedback").textContent="";$("bankStatus").textContent="در حال بارگذاری بانک سؤال پایهٔ "+fa(grade)+"…";
+ stopTimer();grade=nextGrade;bank=null;levelIndex=0;questionIndex=0;stars=0;locked=true;setGradeButtons();$("prompt").textContent="در حال بارگذاری…";$("answers").replaceChildren();setFeedback("");$("bankStatus").textContent="در حال بارگذاری بانک سؤال پایهٔ "+fa(grade)+"…";
  try{
   const response=await fetch(bankPaths[grade]);if(!response.ok)throw new Error("HTTP "+response.status);
   const data=await response.json();
@@ -52,10 +52,10 @@ async function loadGrade(nextGrade){
    for(const q of level.questions)if(!q.prompt?.trim()||!Array.isArray(q.options)||q.options.length<2||!Number.isInteger(q.correctOptionIndex)||q.correctOptionIndex<0||q.correctOptionIndex>=q.options.length||!q.explanation?.trim())throw new Error("یک سؤال نامعتبر است");
   }
   bank=data;locked=false;$("bankStatus").textContent="بانک پایهٔ "+fa(grade)+" آماده است؛ "+fa(data.levels.length)+" مرحله.";render();
- }catch(error){locked=true;$("bankStatus").textContent="بانک سؤال بارگذاری نشد. این صفحه را از GitHub Pages یا یک وب‌سرور باز کن."; $("prompt").textContent="دسترسی به بانک سؤال ممکن نیست";$("feedback").textContent="جزئیات: "+error.message;$("repeat").disabled=true}
+ }catch(error){locked=true;$("bankStatus").textContent="بانک سؤال بارگذاری نشد. این صفحه را از GitHub Pages یا یک وب‌سرور باز کن."; $("prompt").textContent="دسترسی به بانک سؤال ممکن نیست";setFeedback("جزئیات: "+error.message,"incorrect");$("repeat").disabled=true}
 }
 $("grade1").addEventListener("click",()=>loadGrade(1));$("grade2").addEventListener("click",()=>loadGrade(2));
-$("repeat").addEventListener("click",()=>{const q=currentQuestion();if(q&&!locked){$("prompt").textContent=q.prompt;$("feedback").textContent="سؤال دوباره نمایش داده شد؛ با دقت انتخاب کن."}});
+$("repeat").addEventListener("click",()=>{const q=currentQuestion();if(q&&!locked){$("prompt").textContent=q.prompt;setFeedback("سؤال دوباره نمایش داده شد؛ با دقت انتخاب کن.","neutral")}});
 $("restart").addEventListener("click",()=>loadGrade(grade));
 loadGrade(1);
 </script>
