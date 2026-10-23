@@ -5,6 +5,7 @@ on:
     paths:
       - "Preview/**"
       - "Tests/**"
+      - "Docs/**"
       - "Assets/_Tiizino/Data/Questions/**"
       - "Assets/_Tiizino/Resources/**"
       - "Assets/_Tiizino/Scripts/Gameplay/**"
