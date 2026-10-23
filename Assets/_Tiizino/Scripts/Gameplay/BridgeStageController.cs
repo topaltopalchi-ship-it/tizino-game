@@ -83,6 +83,8 @@ namespace Tiizino.Gameplay
             planks = null;
             if (speechService == null) speechService = GetComponent<AudioClipSpeechService>();
             ResetBuiltInQuestionBank();
+            if (questionBankJson == null)
+                questionBankJson = Resources.Load<TextAsset>("Stage01_FourLevels_DRAFT");
             LoadQuestionBank();
 
             ClearOldStage();
