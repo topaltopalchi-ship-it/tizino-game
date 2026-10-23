@@ -170,6 +170,9 @@ check(controller.includes("parsedLevelEnds.Add(flattened.Count)"), "Unity contro
 check(controller.includes("HashSet<int> seenLevelIds")
   && controller.includes("level.levelId < 1 || !seenLevelIds.Add(level.levelId)"),
   "Runtime question-bank loading must reject missing, non-positive, or duplicate level IDs");
+check(controller.includes("string.IsNullOrWhiteSpace(level.name) || string.IsNullOrWhiteSpace(level.skill)")
+  && controller.includes("is missing its name, skill, or questions"),
+  "Runtime question-bank loading must reject levels missing required name or skill metadata");
 check(controller.includes("لول ") && controller.includes("از "), "Unity controller should display current level progress");
 check(controller.includes("پرسش ") && controller.includes("questionsInLevel") && controller.includes("questionInLevel"), "Unity UI should show the current question number within each level");
 check(controller.includes('Tiizino.Grade" + grade + ".BestStars'), "Unity controller must persist a separate best-star record for each grade");
