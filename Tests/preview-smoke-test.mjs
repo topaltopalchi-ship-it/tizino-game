@@ -119,6 +119,10 @@ check(controller.includes("if (musicSource != null) musicSource.Stop();"), "Disa
 check(controller.includes("private void OnEnable()") && controller.includes("musicEnabled && musicSource != null && !musicSource.isPlaying") && controller.includes("musicSource.Play();"), "Re-enabling the controller must resume background music when the saved preference is on");
 check(controller.includes("if (button != null && button.gameObject.activeInHierarchy)") && controller.includes("button.interactable = true;"), "Re-enabling the stage must not leave answer controls locked after a cancelled callback");
 check(controller.includes("private bool currentQuestionResolved;"), "Unity controller must track whether the current question already awarded a reward");
+const rebuildStart = controller.indexOf("public void BuildStage()");
+const rebuildEnd = controller.indexOf("private sealed class QuestionBank", rebuildStart);
+const rebuildBody = rebuildStart >= 0 && rebuildEnd > rebuildStart ? controller.slice(rebuildStart, rebuildEnd) : "";
+check(rebuildBody.includes("currentQuestionResolved = false;"), "Rebuilding the stage must clear resolved-answer state from the previous run");
 check(controller.includes("if (currentQuestionResolved || questionIndex < 0"), "Repeated answer callbacks must not award duplicate stars for a resolved question");
 check(controller.includes("if (!currentQuestionResolved && answerButtons != null)"), "Disabling after a correct answer must not reopen its answer controls");
 check(controller.includes("currentQuestionResolved = false;") && controller.includes("NextQuestion();"), "Re-enabling after a cancelled correct-answer callback must advance the resolved question");
