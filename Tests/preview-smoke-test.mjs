@@ -20,4 +20,22 @@ new Function(script);
 const questionCount = (script.match(/\{\s*p\s*:/g) ?? []).length;
 check(questionCount === 4, `Expected 4 sample questions; found ${questionCount}`);
 
+
+check(html.includes('id="repeat"'), "Repeat-question control is missing");
+check(html.includes('addEventListener("click",restart)') || html.includes('addEventListener("click",()=>{index=0'), "Restart action should be wired");
+check(script.includes("choice===q.a"), "Answer selection should compare against the answer key");
+check(script.includes("document.querySelectorAll(\".answer\").forEach(b=>b.disabled=false)"), "Wrong answers should allow another attempt");
+
+const questionLines = script.split("\n").filter(line => /^\{p:/.test(line.trim()));
+check(questionLines.length === 4, `Expected 4 question records; found ${questionLines.length}`);
+for (const [i, line] of questionLines.entries()) {
+  const options = line.match(/o:\[(.*?)\],a:(\d+),e:/);
+  check(Boolean(options), `Question ${i + 1} is missing options or answer index`);
+  const optionCount = (options[1].match(/"/g) ?? []).length / 2;
+  const answerIndex = Number(options[2]);
+  check(optionCount === 3, `Question ${i + 1} must have 3 options`);
+  check(Number.isInteger(answerIndex) && answerIndex >= 0 && answerIndex < optionCount,
+    `Question ${i + 1} answer index is out of range`);
+}
+
 console.log("Preview smoke checks passed (static checks and JavaScript syntax only).");
