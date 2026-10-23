@@ -594,21 +594,21 @@ namespace Tiizino.Gameplay
             }
 
             Button musicButton = CreateButton(canvasObject.transform, "Music Toggle", new Vector2(0.5f, 0.985f),
-                new Vector2(0.28f, 0.045f));
+                new Vector2(0.30f, 0.04f));
             musicButton.GetComponentInChildren<Text>().text = "موسیقی: روشن/خاموش";
             musicButton.onClick.AddListener(ToggleBackgroundMusic);
 
             // Persistent in-game grade switch for the two prepared starter banks.
-            Button gradeOneButton = CreateButton(canvasObject.transform, "Grade 1", new Vector2(0.28f, 0.985f),
-                new Vector2(0.34f, 0.045f));
+            Button gradeOneButton = CreateButton(canvasObject.transform, "Grade 1", new Vector2(0.27f, 0.925f),
+                new Vector2(0.38f, 0.04f));
             gradeOneButton.GetComponentInChildren<Text>().text = "پایهٔ اول";
             gradeOneButton.onClick.AddListener(() => SelectGrade(1));
-            Button gradeTwoButton = CreateButton(canvasObject.transform, "Grade 2", new Vector2(0.72f, 0.985f),
-                new Vector2(0.34f, 0.045f));
+            Button gradeTwoButton = CreateButton(canvasObject.transform, "Grade 2", new Vector2(0.73f, 0.925f),
+                new Vector2(0.38f, 0.04f));
             gradeTwoButton.GetComponentInChildren<Text>().text = "پایهٔ دوم";
             gradeTwoButton.onClick.AddListener(() => SelectGrade(2));
 
-            levelText = CreateText(canvasObject.transform, "Level", new Vector2(0.5f, 0.94f),
+            levelText = CreateText(canvasObject.transform, "Level", new Vector2(0.5f, 0.875f),
                 new Vector2(0.88f, 0.045f), 24, TextAnchor.MiddleCenter);
             promptText = CreateText(canvasObject.transform, "Prompt", new Vector2(0.5f, 0.84f),
                 new Vector2(0.88f, 0.15f), 32, TextAnchor.MiddleCenter);
