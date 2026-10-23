@@ -16,6 +16,8 @@ namespace Tiizino.Gameplay
         [SerializeField] private Color waterColor = new Color(0.12f, 0.58f, 0.82f);
         [SerializeField] private AudioClipSpeechService speechService;
         [SerializeField] private TextAsset questionBankJson;
+        [Tooltip("Optional font asset with Persian glyphs. Proper RTL shaping still requires a shaping solution.")]
+        [SerializeField] private Font uiFont;
 
         private string[] prompts =
         {
@@ -70,6 +72,7 @@ namespace Tiizino.Gameplay
             answerButtons = null;
             planks = null;
             if (speechService == null) speechService = GetComponent<AudioClipSpeechService>();
+            ResetBuiltInQuestionBank();
             LoadQuestionBank();
 
             ClearOldStage();
@@ -83,6 +86,37 @@ namespace Tiizino.Gameplay
         private sealed class QuestionBank
         {
             public QuestionData[] questions;
+        }
+
+        private void ResetBuiltInQuestionBank()
+        {
+            prompts = new[]
+            {
+                "قرمز، آبی، قرمز، آبی، بعدی کدام است؟",
+                "دایره، دایره، ستاره، دایره، دایره، بعدی کدام است؟",
+                "۱، ۲، ۳، بعدی کدام عدد است؟",
+                "کدام مورد با بقیه فرق دارد؟"
+            };
+            options = new[]
+            {
+                new[] { "قرمز", "سبز", "زرد" },
+                new[] { "ستاره", "مربع", "دایره" },
+                new[] { "۴", "۵", "۲" },
+                new[] { "سیب", "گلابی", "صندلی" }
+            };
+            answers = new[] { 0, 0, 0, 2 };
+            audioPhraseIds = new[]
+            {
+                "grade1_bridge_q1", "grade1_bridge_q2",
+                "grade1_bridge_q3", "grade1_bridge_q4"
+            };
+            explanations = new[]
+            {
+                "آفرین! الگو یکی در میان تکرار می‌شود.",
+                "در هر گروه دو دایره و بعد یک ستاره داریم.",
+                "هر بار یک عدد به عدد قبلی اضافه می‌شود.",
+                "صندلی وسیله است؛ بقیه میوه‌اند."
+            };
         }
 
         private void LoadQuestionBank()
@@ -311,12 +345,16 @@ namespace Tiizino.Gameplay
             rect.sizeDelta = new Vector2(1000f * size.x, 1900f * size.y);
             rect.anchoredPosition = Vector2.zero;
             Text text = go.AddComponent<Text>();
-            text.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
+            text.font = uiFont != null ? uiFont : Resources.GetBuiltinResource<Font>("Arial.ttf");
             text.fontSize = fontSize;
             text.alignment = alignment;
             text.color = Color.white;
             text.horizontalOverflow = HorizontalWrapMode.Wrap;
             text.verticalOverflow = VerticalWrapMode.Overflow;
+            text.resizeTextForBestFit = true;
+            text.resizeTextMinSize = 18;
+            text.resizeTextMaxSize = fontSize;
+            text.supportRichText = false;
             text.text = name;
             return text;
         }
