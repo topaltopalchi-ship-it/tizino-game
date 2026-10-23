@@ -113,7 +113,14 @@ check(controller.includes("labelRect.anchorMin = Vector2.zero;")
 check(controller.includes("CurrentLevelEnd()"), "Unity controller must track the end of each level");
 check(controller.includes("contains duplicate options"), "Runtime question loading must reject duplicate answer choices");
 check(controller.includes("duplicates an earlier prompt") && controller.includes("seenPrompts.Add(normalizedPrompt)"), "Runtime question loading must reject repeated prompts after whitespace normalization");
-check(controller.includes("options[optionIndex]?.Trim()"), "Runtime question loading must reject answer choices duplicated only by surrounding whitespace");
+check(controller.includes("NormalizeOption(flattened[i].options[optionIndex])")
+  && controller.includes("System.StringComparison.OrdinalIgnoreCase"),
+  "Runtime question loading must reject duplicate answer choices after whitespace normalization and case folding");
+check(controller.includes("private static string NormalizeOption(string option)"),
+  "Runtime option normalization helper is missing");
+check(editor.includes("NormalizeOption(question.options[0])")
+  && editor.includes("StringComparison.OrdinalIgnoreCase"),
+  "Editor validation must use the same normalized, case-insensitive option comparison");
 check(controller.includes('Tiizino.MusicEnabled'), "Music preference must persist between game sessions");
 check(controller.includes('musicEnabled ? "موسیقی: روشن" : "موسیقی: خاموش"'), "Music toggle label must reflect the current preference");
 check(controller.includes("private void OnDisable()") && controller.includes("speechService?.Stop();"), "Disabling or rebuilding the stage must stop question voice playback");
