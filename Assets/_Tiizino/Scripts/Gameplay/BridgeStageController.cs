@@ -114,6 +114,16 @@ namespace Tiizino.Gameplay
         {
             CancelInvoke();
             speechService?.Stop();
+            // A disabled controller can cancel a pending retry/advance callback.
+            // Restore the current question's controls so re-enabling cannot soft-lock play.
+            if (answerButtons != null)
+            {
+                foreach (Button button in answerButtons)
+                {
+                    if (button != null && button.gameObject.activeInHierarchy)
+                        button.interactable = true;
+                }
+            }
             // The music AudioSource lives on a generated child, so stop it explicitly
             // when this controller is disabled instead of leaving orphaned playback.
             if (musicSource != null) musicSource.Stop();
