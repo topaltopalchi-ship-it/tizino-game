@@ -425,3 +425,29 @@ check(validator.includes("ProjectSettings/ProjectSettings.asset")
   && validator.includes("com.tiizino.game")
   && validator.includes("Prepare Android Build"),
   "Unity project validator must flag missing or unconfigured Android player settings");
+
+// Keep the shipped first- and second-grade curricula intentionally small and predictable.
+for (const grade of [1, 2]) {
+  const bank = JSON.parse(readFileSync(
+    new URL(`../Assets/_Tiizino/Resources/Grade${grade}_QuestionBank.json`, import.meta.url), "utf8"));
+  check(bank.stageId === `grade${grade}_forest_bridge`,
+    `Grade ${grade} bank must use its stable stage identifier`);
+  check(bank.stageName === bank.stageId,
+    `Grade ${grade} stageName must stay aligned with stageId`);
+  check(bank.levels.length === 3,
+    `Grade ${grade} starter curriculum must contain exactly three levels`);
+  let count = 0;
+  for (const [levelIndex, level] of bank.levels.entries()) {
+    check(level.levelId === levelIndex + 1,
+      `Grade ${grade} level IDs must be sequential`);
+    check(level.questions.length === 4,
+      `Grade ${grade}, level ${levelIndex + 1} must contain four questions`);
+    for (const [questionIndex, question] of level.questions.entries()) {
+      count++;
+      check(Number.isInteger(question.difficulty) && question.difficulty >= 1 && question.difficulty <= 3,
+        `Grade ${grade}, level ${levelIndex + 1}, question ${questionIndex + 1} has unsupported difficulty`);
+    }
+  }
+  check(count === 12, `Grade ${grade} starter curriculum must contain twelve questions`);
+}
+console.log("Grade 1/2 curriculum counts, stable IDs, and difficulty ranges validated.");
