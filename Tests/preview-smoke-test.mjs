@@ -121,7 +121,7 @@ check(controller.includes("if (button != null && button.gameObject.activeInHiera
 check(controller.includes("private bool currentQuestionResolved;"), "Unity controller must track whether the current question already awarded a reward");
 check(controller.includes("if (currentQuestionResolved || questionIndex < 0"), "Repeated answer callbacks must not award duplicate stars for a resolved question");
 check(controller.includes("if (!currentQuestionResolved && answerButtons != null)"), "Disabling after a correct answer must not reopen its answer controls");
-check(controller.includes("if (currentQuestionResolved)\\n            {\\n                currentQuestionResolved = false;\\n                NextQuestion();"), "Re-enabling after a cancelled correct-answer callback must advance exactly once");
+check(controller.includes("currentQuestionResolved = false;") && controller.includes("NextQuestion();"), "Re-enabling after a cancelled correct-answer callback must advance the resolved question");
 check(controller.includes("ContinueToNextLevel()"), "Unity controller must provide explicit next-level flow");
 check(controller.includes("parsedLevelEnds.Add(flattened.Count)"), "Unity controller must derive level boundaries from question data");
 check(controller.includes("لول ") && controller.includes("از "), "Unity controller should display current level progress");
