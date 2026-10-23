@@ -461,3 +461,19 @@ check(gradePreview.includes("if(requestId!==loadRequestId)return;"),
 check(gradePreview.includes("stopTimer();const requestId=++loadRequestId;grade=nextGrade;"),
   "Grade changes must cancel pending answer timers before resetting progress");
 console.log("Asynchronous grade-selection safeguards checked (static checks only).");
+
+
+// Keep the playable preview's defensive validation covered by static smoke checks.
+check(gradePreview.includes("const seenLevelIds=new Set(),seenPrompts=new Set();"),
+  "Grade preview must track duplicate level IDs and normalized question prompts");
+check(gradePreview.includes("seenLevelIds.has(level.levelId)"),
+  "Grade preview must reject duplicate level IDs before rendering");
+check(gradePreview.includes("q.options.length!==3"),
+  "Grade preview must require exactly three answer choices");
+check(gradePreview.includes('option.normalize("NFKC").trim().replace(/\\s+/gu," ").toLocaleUpperCase("fa")'),
+  "Grade preview must normalize options before duplicate detection");
+check(gradePreview.includes("seenPrompts.has(normalizedPrompt)"),
+  "Grade preview must reject repeated prompts across the selected grade");
+check(gradePreview.includes("!Number.isInteger(q.difficulty)||q.difficulty<1||q.difficulty>3"),
+  "Grade preview must reject unsupported question difficulty");
+console.log("Grade preview validation guards covered by static smoke checks.");
