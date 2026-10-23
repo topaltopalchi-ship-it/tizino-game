@@ -385,10 +385,18 @@ namespace Tiizino.Gameplay
                     new System.Collections.Generic.List<int>();
                 if (bank.levels != null && bank.levels.Length > 0)
                 {
+                    System.Collections.Generic.HashSet<int> seenLevelIds =
+                        new System.Collections.Generic.HashSet<int>();
                     for (int levelIndex = 0; levelIndex < bank.levels.Length; levelIndex++)
                     {
                         LevelData level = bank.levels[levelIndex];
-                        if (level == null || level.questions == null || level.questions.Length == 0)
+                        if (level == null || level.levelId < 1 || !seenLevelIds.Add(level.levelId))
+                        {
+                            Debug.LogWarning("Tiizino: missing or duplicate levelId at level "
+                                + (levelIndex + 1) + "; using built-in sample questions.", this);
+                            return;
+                        }
+                        if (level.questions == null || level.questions.Length == 0)
                         {
                             Debug.LogWarning("Tiizino: level " + (levelIndex + 1) + " has no questions; using built-in sample questions.", this);
                             return;
