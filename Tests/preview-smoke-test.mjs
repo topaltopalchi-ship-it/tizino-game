@@ -345,3 +345,7 @@ check(gradePreview.includes("function choose(choice)")
 const gradePreviewScript = gradePreview.split("<script>")[1]?.split("</script>")[0];
 check(Boolean(gradePreviewScript), "Could not extract playable grade preview script");
 new Function(gradePreviewScript);
+
+check(gradePreview.includes('id="questionCount"')
+  && gradePreview.includes('level.name+" ("'),
+  "Playable grade preview must show the current level name and question progress");
