@@ -110,6 +110,14 @@ namespace Tiizino.Gameplay
             }
         }
 
+        private void OnEnable()
+        {
+            // OnDisable stops the generated AudioSource; resume the saved music choice
+            // when this stage controller becomes active again.
+            if (musicEnabled && musicSource != null && !musicSource.isPlaying)
+                musicSource.Play();
+        }
+
         private void OnDisable()
         {
             CancelInvoke();
