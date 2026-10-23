@@ -67,7 +67,7 @@
           ],
           "correctOptionIndex": 1,
           "explanation": "دایره گوشه ندارد.",
-          "difficulty": 1
+          "difficulty": 2
         },
         {
           "prompt": "کدام شکل سه گوشه دارد؟",
@@ -78,7 +78,7 @@
           ],
           "correctOptionIndex": 0,
           "explanation": "مثلث سه گوشه دارد.",
-          "difficulty": 1
+          "difficulty": 2
         },
         {
           "prompt": "کدام یکی میوه نیست؟",
@@ -89,7 +89,7 @@
           ],
           "correctOptionIndex": 2,
           "explanation": "کفش میوه نیست.",
-          "difficulty": 1
+          "difficulty": 2
         },
         {
           "prompt": "کدام دو چیز برای باران مناسب‌ترند؟",
@@ -100,7 +100,7 @@
           ],
           "correctOptionIndex": 0,
           "explanation": "چتر و بارانی برای باران‌اند.",
-          "difficulty": 1
+          "difficulty": 2
         }
       ]
     },
@@ -118,7 +118,7 @@
           ],
           "correctOptionIndex": 2,
           "explanation": "سه به‌علاوهٔ یک می‌شود چهار.",
-          "difficulty": 1
+          "difficulty": 3
         },
         {
           "prompt": "برای بازکردن در، کلید لازم است. کدام را باید پیدا کنی؟",
@@ -129,7 +129,7 @@
           ],
           "correctOptionIndex": 0,
           "explanation": "کلید در را باز می‌کند.",
-          "difficulty": 1
+          "difficulty": 3
         },
         {
           "prompt": "کدام عدد از ۵ کوچک‌تر است؟",
@@ -140,7 +140,7 @@
           ],
           "correctOptionIndex": 1,
           "explanation": "چهار از پنج کوچک‌تر است.",
-          "difficulty": 1
+          "difficulty": 3
         },
         {
           "prompt": "یک جوراب قرمز و یک جوراب آبی داریم. چند جوراب داریم؟",
@@ -151,7 +151,7 @@
           ],
           "correctOptionIndex": 1,
           "explanation": "یک به‌علاوهٔ یک، دو جوراب است.",
-          "difficulty": 1
+          "difficulty": 3
         }
       ]
     }
