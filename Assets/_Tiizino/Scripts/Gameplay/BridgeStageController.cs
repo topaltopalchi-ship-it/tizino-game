@@ -609,11 +609,11 @@ namespace Tiizino.Gameplay
             gradeTwoButton.onClick.AddListener(() => SelectGrade(2));
 
             levelText = CreateText(canvasObject.transform, "Level", new Vector2(0.5f, 0.875f),
-                new Vector2(0.88f, 0.045f), 24, TextAnchor.MiddleCenter);
+                new Vector2(0.88f, 0.045f), 24, TextAnchor.MiddleRight);
             promptText = CreateText(canvasObject.transform, "Prompt", new Vector2(0.5f, 0.84f),
-                new Vector2(0.88f, 0.15f), 32, TextAnchor.MiddleCenter);
+                new Vector2(0.88f, 0.15f), 32, TextAnchor.MiddleRight);
             feedbackText = CreateText(canvasObject.transform, "Feedback", new Vector2(0.5f, 0.70f),
-                new Vector2(0.85f, 0.06f), 26, TextAnchor.MiddleCenter);
+                new Vector2(0.85f, 0.06f), 26, TextAnchor.MiddleRight);
             Button repeatButton = CreateButton(canvasObject.transform, "Repeat Question",
                 new Vector2(0.5f, 0.62f), new Vector2(0.55f, 0.055f));
             repeatButton.GetComponentInChildren<Text>().text = "شنیدن دوبارهٔ سؤال";
