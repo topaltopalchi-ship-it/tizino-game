@@ -15,6 +15,12 @@ namespace Tiizino.Gameplay
         [SerializeField] private Color grassColor = new Color(0.22f, 0.55f, 0.28f);
         [SerializeField] private Color waterColor = new Color(0.12f, 0.58f, 0.82f);
         [SerializeField] private AudioClipSpeechService speechService;
+        [Header("Music (assign a licensed child-friendly loop in the Inspector)")]
+        [SerializeField] private AudioClip backgroundMusic;
+        [Range(0f, 1f)] [SerializeField] private float musicVolume = 0.22f;
+        [SerializeField] private bool musicEnabledByDefault = true;
+        private AudioSource musicSource;
+        private bool musicEnabled;
         [SerializeField] private TextAsset questionBankJson;
         [Tooltip("Optional font asset with Persian glyphs. Proper RTL shaping still requires a shaping solution.")]
         [SerializeField] private Font uiFont;
@@ -219,6 +225,7 @@ namespace Tiizino.Gameplay
 
             ClearOldStage();
             CreateWorld();
+            SetupBackgroundMusic();
             CreateCameraAndLight();
             CreateUI();
             ShowQuestion();
@@ -372,6 +379,35 @@ namespace Tiizino.Gameplay
             if (old != null) Destroy(old.gameObject);
         }
 
+        private void SetupBackgroundMusic()
+        {
+            musicEnabled = musicEnabledByDefault;
+            if (musicSource == null)
+            {
+                musicSource = GetComponent<AudioSource>();
+                if (musicSource == null) musicSource = gameObject.AddComponent<AudioSource>();
+            }
+            musicSource.playOnAwake = false;
+            musicSource.loop = true;
+            musicSource.spatialBlend = 0f;
+            musicSource.volume = Mathf.Clamp01(musicVolume);
+            musicSource.clip = backgroundMusic;
+            if (backgroundMusic != null && musicEnabled) musicSource.Play();
+            else musicSource.Stop();
+        }
+
+        private void ToggleBackgroundMusic()
+        {
+            musicEnabled = !musicEnabled;
+            if (musicSource == null || backgroundMusic == null) return;
+            if (musicEnabled)
+            {
+                musicSource.volume = Mathf.Clamp01(musicVolume);
+                if (!musicSource.isPlaying) musicSource.Play();
+            }
+            else musicSource.Stop();
+        }
+
         private void CreateWorld()
         {
             bridgeRoot = new GameObject("GeneratedStage");
@@ -407,7 +443,7 @@ namespace Tiizino.Gameplay
                 new Color(0.08f, 0.12f, 0.28f));
             cap.transform.SetParent(bridgeRoot.transform, true);
 
-            // Small decorative trees on both banks.
+            // Bright stepping-stone accents make the route easier for young players to read.\n            for (int i = 0; i < 8; i++)\n            {\n                float x = i % 2 == 0 ? -2.1f : 2.1f;\n                float z = -3.1f + (i / 2) * 1.9f;\n                GameObject stone = GameObject.CreatePrimitive(PrimitiveType.Sphere);\n                stone.name = "River Pebble " + i;\n                stone.transform.SetParent(bridgeRoot.transform, false);\n                stone.transform.localPosition = new Vector3(x, 0.02f, z);\n                stone.transform.localScale = new Vector3(0.34f, 0.12f, 0.24f);\n                SetColor(stone, i % 2 == 0 ? new Color(0.96f, 0.78f, 0.36f) : new Color(0.55f, 0.83f, 0.94f));\n            }\n\n            // Small decorative trees on both banks.
             for (int i = 0; i < 6; i++)
             {
                 float x = i % 2 == 0 ? -4f : 4f;
@@ -501,7 +537,7 @@ namespace Tiizino.Gameplay
                 eventSystem.gameObject.AddComponent<UnityEngine.EventSystems.StandaloneInputModule>();
             }
 
-            // Persistent in-game grade switch for the two prepared starter banks.
+            Button musicButton = CreateButton(canvasObject.transform, "Music Toggle", new Vector2(0.5f, 0.985f),\n                new Vector2(0.28f, 0.045f));\n            musicButton.GetComponentInChildren<Text>().text = "موسیقی: روشن/خاموش";\n            musicButton.onClick.AddListener(ToggleBackgroundMusic);\n\n            // Persistent in-game grade switch for the two prepared starter banks.
             Button gradeOneButton = CreateButton(canvasObject.transform, "Grade 1", new Vector2(0.28f, 0.985f),
                 new Vector2(0.34f, 0.045f));
             gradeOneButton.GetComponentInChildren<Text>().text = "پایهٔ اول";
