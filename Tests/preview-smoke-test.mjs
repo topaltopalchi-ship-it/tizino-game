@@ -116,6 +116,7 @@ check(controller.includes('Tiizino.MusicEnabled'), "Music preference must persis
 check(controller.includes('musicEnabled ? "موسیقی: روشن" : "موسیقی: خاموش"'), "Music toggle label must reflect the current preference");
 check(controller.includes("private void OnDisable()") && controller.includes("speechService?.Stop();"), "Disabling or rebuilding the stage must stop question voice playback");
 check(controller.includes("if (musicSource != null) musicSource.Stop();"), "Disabling the controller must stop music on its generated child AudioSource");
+check(controller.includes("private void OnEnable()") && controller.includes("musicEnabled && musicSource != null && !musicSource.isPlaying") && controller.includes("musicSource.Play();"), "Re-enabling the controller must resume background music when the saved preference is on");
 check(controller.includes("if (button != null && button.gameObject.activeInHierarchy)") && controller.includes("button.interactable = true;"), "Re-enabling the stage must not leave answer controls locked after a cancelled callback");
 check(controller.includes("ContinueToNextLevel()"), "Unity controller must provide explicit next-level flow");
 check(controller.includes("parsedLevelEnds.Add(flattened.Count)"), "Unity controller must derive level boundaries from question data");
