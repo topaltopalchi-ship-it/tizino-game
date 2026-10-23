@@ -481,8 +481,15 @@ namespace Tiizino.Gameplay
 
         private void ClearOldStage()
         {
-            Transform old = transform.Find("GeneratedStage");
-            if (old != null) Destroy(old.gameObject);
+            // Destroy is deferred until the end of the frame in Play Mode. Remove
+            // every matching root so repeated rebuilds in one frame cannot leave
+            // an older generated stage beside the newest one.
+            for (int i = transform.childCount - 1; i >= 0; i--)
+            {
+                Transform child = transform.GetChild(i);
+                if (child.name == "GeneratedStage")
+                    Destroy(child.gameObject);
+            }
         }
 
         private static string NormalizeOption(string option)
