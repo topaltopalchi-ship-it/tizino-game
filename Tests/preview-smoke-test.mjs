@@ -92,6 +92,11 @@ check(controller.includes("private Button continueLevelButton;"), "Unity control
 check(controller.includes("private string[] levelNames"), "Unity controller must retain level names");
 check(controller.includes("private int[] levelEndIndices"), "Unity controller must retain level boundaries");
 check(controller.includes('CreateButton(canvasObject.transform, "Continue Level"'), "Unity UI must create the continue-level button");
+check(controller.includes("labelRect.anchorMin = Vector2.zero;")
+  && controller.includes("labelRect.anchorMax = Vector2.one;")
+  && controller.includes("labelRect.offsetMin = Vector2.zero;")
+  && controller.includes("labelRect.offsetMax = Vector2.zero;"),
+  "Button label rect should stretch to fit the button without canvas-sized overflow");
 check(controller.includes("CurrentLevelEnd()"), "Unity controller must track the end of each level");
 check(controller.includes("ContinueToNextLevel()"), "Unity controller must provide explicit next-level flow");
 check(controller.includes("parsedLevelEnds.Add(flattened.Count)"), "Unity controller must derive level boundaries from question data");
