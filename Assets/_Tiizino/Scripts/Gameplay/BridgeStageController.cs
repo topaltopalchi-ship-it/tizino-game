@@ -396,13 +396,14 @@ namespace Tiizino.Gameplay
                                 + (levelIndex + 1) + "; using built-in sample questions.", this);
                             return;
                         }
-                        if (level.questions == null || level.questions.Length == 0)
+                        if (string.IsNullOrWhiteSpace(level.name) || string.IsNullOrWhiteSpace(level.skill)
+                            || level.questions == null || level.questions.Length == 0)
                         {
-                            Debug.LogWarning("Tiizino: level " + (levelIndex + 1) + " has no questions; using built-in sample questions.", this);
+                            Debug.LogWarning("Tiizino: level " + (levelIndex + 1)
+                                + " is missing its name, skill, or questions; using built-in sample questions.", this);
                             return;
                         }
-                        parsedLevelNames.Add(string.IsNullOrWhiteSpace(level.name)
-                            ? "لول " + (levelIndex + 1) : level.name);
+                        parsedLevelNames.Add(level.name);
                         foreach (QuestionData question in level.questions)
                             flattened.Add(question);
                         parsedLevelEnds.Add(flattened.Count);
