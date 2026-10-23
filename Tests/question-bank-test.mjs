@@ -15,6 +15,7 @@ for (const { grade, path } of banks) {
   const seenLevelIds = new Set();
   let totalQuestions = 0;
   let expectedOptionCount = null;
+  const seenPrompts = new Set();
   for (const [levelIndex, level] of bank.levels.entries()) {
     assert.ok(level.name?.trim(), `Grade ${grade}, level ${levelIndex + 1}: name is required`);
     assert.ok(level.skill?.trim(), `Grade ${grade}, level ${levelIndex + 1}: skill is required`);
@@ -29,6 +30,9 @@ for (const { grade, path } of banks) {
     for (const [questionIndex, q] of level.questions.entries()) {
       const label = `Grade ${grade}, level ${levelIndex + 1}, question ${questionIndex + 1}`;
       assert.ok(q.prompt?.trim(), `${label}: prompt is required`);
+      const normalizedPrompt = q.prompt.trim().replace(/\\s+/g, " ");
+      assert.ok(!seenPrompts.has(normalizedPrompt), `${label}: duplicate question prompt`);
+      seenPrompts.add(normalizedPrompt);
       assert.ok(Array.isArray(q.options) && q.options.length >= 2, `${label}: at least two options required`);
       assert.ok(q.options.every(option => typeof option === "string" && option.trim()),
         `${label}: every option must be non-empty text`);
