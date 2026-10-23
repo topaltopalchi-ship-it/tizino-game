@@ -12,6 +12,9 @@ check(html.includes('id="bridgeCount"'), "Bridge counter element is missing");
 check(html.includes('$("bridgeCount").textContent=fa(stars)'), "Bridge counter must update with progress");
 check(html.includes("restart") || html.includes("شروع دوباره"), "Restart control should be present");
 check(html.includes("feedback"), "Answer feedback region should be present");
+check(html.includes('role="status" aria-live="polite"'), "Feedback should be announced to assistive technology");
+check(html.includes(".answer:focus-visible"), "Keyboard focus styling is missing");
+check(html.includes("prefers-reduced-motion:reduce"), "Reduced-motion preference should be respected");
 
 const script = html.match(/<script\b[^>]*>([\s\S]*?)<\/script>/i)?.[1];
 check(Boolean(script), "Could not extract the inline script");
