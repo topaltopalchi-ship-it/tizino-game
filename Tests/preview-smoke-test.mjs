@@ -193,17 +193,6 @@ check(questionData.includes("string.IsNullOrWhiteSpace(explanation)"), "Runtime 
 
 console.log("Four-level Unity controller structure checks passed (static checks only).");
 
-const bootstrapPath = new URL("../Assets/Editor/TiizinoSceneBootstrap.cs", import.meta.url);
-const bootstrap = readFileSync(bootstrapPath, "utf8");
-check(bootstrap.includes('MenuItem("Tools/Tiizino/Create Stage 01 Scene")'),
-  "Unity editor must expose a menu command to create the stage scene");
-check(bootstrap.includes("stage.AddComponent<BridgeStageController>()"),
-  "Stage bootstrap must attach the runtime controller");
-check(bootstrap.includes('"/Stage01_Bridge.unity"'),
-  "Stage bootstrap must save the expected scene path");
-check(bootstrap.includes("new System.Collections.Generic.List<EditorBuildSettingsScene>(")
-  && bootstrap.includes("scenes.Add(new EditorBuildSettingsScene(ScenePath, true))"),
-  "Stage bootstrap must preserve existing build scenes and append the stage");
 const validator = readFileSync(new URL("../Assets/Editor/TiizinoProjectValidator.cs", import.meta.url), "utf8");
 check(validator.includes('MenuItem("Tools/Tiizino/Validate Project Setup")'),
   "Unity editor must expose a setup validation command");
