@@ -74,6 +74,16 @@ namespace Tiizino.Gameplay
             if (buildOnStart) ShowGradeSelection();
         }
 
+        private void Update()
+        {
+            // A restrained idle motion adds life without sound or distracting effects.
+            if (mascotTransform == null) return;
+            Vector3 p = mascotBasePosition;
+            p.y += Mathf.Sin(Time.time * 1.45f) * 0.055f;
+            mascotTransform.localPosition = p;
+            mascotTransform.localRotation = Quaternion.Euler(0f, Mathf.Sin(Time.time * 0.7f) * 4f, 0f);
+        }
+
         private void ShowGradeSelection()
         {
             if (titleScreenRoot != null) Destroy(titleScreenRoot);
