@@ -4,38 +4,470 @@
   "levels": [
     {
       "levelId": 1,
-      "name": "تخته‌های رنگی",
-      "skill": "الگوی رنگی",
+      "name": "الگوهای رنگی",
+      "skill": "شناخت و ادامه‌دادن الگوهای ساده",
       "questions": [
-        {"prompt":"قرمز، آبی، قرمز، آبی؛ بعدی کدام رنگ است؟","options":["قرمز","سبز","زرد"],"correctOptionIndex":0,"explanation":"الگو یکی در میان تکرار می‌شود.","difficulty":1},
-        {"prompt":"زرد، زرد، سبز، زرد، زرد؛ بعدی چیست؟","options":["قرمز","سبز","آبی"],"correctOptionIndex":1,"explanation":"پس از دو زرد، سبز می‌آید.","difficulty":1}
+        {
+          "prompt": "قرمز، آبی، قرمز، آبی؛ بعدی چیست؟",
+          "options": [
+            "قرمز",
+            "سبز",
+            "زرد"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "دو رنگ به نوبت تکرار می‌شوند.",
+          "difficulty": 1
+        },
+        {
+          "prompt": "زرد، زرد، سبز، زرد، زرد؛ بعدی چیست؟",
+          "options": [
+            "قرمز",
+            "سبز",
+            "آبی"
+          ],
+          "correctOptionIndex": 1,
+          "explanation": "پس از دو زرد، سبز می‌آید.",
+          "difficulty": 1
+        },
+        {
+          "prompt": "دایره، مربع، دایره، مربع؛ بعدی چیست؟",
+          "options": [
+            "ستاره",
+            "مربع",
+            "دایره"
+          ],
+          "correctOptionIndex": 2,
+          "explanation": "دایره و مربع یکی‌درمیان می‌آیند.",
+          "difficulty": 1
+        },
+        {
+          "prompt": "قرمز، قرمز، آبی، قرمز، قرمز؛ بعدی چیست؟",
+          "options": [
+            "آبی",
+            "زرد",
+            "قرمز"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "الگو دو قرمز و سپس یک آبی است.",
+          "difficulty": 2
+        },
+        {
+          "prompt": "ستاره، دایره، دایره، ستاره، دایره، دایره؛ بعدی چیست؟",
+          "options": [
+            "مربع",
+            "ستاره",
+            "دایره"
+          ],
+          "correctOptionIndex": 1,
+          "explanation": "ستاره و دو دایره تکرار می‌شوند.",
+          "difficulty": 2
+        },
+        {
+          "prompt": "سبز، زرد، سبز، زرد، سبز؛ بعدی چیست؟",
+          "options": [
+            "سبز",
+            "آبی",
+            "زرد"
+          ],
+          "correctOptionIndex": 2,
+          "explanation": "رنگ‌ها یکی‌درمیان هستند.",
+          "difficulty": 2
+        },
+        {
+          "prompt": "مثلث، مثلث، مربع، مثلث، مثلث؛ بعدی چیست؟",
+          "options": [
+            "مربع",
+            "مثلث",
+            "دایره"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "پس از دو مثلث، مربع می‌آید.",
+          "difficulty": 2
+        },
+        {
+          "prompt": "آبی، قرمز، زرد، آبی، قرمز؛ بعدی چیست؟",
+          "options": [
+            "آبی",
+            "زرد",
+            "قرمز"
+          ],
+          "correctOptionIndex": 1,
+          "explanation": "سه‌رنگ آبی، قرمز، زرد تکرار می‌شود.",
+          "difficulty": 3
+        },
+        {
+          "prompt": "دایره، ستاره، دایره، ستاره، دایره؛ بعدی چیست؟",
+          "options": [
+            "مربع",
+            "دایره",
+            "ستاره"
+          ],
+          "correctOptionIndex": 2,
+          "explanation": "دایره و ستاره یکی‌درمیان تکرار می‌شوند.",
+          "difficulty": 2
+        },
+        {
+          "prompt": "زرد، سبز، سبز، زرد، سبز، سبز؛ بعدی چیست؟",
+          "options": [
+            "زرد",
+            "آبی",
+            "سبز"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "یک زرد و دو سبز تکرار می‌شوند.",
+          "difficulty": 3
+        }
       ]
     },
     {
       "levelId": 2,
       "name": "مسیر شکل‌ها",
-      "skill": "الگوی شکلی",
+      "skill": "تشخیص، مقایسه و دسته‌بندی شکل‌ها",
       "questions": [
-        {"prompt":"دایره، دایره، ستاره، دایره، دایره؛ بعدی چیست؟","options":["ستاره","مربع","دایره"],"correctOptionIndex":0,"explanation":"پس از دو دایره، ستاره می‌آید.","difficulty":1},
-        {"prompt":"مثلث، مربع، مثلث، مربع؛ بعدی چیست؟","options":["دایره","مثلث","ستاره"],"correctOptionIndex":1,"explanation":"مثلث و مربع به نوبت تکرار می‌شوند.","difficulty":1}
+        {
+          "prompt": "کدام شکل گوشه ندارد؟",
+          "options": [
+            "دایره",
+            "مربع",
+            "مثلث"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "دایره گوشه ندارد.",
+          "difficulty": 1
+        },
+        {
+          "prompt": "کدام شکل سه گوشه دارد؟",
+          "options": [
+            "دایره",
+            "مثلث",
+            "مربع"
+          ],
+          "correctOptionIndex": 1,
+          "explanation": "مثلث سه گوشه دارد.",
+          "difficulty": 1
+        },
+        {
+          "prompt": "کدام دو شکل شبیه هم‌اند؟",
+          "options": [
+            "دایره و دایره",
+            "دایره و مربع",
+            "مثلث و ستاره"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "هر دو شکل دایره‌اند.",
+          "difficulty": 1
+        },
+        {
+          "prompt": "کدام شکل چهار ضلع دارد؟",
+          "options": [
+            "مثلث",
+            "دایره",
+            "مربع"
+          ],
+          "correctOptionIndex": 2,
+          "explanation": "مربع چهار ضلع دارد.",
+          "difficulty": 1
+        },
+        {
+          "prompt": "اگر دایره، مربع، مثلث را به همین ترتیب بچینیم، شکل دوم چیست؟",
+          "options": [
+            "مثلث",
+            "مربع",
+            "دایره"
+          ],
+          "correctOptionIndex": 1,
+          "explanation": "شکل دوم مربع است.",
+          "difficulty": 1
+        },
+        {
+          "prompt": "کدام مورد شکل هندسی نیست؟",
+          "options": [
+            "مثلث",
+            "دایره",
+            "موز"
+          ],
+          "correctOptionIndex": 2,
+          "explanation": "موز یک میوه است.",
+          "difficulty": 1
+        },
+        {
+          "prompt": "کدام شکل گوشه‌های بیشتری دارد؟",
+          "options": [
+            "مثلث",
+            "مربع",
+            "دایره"
+          ],
+          "correctOptionIndex": 1,
+          "explanation": "مربع چهار گوشه دارد و مثلث سه گوشه.",
+          "difficulty": 2
+        },
+        {
+          "prompt": "کدام دو مورد هر دو شکل‌اند؟",
+          "options": [
+            "مربع و مثلث",
+            "سیب و مربع",
+            "گربه و دایره"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "مربع و مثلث هر دو شکل هندسی‌اند.",
+          "difficulty": 2
+        },
+        {
+          "prompt": "یک مثلث و یک مربع داریم؛ چند شکل داریم؟",
+          "options": [
+            "۱",
+            "۲",
+            "۳"
+          ],
+          "correctOptionIndex": 1,
+          "explanation": "یک شکل به‌علاوه یک شکل، دو شکل است.",
+          "difficulty": 1
+        },
+        {
+          "prompt": "کدام شکل با بقیه فرق دارد؟",
+          "options": [
+            "دایره",
+            "دایره",
+            "مربع"
+          ],
+          "correctOptionIndex": 2,
+          "explanation": "دو شکل دایره‌اند و یکی مربع است.",
+          "difficulty": 2
+        }
       ]
     },
     {
       "levelId": 3,
       "name": "سنگ‌چین عددی",
-      "skill": "شمارش و دنباله",
+      "skill": "شمارش، مقایسه و دنباله‌های عددی مقدماتی",
       "questions": [
-        {"prompt":"۱، ۲، ۳؛ عدد بعدی چیست؟","options":["۴","۵","۲"],"correctOptionIndex":0,"explanation":"هر بار یک واحد اضافه می‌شود.","difficulty":1},
-        {"prompt":"۲، ۴، ۶؛ عدد بعدی چیست؟","options":["۷","۸","۹"],"correctOptionIndex":1,"explanation":"هر بار دو واحد اضافه می‌شود.","difficulty":2}
+        {
+          "prompt": "۱، ۲، ۳؛ عدد بعدی چیست؟",
+          "options": [
+            "۴",
+            "۵",
+            "۲"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "هر بار یکی اضافه می‌شود.",
+          "difficulty": 1
+        },
+        {
+          "prompt": "۲، ۴، ۶؛ عدد بعدی چیست؟",
+          "options": [
+            "۷",
+            "۸",
+            "۹"
+          ],
+          "correctOptionIndex": 1,
+          "explanation": "هر بار دو تا اضافه می‌شود.",
+          "difficulty": 2
+        },
+        {
+          "prompt": "کدام عدد از ۳ بزرگ‌تر است؟",
+          "options": [
+            "۲",
+            "۱",
+            "۵"
+          ],
+          "correctOptionIndex": 2,
+          "explanation": "۵ از ۳ بزرگ‌تر است.",
+          "difficulty": 1
+        },
+        {
+          "prompt": "کدام عدد کوچک‌تر است؟",
+          "options": [
+            "۲",
+            "۴",
+            "۶"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "۲ از ۴ و ۶ کوچک‌تر است.",
+          "difficulty": 1
+        },
+        {
+          "prompt": "۱، ۳، ۵؛ عدد بعدی چیست؟",
+          "options": [
+            "۶",
+            "۷",
+            "۸"
+          ],
+          "correctOptionIndex": 1,
+          "explanation": "هر بار دو تا اضافه می‌شود.",
+          "difficulty": 2
+        },
+        {
+          "prompt": "اگر ۲ سنگ داشته باشیم و ۱ سنگ دیگر بگیریم، چند سنگ داریم؟",
+          "options": [
+            "۲",
+            "۳",
+            "۴"
+          ],
+          "correctOptionIndex": 1,
+          "explanation": "دو به‌علاوهٔ یک می‌شود سه.",
+          "difficulty": 1
+        },
+        {
+          "prompt": "۵، ۴، ۳؛ عدد بعدی چیست؟",
+          "options": [
+            "۲",
+            "۴",
+            "۱"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "هر بار یکی کم می‌شود.",
+          "difficulty": 2
+        },
+        {
+          "prompt": "کدام گروه ۴ چیز دارد؟",
+          "options": [
+            "● ●",
+            "● ● ● ●",
+            "● ● ●"
+          ],
+          "correctOptionIndex": 1,
+          "explanation": "در گزینهٔ دوم چهار دایره است.",
+          "difficulty": 1
+        },
+        {
+          "prompt": "عدد بعد از ۸ چیست؟",
+          "options": [
+            "۷",
+            "۹",
+            "۱۰"
+          ],
+          "correctOptionIndex": 1,
+          "explanation": "بعد از هشت، نه می‌آید.",
+          "difficulty": 1
+        },
+        {
+          "prompt": "۳، ۳، ۴، ۳، ۳؛ بعدی چیست؟",
+          "options": [
+            "۴",
+            "۲",
+            "۳"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "الگوی دو سه و سپس چهار تکرار می‌شود.",
+          "difficulty": 3
+        }
       ]
     },
     {
       "levelId": 4,
       "name": "سبد جنگل",
-      "skill": "دسته‌بندی",
+      "skill": "دسته‌بندی، مشاهده و استدلال ساده",
       "questions": [
-        {"prompt":"کدام مورد با بقیه فرق دارد؟","options":["سیب","گلابی","صندلی"],"correctOptionIndex":2,"explanation":"صندلی وسیله است؛ دو مورد دیگر میوه‌اند.","difficulty":1},
-        {"prompt":"کدام مورد حیوان نیست؟","options":["گربه","خرگوش","هویج"],"correctOptionIndex":2,"explanation":"هویج خوراکی گیاهی است، نه حیوان.","difficulty":1}
+        {
+          "prompt": "کدام مورد میوه نیست؟",
+          "options": [
+            "سیب",
+            "گلابی",
+            "صندلی"
+          ],
+          "correctOptionIndex": 2,
+          "explanation": "صندلی وسیله است؛ دو مورد دیگر میوه‌اند.",
+          "difficulty": 1
+        },
+        {
+          "prompt": "کدام مورد حیوان نیست؟",
+          "options": [
+            "گربه",
+            "خرگوش",
+            "هویج"
+          ],
+          "correctOptionIndex": 2,
+          "explanation": "هویج گیاه است، نه حیوان.",
+          "difficulty": 1
+        },
+        {
+          "prompt": "کدام دو مورد هر دو حیوان‌اند؟",
+          "options": [
+            "گربه و خرگوش",
+            "گربه و سیب",
+            "میز و خرگوش"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "گربه و خرگوش حیوان‌اند.",
+          "difficulty": 1
+        },
+        {
+          "prompt": "برای باران کدام وسیله مناسب‌تر است؟",
+          "options": [
+            "چتر",
+            "قاشق",
+            "بالش"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "چتر کمک می‌کند زیر باران خیس نشویم.",
+          "difficulty": 1
+        },
+        {
+          "prompt": "کدام مورد برای نوشتن مناسب است؟",
+          "options": [
+            "مداد",
+            "بشقاب",
+            "کفش"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "با مداد می‌توان نوشت.",
+          "difficulty": 1
+        },
+        {
+          "prompt": "کدام مورد در باغچه رشد می‌کند؟",
+          "options": [
+            "گل",
+            "صندلی",
+            "توپ"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "گل گیاه است و در باغچه رشد می‌کند.",
+          "difficulty": 1
+        },
+        {
+          "prompt": "برای شستن دست‌ها معمولاً چه چیزی لازم است؟",
+          "options": [
+            "آب",
+            "شن",
+            "مداد"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "آب برای شستن دست‌ها استفاده می‌شود.",
+          "difficulty": 1
+        },
+        {
+          "prompt": "کدام مورد وسیلهٔ نقلیه است؟",
+          "options": [
+            "اتوبوس",
+            "سیب",
+            "درخت"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "اتوبوس برای جابه‌جایی آدم‌هاست.",
+          "difficulty": 1
+        },
+        {
+          "prompt": "کدام مورد با بقیه هم‌گروه نیست؟",
+          "options": [
+            "قاشق",
+            "چنگال",
+            "گربه"
+          ],
+          "correctOptionIndex": 2,
+          "explanation": "قاشق و چنگال ابزار غذاخوری‌اند؛ گربه حیوان است.",
+          "difficulty": 2
+        },
+        {
+          "prompt": "کدام مورد برای رشد گیاه کمک‌کننده است؟",
+          "options": [
+            "آب",
+            "کفش",
+            "کتاب"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "گیاه برای رشد به آب نیاز دارد.",
+          "difficulty": 1
+        }
       ]
     }
   ]
