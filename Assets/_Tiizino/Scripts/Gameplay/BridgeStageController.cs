@@ -55,6 +55,7 @@ namespace Tiizino.Gameplay
         };
 
         private int questionIndex;
+        private bool currentQuestionResolved;
         private int stars;
         private int currentLevelIndex;
         private string[] levelNames = { "نجات پل جنگل" };
@@ -112,6 +113,14 @@ namespace Tiizino.Gameplay
 
         private void OnEnable()
         {
+            // If a correct-answer callback was cancelled while disabled, finish that
+            // transition once on reactivation instead of awarding the same answer twice.
+            if (currentQuestionResolved)
+            {
+                currentQuestionResolved = false;
+                NextQuestion();
+            }
+
             // OnDisable stops the generated AudioSource; resume the saved music choice
             // when this stage controller becomes active again.
             if (musicEnabled && musicSource != null && !musicSource.isPlaying)
@@ -124,7 +133,7 @@ namespace Tiizino.Gameplay
             speechService?.Stop();
             // A disabled controller can cancel a pending retry/advance callback.
             // Restore the current question's controls so re-enabling cannot soft-lock play.
-            if (answerButtons != null)
+            if (!currentQuestionResolved && answerButtons != null)
             {
                 foreach (Button button in answerButtons)
                 {
@@ -812,6 +821,7 @@ namespace Tiizino.Gameplay
                 }
                 return;
             }
+            currentQuestionResolved = false;
             if (continueLevelButton != null) continueLevelButton.gameObject.SetActive(false);
             promptText.text = prompts[questionIndex];
             feedbackText.text = "بهترین پاسخ را انتخاب کن";
@@ -847,7 +857,7 @@ namespace Tiizino.Gameplay
 
         private void ChooseAnswer(int choice)
         {
-            if (questionIndex < 0 || questionIndex >= prompts.Length
+            if (currentQuestionResolved || questionIndex < 0 || questionIndex >= prompts.Length
                 || choice < 0 || options[questionIndex] == null
                 || choice >= options[questionIndex].Length) return;
             speechService?.Stop();
@@ -856,6 +866,7 @@ namespace Tiizino.Gameplay
 
             if (correct)
             {
+                currentQuestionResolved = true;
                 stars++;
                 if (questionIndex < planks.Length) planks[questionIndex].SetActive(true);
                 feedbackText.text = "آفرین! " + explanations[questionIndex];
