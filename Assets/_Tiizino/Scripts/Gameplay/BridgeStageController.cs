@@ -379,6 +379,18 @@ namespace Tiizino.Gameplay
                         Debug.LogWarning("Tiizino: invalid question at JSON index " + i + "; using built-in sample questions.", this);
                         return;
                     }
+                    for (int optionIndex = 0; optionIndex < flattened[i].options.Length; optionIndex++)
+                    {
+                        for (int previousIndex = 0; previousIndex < optionIndex; previousIndex++)
+                        {
+                            if (string.Equals(flattened[i].options[optionIndex], flattened[i].options[previousIndex],
+                                System.StringComparison.Ordinal))
+                            {
+                                Debug.LogWarning("Tiizino: question " + i + " contains duplicate options; using built-in sample questions.", this);
+                                return;
+                            }
+                        }
+                    }
                     if (i > 0 && flattened[i].options.Length != flattened[0].options.Length)
                     {
                         Debug.LogWarning("Tiizino: every question must have the same number of options; using built-in sample questions.", this);
