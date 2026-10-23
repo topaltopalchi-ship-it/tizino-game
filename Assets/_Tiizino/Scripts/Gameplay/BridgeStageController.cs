@@ -53,6 +53,15 @@ namespace Tiizino.Gameplay
         [ContextMenu("Build Tiizino Bridge Stage")]
         public void BuildStage()
         {
+            // Reset runtime state so rebuilding the stage always starts cleanly.
+            CancelInvoke();
+            questionIndex = 0;
+            stars = 0;
+            promptText = null;
+            feedbackText = null;
+            answerButtons = null;
+            planks = null;
+
             ClearOldStage();
             CreateWorld();
             CreateCameraAndLight();
@@ -181,12 +190,19 @@ namespace Tiizino.Gameplay
             scaler.referenceResolution = new Vector2(1080, 1920);
             canvasObject.AddComponent<GraphicRaycaster>();
 
-            GameObject eventObject = GameObject.Find("EventSystem");
-            if (eventObject == null)
+            UnityEngine.EventSystems.EventSystem eventSystem =
+                FindObjectOfType<UnityEngine.EventSystems.EventSystem>();
+            if (eventSystem == null)
             {
-                eventObject = new GameObject("EventSystem");
-                eventObject.AddComponent<UnityEngine.EventSystems.EventSystem>();
-                eventObject.AddComponent<UnityEngine.EventSystems.StandaloneInputModule>();
+                GameObject eventObject = new GameObject("EventSystem");
+                eventSystem = eventObject.AddComponent<UnityEngine.EventSystems.EventSystem>();
+            }
+
+            // Ensure an existing EventSystem can process the legacy UI buttons.
+            if (eventSystem.GetComponent<UnityEngine.EventSystems.StandaloneInputModule>() == null
+                && eventSystem.GetComponent<UnityEngine.EventSystems.InputSystemUIInputModule>() == null)
+            {
+                eventSystem.gameObject.AddComponent<UnityEngine.EventSystems.StandaloneInputModule>();
             }
 
             promptText = CreateText(canvasObject.transform, "Prompt", new Vector2(0.5f, 0.86f),
