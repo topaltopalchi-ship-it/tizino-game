@@ -282,3 +282,11 @@ for (const grade of [1, 2]) {
   }
 }
 
+
+
+check(readFileSync(new URL("../Assets/Editor/TiizinoProjectValidator.cs", import.meta.url), "utf8")
+  .includes("question.difficulty < 1 || question.difficulty > 3"),
+  "Unity setup validator must reject question difficulty outside the supported 1-3 range");
+check(readFileSync(new URL("../Assets/_Tiizino/Scripts/Gameplay/QuestionData.cs", import.meta.url), "utf8")
+  .includes("if (difficulty < 1 || difficulty > 3"),
+  "Runtime question model must reject difficulty outside the supported 1-3 range");
