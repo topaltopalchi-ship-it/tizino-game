@@ -16,11 +16,20 @@ namespace Tiizino.Gameplay
 
         public bool IsValid()
         {
-            return !string.IsNullOrWhiteSpace(prompt)
-                && options != null
-                && options.Length >= 2
-                && correctOptionIndex >= 0
-                && correctOptionIndex < options.Length;
+            if (string.IsNullOrWhiteSpace(prompt)
+                || options == null
+                || options.Length < 2
+                || correctOptionIndex < 0
+                || correctOptionIndex >= options.Length)
+                return false;
+
+            for (int i = 0; i < options.Length; i++)
+            {
+                if (string.IsNullOrWhiteSpace(options[i]))
+                    return false;
+            }
+
+            return true;
         }
     }
 }
