@@ -18,7 +18,8 @@ namespace Tiizino.Gameplay
 
         public bool IsValid()
         {
-            if (string.IsNullOrWhiteSpace(prompt)
+            if (difficulty < 1 || difficulty > 3
+                || string.IsNullOrWhiteSpace(prompt)
                 || options == null
                 || options.Length < 2
                 || correctOptionIndex < 0
