@@ -10,6 +10,9 @@ check((html.match(/<\/script>/g) ?? []).length === 1, "Inline script must close"
 check(!/(?:src|href)\s*=\s*["']https?:\/\//i.test(html), "Preview should not require external assets");
 check(html.includes('id="bridgeCount"'), "Bridge counter element is missing");
 check(html.includes('$("bridgeCount").textContent=fa(stars)'), "Bridge counter must update with progress");
+const renderBody = html.match(/function render\(\)\{([\s\S]*?)\nfunction choose\(/)?.[1] ?? "";
+check(renderBody.indexOf('$("bridgeCount").textContent=fa(stars)') >= 0, "Render must update bridge counter");
+check(renderBody.indexOf('$("bridgeCount").textContent=fa(stars)') < renderBody.indexOf("if(!q)"), "Bridge counter must update before the stage-complete early return");
 check(html.includes("restart") || html.includes("شروع دوباره"), "Restart control should be present");
 check(html.includes("feedback"), "Answer feedback region should be present");
 check(html.includes('role="status" aria-live="polite"'), "Feedback should be announced to assistive technology");
