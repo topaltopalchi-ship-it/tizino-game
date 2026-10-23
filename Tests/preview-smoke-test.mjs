@@ -70,3 +70,13 @@ for (const [levelIndex, level] of levelBank.levels.entries()) {
   }
 }
 console.log("Four-level draft question bank structure validated.");
+
+const controllerPath = new URL("../Assets/_Tiizino/Scripts/Gameplay/BridgeStageController.cs", import.meta.url);
+const controller = readFileSync(controllerPath, "utf8");
+check(controller.includes("CurrentLevelEnd()"), "Unity controller must track the end of each level");
+check(controller.includes("ContinueToNextLevel()"), "Unity controller must provide explicit next-level flow");
+check(controller.includes("parsedLevelEnds.Add(flattened.Count)"), "Unity controller must derive level boundaries from question data");
+check(controller.includes("لول ") && controller.includes("از "), "Unity controller should display current level progress");
+check(!controller.includes("PlayCompletionChime"), "No stage completion chime should be added");
+console.log("Four-level Unity controller structure checks passed (static checks only).");
+
