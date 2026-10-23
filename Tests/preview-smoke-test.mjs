@@ -451,3 +451,13 @@ for (const grade of [1, 2]) {
   check(count === 12, `Grade ${grade} starter curriculum must contain twelve questions`);
 }
 console.log("Grade 1/2 curriculum counts, stable IDs, and difficulty ranges validated.");
+
+check(gradePreview.includes("loadRequestId=0"),
+  "Grade preview must track the newest asynchronous question-bank request");
+check(gradePreview.includes("const requestId=++loadRequestId"),
+  "Changing grade must invalidate any older in-flight bank request");
+check(gradePreview.includes("if(requestId!==loadRequestId)return;"),
+  "An older bank response must not overwrite the latest grade selection");
+check(gradePreview.includes("stopTimer();const requestId=++loadRequestId;grade=nextGrade;"),
+  "Grade changes must cancel pending answer timers before resetting progress");
+console.log("Asynchronous grade-selection safeguards checked (static checks only).");
