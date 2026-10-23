@@ -146,7 +146,16 @@ namespace Tiizino.Gameplay
                 Button button = CreateMenuButton(titleScreenRoot.transform, "Grade " + grade,
                     anchor, new Vector2(390f, 130f));
                 Text label = button.GetComponentInChildren<Text>();
-                label.text = grade <= 2 ? "پایهٔ " + ToPersianDigits(grade) : "پایهٔ " + ToPersianDigits(grade) + "\nبه‌زودی";
+                if (grade <= 2)
+                {
+                    int bestStars = PlayerPrefs.GetInt("Tiizino.Grade" + grade + ".BestStars", 0);
+                    label.text = "پایهٔ " + ToPersianDigits(grade)
+                        + "\nبهترین رکورد: " + ToPersianDigits(bestStars);
+                }
+                else
+                {
+                    label.text = "پایهٔ " + ToPersianDigits(grade) + "\nبه‌زودی";
+                }
                 if (grade <= 2)
                 {
                     button.onClick.AddListener(() => SelectGradeAndStart(capturedGrade));
