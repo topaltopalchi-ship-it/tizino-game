@@ -346,6 +346,10 @@ const gradePreviewScript = gradePreview.split("<script>")[1]?.split("</script>")
 check(Boolean(gradePreviewScript), "Could not extract playable grade preview script");
 new Function(gradePreviewScript);
 
+check(gradePreview.includes('role="progressbar" aria-label="پیشرفت مرحله‌ها"')
+  && gradePreview.includes('setAttribute("aria-valuenow",String(Math.round(progress)))'),
+  "Playable grade preview progress must expose its changing value to assistive technology");
+
 check(gradePreview.includes('id="questionCount"')
   && gradePreview.includes('level.name+" ("'),
   "Playable grade preview must show the current level name and question progress");
