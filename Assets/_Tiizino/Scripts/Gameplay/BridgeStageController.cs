@@ -282,6 +282,7 @@ namespace Tiizino.Gameplay
             CancelInvoke();
             speechService?.Stop();
             questionIndex = 0;
+            currentQuestionResolved = false;
             stars = 0;
             currentLevelIndex = 0;
             levelNames = new[] { "نجات پل جنگل" };
