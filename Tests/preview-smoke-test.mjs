@@ -128,6 +128,15 @@ check(bootstrap.includes('"/Stage01_Bridge.unity"'),
 check(bootstrap.includes("new System.Collections.Generic.List<EditorBuildSettingsScene>(")
   && bootstrap.includes("scenes.Add(new EditorBuildSettingsScene(ScenePath, true))"),
   "Stage bootstrap must preserve existing build scenes and append the stage");
+const validator = readFileSync(new URL("../Assets/Editor/TiizinoProjectValidator.cs", import.meta.url), "utf8");
+check(validator.includes('MenuItem("Tools/Tiizino/Validate Project Setup")'),
+  "Unity editor must expose a setup validation command");
+check(validator.includes("Stage01_FourLevels_DRAFT.json")
+  && validator.includes("correctOptionIndex")
+  && validator.includes("EditorBuildSettings.scenes"),
+  "Setup validator must check the question bank and build scene settings");
+check(validator.includes("does not compile the project or verify Android/device behavior"),
+  "Setup validator must not imply it replaces a real Unity/device build");
 const manifest = JSON.parse(readFileSync(new URL("../Packages/manifest.json", import.meta.url), "utf8"));
 check(manifest.dependencies["com.unity.ugui"] === "2.0.0",
   "Unity package manifest must include the UI package");
