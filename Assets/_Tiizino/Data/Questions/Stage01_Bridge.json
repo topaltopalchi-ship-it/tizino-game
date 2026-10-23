@@ -1,0 +1,52 @@
+{
+  "questions": [
+    {
+      "prompt": "قرمز، آبی، قرمز، آبی؛ بعدی کدام رنگ است؟",
+      "audioPhraseId": "grade1_bridge_q1",
+      "options": [
+        "قرمز",
+        "سبز",
+        "زرد"
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "آفرین! الگو یکی در میان تکرار می‌شود.",
+      "difficulty": 1
+    },
+    {
+      "prompt": "دایره، دایره، ستاره، دایره، دایره؛ بعدی کدام شکل است؟",
+      "audioPhraseId": "grade1_bridge_q2",
+      "options": [
+        "ستاره",
+        "مربع",
+        "دایره"
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "در این الگو پس از دو دایره، یک ستاره می‌آید.",
+      "difficulty": 1
+    },
+    {
+      "prompt": "۱، ۲، ۳؛ عدد بعدی چیست؟",
+      "audioPhraseId": "grade1_bridge_q3",
+      "options": [
+        "۴",
+        "۵",
+        "۲"
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "هر بار یک واحد به عدد قبلی اضافه می‌شود.",
+      "difficulty": 1
+    },
+    {
+      "prompt": "کدام مورد با بقیه فرق دارد؟",
+      "audioPhraseId": "grade1_bridge_q4",
+      "options": [
+        "سیب",
+        "گلابی",
+        "صندلی"
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "صندلی وسیله است؛ دو مورد دیگر میوه‌اند.",
+      "difficulty": 1
+    }
+  ]
+}
