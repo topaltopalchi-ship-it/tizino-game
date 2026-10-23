@@ -8,7 +8,7 @@
 3. یک صحنهٔ جدید به نام `Stage01_Bridge` بسازید و ذخیره کنید.
 4. یک Empty GameObject به نام `Stage Controller` بسازید.
 5. اسکریپت `BridgeStageController` را به آن اضافه کنید.
-6. (اختیاری) فایل `Assets/_Tiizino/Data/Questions/Stage01_FourLevels_DRAFT.json` را به فیلد **Question Bank Json** در `BridgeStageController` بکشید؛ اگر خالی بماند، سؤال‌های نمونهٔ داخلی استفاده می‌شوند.
+6. (اختیاری) فایل `Assets/_Tiizino/Data/Questions/Stage01_FourLevels_DRAFT.json` را به فیلد **Question Bank Json** در `BridgeStageController` بکشید؛ اگر خالی بماند، کنترلر ابتدا بانک چهار لول را از `Resources/Stage01_FourLevels_DRAFT.json` بارگذاری می‌کند و در صورت نبودن یا نامعتبر بودن آن، سؤال‌های نمونهٔ داخلی استفاده می‌شوند.
 7. دکمهٔ Play را بزنید؛ محیط موقت، پل، درخت‌ها و رابط سؤال در زمان اجرا ساخته می‌شوند. با اتصال بانک `Stage01_FourLevels_DRAFT.json`، سؤال‌های چهار لول به‌ترتیب اجرا می‌شوند و پس از پایان هر لول دکمهٔ ادامه ظاهر می‌شود.
 
 ## نکته‌های فنی
