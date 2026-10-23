@@ -199,8 +199,7 @@ namespace Tiizino.Gameplay
             }
 
             // Ensure an existing EventSystem can process the legacy UI buttons.
-            if (eventSystem.GetComponent<UnityEngine.EventSystems.StandaloneInputModule>() == null
-                && eventSystem.GetComponent<UnityEngine.EventSystems.InputSystemUIInputModule>() == null)
+            if (eventSystem.GetComponent<UnityEngine.EventSystems.BaseInputModule>() == null)
             {
                 eventSystem.gameObject.AddComponent<UnityEngine.EventSystems.StandaloneInputModule>();
             }
