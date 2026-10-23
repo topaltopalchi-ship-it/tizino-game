@@ -98,6 +98,8 @@ console.log("Four-level draft question bank structure and boundaries validated."
 
 const controllerPath = new URL("../Assets/_Tiizino/Scripts/Gameplay/BridgeStageController.cs", import.meta.url);
 const controller = readFileSync(controllerPath, "utf8");
+const editorPath = new URL("../Assets/Editor/TiizinoProjectValidator.cs", import.meta.url);
+const editor = readFileSync(editorPath, "utf8");
 check(controller.includes('Resources.Load<TextAsset>("Stage01_FourLevels_DRAFT")'),
   "Unity controller should load the packaged four-level bank when no asset is assigned");
 check(controller.includes("private Text levelText;"), "Unity controller must declare its level label field");
