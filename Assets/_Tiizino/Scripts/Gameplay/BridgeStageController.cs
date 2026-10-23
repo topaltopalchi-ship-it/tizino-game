@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using Tiizino.Audio;
 
 namespace Tiizino.Gameplay
 {
@@ -13,6 +14,7 @@ namespace Tiizino.Gameplay
         [SerializeField] private bool buildOnStart = true;
         [SerializeField] private Color grassColor = new Color(0.22f, 0.55f, 0.28f);
         [SerializeField] private Color waterColor = new Color(0.12f, 0.58f, 0.82f);
+        [SerializeField] private AudioClipSpeechService speechService;
 
         private readonly string[] prompts =
         {
@@ -29,6 +31,11 @@ namespace Tiizino.Gameplay
             new[] { "سیب", "گلابی", "صندلی" }
         };
         private readonly int[] answers = { 0, 0, 0, 2 };
+        private readonly string[] audioPhraseIds =
+        {
+            "grade1_bridge_q1", "grade1_bridge_q2",
+            "grade1_bridge_q3", "grade1_bridge_q4"
+        };
         private readonly string[] explanations =
         {
             "آفرین! الگو یکی در میان تکرار می‌شود.",
@@ -61,6 +68,7 @@ namespace Tiizino.Gameplay
             feedbackText = null;
             answerButtons = null;
             planks = null;
+            if (speechService == null) speechService = GetComponent<AudioClipSpeechService>();
 
             ClearOldStage();
             CreateWorld();
@@ -206,8 +214,12 @@ namespace Tiizino.Gameplay
 
             promptText = CreateText(canvasObject.transform, "Prompt", new Vector2(0.5f, 0.86f),
                 new Vector2(0.88f, 0.15f), 32, TextAnchor.MiddleCenter);
-            feedbackText = CreateText(canvasObject.transform, "Feedback", new Vector2(0.5f, 0.66f),
-                new Vector2(0.85f, 0.08f), 26, TextAnchor.MiddleCenter);
+            feedbackText = CreateText(canvasObject.transform, "Feedback", new Vector2(0.5f, 0.72f),
+                new Vector2(0.85f, 0.06f), 26, TextAnchor.MiddleCenter);
+            Button repeatButton = CreateButton(canvasObject.transform, "Repeat Question",
+                new Vector2(0.5f, 0.62f), new Vector2(0.55f, 0.055f));
+            repeatButton.GetComponentInChildren<Text>().text = "شنیدن دوبارهٔ سؤال";
+            repeatButton.onClick.AddListener(RepeatCurrentQuestion);
             answerButtons = new Button[3];
             for (int i = 0; i < answerButtons.Length; i++)
             {
@@ -268,12 +280,27 @@ namespace Tiizino.Gameplay
 
             promptText.text = prompts[questionIndex];
             feedbackText.text = "بهترین پاسخ را انتخاب کن";
+            SpeakCurrentQuestion();
             for (int i = 0; i < answerButtons.Length; i++)
             {
                 answerButtons[i].gameObject.SetActive(true);
                 answerButtons[i].interactable = true;
                 answerButtons[i].GetComponentInChildren<Text>().text = options[questionIndex][i];
             }
+        }
+
+        public void RepeatCurrentQuestion()
+        {
+            SpeakCurrentQuestion();
+        }
+
+        private void SpeakCurrentQuestion()
+        {
+            if (speechService == null || questionIndex < 0
+                || questionIndex >= audioPhraseIds.Length)
+                return;
+
+            speechService.Speak(audioPhraseIds[questionIndex]);
         }
 
         private void ChooseAnswer(int choice)
