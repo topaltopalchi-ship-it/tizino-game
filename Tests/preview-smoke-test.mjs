@@ -193,6 +193,17 @@ check(questionData.includes("string.IsNullOrWhiteSpace(explanation)"), "Runtime 
 
 console.log("Four-level Unity controller structure checks passed (static checks only).");
 
+const bootstrap = readFileSync(new URL("../Assets/Editor/TiizinoSceneBootstrap.cs", import.meta.url), "utf8");
+check(bootstrap.includes('MenuItem("Tools/Tiizino/Create Stage 01 Scene")'),
+  "Unity editor must expose the documented scene creation menu");
+check(bootstrap.includes("AssetDatabase.Refresh();"),
+  "Scene bootstrap must refresh the AssetDatabase after creating the scene folder");
+check(bootstrap.includes("stage.AddComponent<BridgeStageController>()")
+  && bootstrap.includes('"/Stage01_Bridge.unity"'),
+  "Scene bootstrap must attach the gameplay controller and save to the documented path");
+check(bootstrap.includes("EditorBuildSettings.scenes = scenes.ToArray();"),
+  "Scene bootstrap must register the stage in Build Settings");
+
 const validator = readFileSync(new URL("../Assets/Editor/TiizinoProjectValidator.cs", import.meta.url), "utf8");
 check(validator.includes('MenuItem("Tools/Tiizino/Validate Project Setup")'),
   "Unity editor must expose a setup validation command");
