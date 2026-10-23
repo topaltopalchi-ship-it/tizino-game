@@ -15,28 +15,29 @@ namespace Tiizino.Gameplay
         [SerializeField] private Color grassColor = new Color(0.22f, 0.55f, 0.28f);
         [SerializeField] private Color waterColor = new Color(0.12f, 0.58f, 0.82f);
         [SerializeField] private AudioClipSpeechService speechService;
+        [SerializeField] private TextAsset questionBankJson;
 
-        private readonly string[] prompts =
+        private string[] prompts =
         {
             "قرمز، آبی، قرمز، آبی، بعدی کدام است؟",
             "دایره، دایره، ستاره، دایره، دایره، بعدی کدام است؟",
             "۱، ۲، ۳، بعدی کدام عدد است؟",
             "کدام مورد با بقیه فرق دارد؟"
         };
-        private readonly string[][] options =
+        private string[][] options =
         {
             new[] { "قرمز", "سبز", "زرد" },
             new[] { "ستاره", "مربع", "دایره" },
             new[] { "۴", "۵", "۲" },
             new[] { "سیب", "گلابی", "صندلی" }
         };
-        private readonly int[] answers = { 0, 0, 0, 2 };
-        private readonly string[] audioPhraseIds =
+        private int[] answers = { 0, 0, 0, 2 };
+        private string[] audioPhraseIds =
         {
             "grade1_bridge_q1", "grade1_bridge_q2",
             "grade1_bridge_q3", "grade1_bridge_q4"
         };
-        private readonly string[] explanations =
+        private string[] explanations =
         {
             "آفرین! الگو یکی در میان تکرار می‌شود.",
             "در هر گروه دو دایره و بعد یک ستاره داریم.",
@@ -69,12 +70,70 @@ namespace Tiizino.Gameplay
             answerButtons = null;
             planks = null;
             if (speechService == null) speechService = GetComponent<AudioClipSpeechService>();
+            LoadQuestionBank();
 
             ClearOldStage();
             CreateWorld();
             CreateCameraAndLight();
             CreateUI();
             ShowQuestion();
+        }
+
+        [System.Serializable]
+        private sealed class QuestionBank
+        {
+            public QuestionData[] questions;
+        }
+
+        private void LoadQuestionBank()
+        {
+            if (questionBankJson == null) return;
+
+            try
+            {
+                QuestionBank bank = JsonUtility.FromJson<QuestionBank>(questionBankJson.text);
+                if (bank == null || bank.questions == null || bank.questions.Length == 0)
+                {
+                    Debug.LogWarning("Tiizino: question bank is empty; using built-in sample questions.", this);
+                    return;
+                }
+
+                int validCount = 0;
+                for (int i = 0; i < bank.questions.Length; i++)
+                {
+                    if (bank.questions[i] != null && bank.questions[i].IsValid())
+                        validCount++;
+                    else
+                        Debug.LogWarning("Tiizino: invalid question at JSON index " + i + ".", this);
+                }
+
+                if (validCount != bank.questions.Length)
+                {
+                    Debug.LogWarning("Tiizino: JSON bank contains invalid questions; using built-in sample questions.", this);
+                    return;
+                }
+
+                int count = bank.questions.Length;
+                prompts = new string[count];
+                options = new string[count][];
+                answers = new int[count];
+                audioPhraseIds = new string[count];
+                explanations = new string[count];
+
+                for (int i = 0; i < count; i++)
+                {
+                    QuestionData question = bank.questions[i];
+                    prompts[i] = question.prompt;
+                    options[i] = question.options;
+                    answers[i] = question.correctOptionIndex;
+                    audioPhraseIds[i] = question.audioPhraseId;
+                    explanations[i] = question.explanation ?? string.Empty;
+                }
+            }
+            catch (System.Exception exception)
+            {
+                Debug.LogWarning("Tiizino: could not read question bank JSON. Using built-in sample questions. " + exception.Message, this);
+            }
         }
 
         private void ClearOldStage()
@@ -95,7 +154,7 @@ namespace Tiizino.Gameplay
             MakeCube("Magic River", new Vector3(0f, -0.05f, 0f),
                 new Vector3(3.2f, 0.15f, 8f), waterColor);
 
-            planks = new GameObject[4];
+            planks = new GameObject[prompts.Length];
             for (int i = 0; i < planks.Length; i++)
             {
                 planks[i] = MakeCube("Bridge Plank " + (i + 1),
@@ -220,7 +279,8 @@ namespace Tiizino.Gameplay
                 new Vector2(0.5f, 0.62f), new Vector2(0.55f, 0.055f));
             repeatButton.GetComponentInChildren<Text>().text = "شنیدن دوبارهٔ سؤال";
             repeatButton.onClick.AddListener(RepeatCurrentQuestion);
-            answerButtons = new Button[3];
+            int optionCount = options.Length > 0 && options[0] != null ? options[0].Length : 0;
+            answerButtons = new Button[optionCount];
             for (int i = 0; i < answerButtons.Length; i++)
             {
                 int captured = i;
@@ -305,7 +365,10 @@ namespace Tiizino.Gameplay
 
         private void ChooseAnswer(int choice)
         {
-            if (questionIndex >= prompts.Length) return;
+            if (questionIndex < 0 || questionIndex >= prompts.Length
+                || choice < 0 || options[questionIndex] == null
+                || choice >= options[questionIndex].Length) return;
+            speechService?.Stop();
             bool correct = choice == answers[questionIndex];
             foreach (Button button in answerButtons) button.interactable = false;
 
