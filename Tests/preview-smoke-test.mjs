@@ -73,7 +73,15 @@ for (const [levelIndex, level] of levelBank.levels.entries()) {
       `Level ${levelIndex + 1}, question ${questionIndex + 1} needs feedback text`);
   }
 }
-console.log("Four-level draft question bank structure validated.");
+const expectedLevelEnds = [];
+let cumulativeQuestionCount = 0;
+for (const level of levelBank.levels) {
+  cumulativeQuestionCount += level.questions.length;
+  expectedLevelEnds.push(cumulativeQuestionCount);
+}
+check(expectedLevelEnds.length === 4 && expectedLevelEnds.every((end, i) => end === [2, 4, 6, 8][i]),
+  "Current draft bank should produce cumulative level ends [2, 4, 6, 8]");
+console.log("Four-level draft question bank structure and boundaries validated.");
 
 const controllerPath = new URL("../Assets/_Tiizino/Scripts/Gameplay/BridgeStageController.cs", import.meta.url);
 const controller = readFileSync(controllerPath, "utf8");
