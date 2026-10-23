@@ -1,0 +1,23 @@
+name: Preview and question-bank smoke test
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  preview-smoke-test:
+    name: Run preview and question-bank checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Run smoke tests
+        run: node Tests/preview-smoke-test.mjs
