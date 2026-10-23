@@ -436,6 +436,12 @@ namespace Tiizino.Gameplay
             Button button = go.AddComponent<Button>();
             Text label = CreateText(go.transform, "Label", new Vector2(0.5f, 0.5f),
                 new Vector2(0.9f, 0.8f), 30, TextAnchor.MiddleCenter);
+            // Button labels must fit the button rect, not use canvas-sized dimensions.
+            RectTransform labelRect = label.GetComponent<RectTransform>();
+            labelRect.anchorMin = Vector2.zero;
+            labelRect.anchorMax = Vector2.one;
+            labelRect.offsetMin = Vector2.zero;
+            labelRect.offsetMax = Vector2.zero;
             label.color = new Color(0.12f, 0.12f, 0.2f);
             label.text = "گزینه";
             return button;
