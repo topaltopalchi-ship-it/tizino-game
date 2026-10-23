@@ -15,8 +15,6 @@ namespace Tiizino.Gameplay
         [SerializeField] private Color grassColor = new Color(0.22f, 0.55f, 0.28f);
         [SerializeField] private Color waterColor = new Color(0.12f, 0.58f, 0.82f);
         [SerializeField] private AudioClipSpeechService speechService;
-        [Tooltip("Optional short celebratory sound. Assign an AudioClip in the Inspector to enable it.")]
-        [SerializeField] private AudioClip stageCompleteClip;
         [SerializeField] private TextAsset questionBankJson;
         [Tooltip("Optional font asset with Persian glyphs. Proper RTL shaping still requires a shaping solution.")]
         [SerializeField] private Font uiFont;
@@ -326,12 +324,6 @@ namespace Tiizino.Gameplay
             repeatButton.GetComponentInChildren<Text>().text = "شنیدن دوبارهٔ سؤال";
             repeatButton.onClick.AddListener(RepeatCurrentQuestion);
 
-            Button soundTestButton = CreateButton(canvasObject.transform, "Test Completion Sound",
-                new Vector2(0.5f, 0.56f), new Vector2(0.48f, 0.04f));
-            soundTestButton.GetComponentInChildren<Text>().text = "آزمایش صدای پایان مرحله";
-            soundTestButton.onClick.AddListener(PlayStageCompleteSound);
-            soundTestButton.interactable = stageCompleteClip != null;
-
             int optionCount = options.Length > 0 && options[0] != null ? options[0].Length : 0;
             answerButtons = new Button[optionCount];
             for (int i = 0; i < answerButtons.Length; i++)
@@ -392,7 +384,6 @@ namespace Tiizino.Gameplay
                 promptText.text = "آفرین! پل جنگل نجات پیدا کرد!";
                 feedbackText.text = "ستاره‌های به‌دست‌آمده: " + stars + " از " + prompts.Length;
                 foreach (Button button in answerButtons) button.gameObject.SetActive(false);
-                PlayStageCompleteSound();
                 return;
             }
 
@@ -405,16 +396,6 @@ namespace Tiizino.Gameplay
                 answerButtons[i].interactable = true;
                 answerButtons[i].GetComponentInChildren<Text>().text = options[questionIndex][i];
             }
-        }
-
-        private void PlayStageCompleteSound()
-        {
-            if (stageCompleteClip == null) return;
-
-            AudioSource source = GetComponent<AudioSource>();
-            if (source == null) source = gameObject.AddComponent<AudioSource>();
-            source.playOnAwake = false;
-            source.PlayOneShot(stageCompleteClip);
         }
 
         public void RepeatCurrentQuestion()
