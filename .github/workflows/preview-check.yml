@@ -8,6 +8,9 @@ on:
       - "Assets/_Tiizino/Data/Questions/**"
       - "Assets/_Tiizino/Resources/**"
       - "Assets/_Tiizino/Scripts/Gameplay/**"
+      - "Assets/Editor/**"
+      - "Packages/**"
+      - "ProjectSettings/**"
       - ".github/workflows/preview-check.yml"
   pull_request:
     paths:
