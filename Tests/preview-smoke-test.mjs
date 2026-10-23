@@ -481,3 +481,49 @@ check(gradePreview.includes("seenPrompts.has(normalizedPrompt)"),
 check(gradePreview.includes("!Number.isInteger(q.difficulty)||q.difficulty<1||q.difficulty>3"),
   "Grade preview must reject unsupported question difficulty");
 console.log("Grade preview validation guards covered by static smoke checks.");
+
+
+// Validate the actual Grade 1 and Grade 2 banks consumed by the playable preview.
+for (const gradeNumber of [1, 2]) {
+  const bankPath = new URL(`../Assets/_Tiizino/Resources/Grade${gradeNumber}_QuestionBank.json`, import.meta.url);
+  const bank = JSON.parse(readFileSync(bankPath, "utf8"));
+  check(Array.isArray(bank.levels) && bank.levels.length === 3,
+    `Grade ${gradeNumber} must contain exactly three playable levels`);
+  const levelIds = new Set();
+  const prompts = new Set();
+  let totalQuestions = 0;
+  for (const [levelIndex, level] of bank.levels.entries()) {
+    check(Number.isInteger(level.levelId) && !levelIds.has(level.levelId),
+      `Grade ${gradeNumber} level IDs must be valid and unique`);
+    levelIds.add(level.levelId);
+    check(typeof level.name === "string" && level.name.trim(),
+      `Grade ${gradeNumber} level ${levelIndex + 1} needs a name`);
+    check(typeof level.skill === "string" && level.skill.trim(),
+      `Grade ${gradeNumber} level ${levelIndex + 1} needs a learning skill`);
+    check(Array.isArray(level.questions) && level.questions.length > 0,
+      `Grade ${gradeNumber} level ${levelIndex + 1} needs questions`);
+    totalQuestions += level.questions.length;
+    for (const [questionIndex, question] of level.questions.entries()) {
+      const label = `Grade ${gradeNumber}, level ${levelIndex + 1}, question ${questionIndex + 1}`;
+      check(typeof question.prompt === "string" && question.prompt.trim(), `${label}: prompt is empty`);
+      const normalizedPrompt = question.prompt.normalize("NFKC").trim().replace(/\\s+/gu, " ").toLocaleUpperCase("fa");
+      check(!prompts.has(normalizedPrompt), `${label}: duplicate question prompt`);
+      prompts.add(normalizedPrompt);
+      check(Array.isArray(question.options) && question.options.length === 3,
+        `${label}: expected exactly three answer options`);
+      check(question.options.every(option => typeof option === "string" && option.trim()),
+        `${label}: answer options must be non-empty strings`);
+      const normalizedOptions = question.options.map(option => option.normalize("NFKC").trim().replace(/\\s+/gu, " ").toLocaleUpperCase("fa"));
+      check(new Set(normalizedOptions).size === normalizedOptions.length, `${label}: duplicate answer options`);
+      check(Number.isInteger(question.correctOptionIndex)
+        && question.correctOptionIndex >= 0 && question.correctOptionIndex < question.options.length,
+        `${label}: correct answer index is out of range`);
+      check(typeof question.explanation === "string" && question.explanation.trim(),
+        `${label}: explanation is missing`);
+      check(Number.isInteger(question.difficulty) && question.difficulty >= 1 && question.difficulty <= 3,
+        `${label}: difficulty must be between 1 and 3`);
+    }
+  }
+  check(totalQuestions >= 12, `Grade ${gradeNumber} should contain at least twelve questions`);
+  console.log(`Grade ${gradeNumber}: ${bank.levels.length} levels and ${totalQuestions} validated questions.`);
+}
