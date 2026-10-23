@@ -135,12 +135,19 @@ namespace Tiizino.EditorTools
             return string.IsNullOrWhiteSpace(prompt) ? string.Empty : string.Join(" ", prompt.Trim().Split((char[])null, StringSplitOptions.RemoveEmptyEntries));
         }
 
+        private static string NormalizeOption(string option)
+        {
+            return string.IsNullOrWhiteSpace(option)
+                ? string.Empty
+                : string.Join(" ", option.Trim().Split((char[])null, StringSplitOptions.RemoveEmptyEntries));
+        }
+
         private static bool IsValid(Question question)
         {
             if (question == null || question.options == null || question.options.Length != 3) return false;
-            if (string.Equals(question.options[0]?.Trim(), question.options[1]?.Trim(), StringComparison.Ordinal)
-                || string.Equals(question.options[0]?.Trim(), question.options[2]?.Trim(), StringComparison.Ordinal)
-                || string.Equals(question.options[1]?.Trim(), question.options[2]?.Trim(), StringComparison.Ordinal)) return false;
+            if (string.Equals(NormalizeOption(question.options[0]), NormalizeOption(question.options[1]), StringComparison.OrdinalIgnoreCase)
+                || string.Equals(NormalizeOption(question.options[0]), NormalizeOption(question.options[2]), StringComparison.OrdinalIgnoreCase)
+                || string.Equals(NormalizeOption(question.options[1]), NormalizeOption(question.options[2]), StringComparison.OrdinalIgnoreCase)) return false;
             return !string.IsNullOrWhiteSpace(question.prompt)
                 && !string.IsNullOrWhiteSpace(question.options[0])
                 && !string.IsNullOrWhiteSpace(question.options[1])
