@@ -9,7 +9,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: grade-preview
+  group: preview-package
   cancel-in-progress: true
 
 jobs:
@@ -38,10 +38,10 @@ jobs:
           </body>
           </html>
           EOF
-      - name: Upload playable preview artifact
+      - name: Package preview site
         uses: actions/upload-artifact@v4
         with:
-          name: tizino-grade-preview
+          name: tizino-playable-preview
           path: site/
           if-no-files-found: error
           retention-days: 14
