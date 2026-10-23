@@ -213,5 +213,5 @@ check(setupGuide.includes("تست‌های GitHub Actions فقط تست‌های
 console.log("Unity project scaffold and Android setup documentation checks passed (static checks only).");
 
 
-check((await import("node:fs")).readFileSync(new URL("../Assets/_Tiizino/Scripts/Gameplay/QuestionData.cs", import.meta.url), "utf8").includes("StringComparer.OrdinalIgnoreCase"), "Runtime question model must reject case-insensitive duplicate options");
+check(readFileSync(new URL("../Assets/_Tiizino/Scripts/Gameplay/QuestionData.cs", import.meta.url), "utf8").includes("StringComparer.OrdinalIgnoreCase"), "Runtime question model must reject case-insensitive duplicate options");
 check(controller.includes("flattened[i].prompt.Normalize(System.Text.NormalizationForm.FormKC)") && controller.includes("ToUpperInvariant()"), "Runtime prompt deduplication must normalize Unicode and casing");
