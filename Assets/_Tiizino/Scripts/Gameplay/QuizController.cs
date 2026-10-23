@@ -54,6 +54,7 @@ namespace Tiizino.Gameplay
 
             bool correct = optionIndex == question.correctOptionIndex;
             answeredCurrent = true;
+            speechService?.Stop();
             onAnswerChecked?.Invoke(correct, question.explanation);
         }
 
