@@ -19,7 +19,7 @@
 <script>
 const $=id=>document.getElementById(id);
 const bankPaths={1:"../Assets/_Tiizino/Resources/Grade1_QuestionBank.json",2:"../Assets/_Tiizino/Resources/Grade2_QuestionBank.json"};
-let grade=1,bank=null,levelIndex=0,questionIndex=0,stars=0,locked=false,timer=null;
+let grade=1,bank=null,levelIndex=0,questionIndex=0,stars=0,locked=false,timer=null,loadRequestId=0;
 const fa=n=>String(n).replace(/[0-9]/g,d=>"۰۱۲۳۴۵۶۷۸۹"[Number(d)]);
 function currentLevel(){return bank?.levels?.[levelIndex]??null}
 function currentQuestion(){return currentLevel()?.questions?.[questionIndex]??null}
@@ -43,17 +43,18 @@ function choose(choice){
  else{setFeedback("نزدیک بود! "+q.explanation,"incorrect");timer=setTimeout(()=>{timer=null;locked=false;$("repeat").disabled=false;$("answers").querySelectorAll("button").forEach(b=>b.disabled=false);setFeedback("یک گزینهٔ دیگر را امتحان کن.","neutral")},900)}
 }
 async function loadGrade(nextGrade){
- stopTimer();grade=nextGrade;bank=null;levelIndex=0;questionIndex=0;stars=0;locked=true;setGradeButtons();$("prompt").textContent="در حال بارگذاری…";$("answers").replaceChildren();setFeedback("");$("bankStatus").textContent="در حال بارگذاری بانک سؤال پایهٔ "+fa(grade)+"…";
+ stopTimer();const requestId=++loadRequestId;grade=nextGrade;bank=null;levelIndex=0;questionIndex=0;stars=0;locked=true;setGradeButtons();$("prompt").textContent="در حال بارگذاری…";$("answers").replaceChildren();setFeedback("");$("bankStatus").textContent="در حال بارگذاری بانک سؤال پایهٔ "+fa(grade)+"…";
  try{
   const response=await fetch(bankPaths[grade]);if(!response.ok)throw new Error("HTTP "+response.status);
   const data=await response.json();
+  if(requestId!==loadRequestId)return;
   if(!Array.isArray(data.levels)||data.levels.length===0)throw new Error("بانک سطح ندارد");
   for(const [i,level] of data.levels.entries()){
    if(!Number.isInteger(level.levelId)||level.levelId<1||!level.name?.trim()||!level.skill?.trim()||!Array.isArray(level.questions)||!level.questions.length)throw new Error("اطلاعات مرحلهٔ "+(i+1)+" ناقص است");
    for(const q of level.questions)if(!q.prompt?.trim()||!Array.isArray(q.options)||q.options.length<2||!Number.isInteger(q.correctOptionIndex)||q.correctOptionIndex<0||q.correctOptionIndex>=q.options.length||!q.explanation?.trim())throw new Error("یک سؤال نامعتبر است");
   }
   bank=data;locked=false;$("bankStatus").textContent="بانک پایهٔ "+fa(grade)+" آماده است؛ "+fa(data.levels.length)+" مرحله.";render();
- }catch(error){locked=true;$("bankStatus").textContent="بانک سؤال بارگذاری نشد. این صفحه را از GitHub Pages یا یک وب‌سرور باز کن."; $("prompt").textContent="دسترسی به بانک سؤال ممکن نیست";setFeedback("جزئیات: "+error.message,"incorrect");$("repeat").disabled=true}
+ }catch(error){if(requestId!==loadRequestId)return;locked=true;$("bankStatus").textContent="بانک سؤال بارگذاری نشد. این صفحه را از GitHub Pages یا یک وب‌سرور باز کن."; $("prompt").textContent="دسترسی به بانک سؤال ممکن نیست";setFeedback("جزئیات: "+error.message,"incorrect");$("repeat").disabled=true}
 }
 $("grade1").addEventListener("click",()=>loadGrade(1));$("grade2").addEventListener("click",()=>loadGrade(2));
 $("repeat").addEventListener("click",()=>{const q=currentQuestion();if(q&&!locked){$("prompt").textContent=q.prompt;setFeedback("سؤال دوباره نمایش داده شد؛ با دقت انتخاب کن.","neutral")}});
