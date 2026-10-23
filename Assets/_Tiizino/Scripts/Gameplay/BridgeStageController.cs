@@ -84,7 +84,16 @@ namespace Tiizino.Gameplay
             if (speechService == null) speechService = GetComponent<AudioClipSpeechService>();
             ResetBuiltInQuestionBank();
             if (questionBankJson == null)
-                questionBankJson = Resources.Load<TextAsset>("Stage01_FourLevels_DRAFT");
+            {
+                // Select the grade-specific original bank when a grade was chosen in the title flow.
+                int selectedGrade = PlayerPrefs.GetInt("Tiizino.SelectedGrade", 1);
+                string resourceName = selectedGrade == 2
+                    ? "Grade2_QuestionBank"
+                    : "Grade1_QuestionBank";
+                questionBankJson = Resources.Load<TextAsset>(resourceName);
+                if (questionBankJson == null)
+                    questionBankJson = Resources.Load<TextAsset>("Stage01_FourLevels_DRAFT");
+            }
             LoadQuestionBank();
 
             ClearOldStage();
