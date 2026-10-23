@@ -67,7 +67,7 @@ namespace Tiizino.Gameplay
         private GameObject titleScreenRoot;
         private GameObject[] planks;
         private Transform mascotTransform;
-        private Vector3 mascotBasePosition;
+        private Vector3 mascotBasePosition;\n        private Transform cinematicCamera;\n        private Vector3 cameraLookTarget = new Vector3(0f, 0.25f, 0f);\n        private Vector3 cameraBasePosition;
 
         private void Start()
         {
