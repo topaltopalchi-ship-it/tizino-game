@@ -290,3 +290,10 @@ check(sceneBuilder.includes('EditorSceneManager.SaveScene(scene, ScenePath)'),
   "Scene builder must save the generated stage scene");
 check(sceneBuilder.includes('new EditorBuildSettingsScene(scenePath, true)'),
   "Scene builder must register and enable Stage 01 in Build Settings");
+
+check(sceneBuilder.includes('EnsureFolder("Assets/_Tiizino", "Scenes")'),
+  "Scene builder must create the output folder before saving the generated scene");
+check(sceneBuilder.includes("if (!found)") && sceneBuilder.includes("scenes.Add(scene);"),
+  "Scene builder must add Stage 01 without dropping unrelated build scenes");
+check(sceneBuilder.includes("AssetDatabase.IsValidFolder(path)"),
+  "Scene builder must avoid recreating an existing scene folder");
