@@ -53,9 +53,11 @@ namespace Tiizino.Gameplay
             }
 
             bool correct = optionIndex == question.correctOptionIndex;
-            answeredCurrent = true;
+            // A wrong answer must not unlock Continue or reveal the explanation.
+            // Leave the question active so the learner can try again.
+            answeredCurrent = correct;
             speechService?.Stop();
-            onAnswerChecked?.Invoke(correct, question.explanation);
+            onAnswerChecked?.Invoke(correct, correct ? question.explanation : string.Empty);
         }
 
         public void Continue()
