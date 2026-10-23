@@ -290,3 +290,14 @@ check(readFileSync(new URL("../Assets/Editor/TiizinoProjectValidator.cs", import
 check(readFileSync(new URL("../Assets/_Tiizino/Scripts/Gameplay/QuestionData.cs", import.meta.url), "utf8")
   .includes("if (difficulty < 1 || difficulty > 3"),
   "Runtime question model must reject difficulty outside the supported 1-3 range");
+
+const sceneBuilderPath = new URL("../Assets/Editor/TiizinoSceneBuilder.cs", import.meta.url);
+const sceneBuilder = readFileSync(sceneBuilderPath, "utf8");
+check(sceneBuilder.includes('MenuItem("Tools/Tiizino/Create Stage 01 Scene")'),
+  "Unity editor scene creation menu item is missing");
+check(sceneBuilder.includes('AddComponent<BridgeStageController>()'),
+  "Generated stage scene must include BridgeStageController");
+check(sceneBuilder.includes('EditorSceneManager.SaveScene(scene, ScenePath)'),
+  "Scene builder must save the generated stage scene");
+check(sceneBuilder.includes('new EditorBuildSettingsScene(scenePath, true)'),
+  "Scene builder must register and enable Stage 01 in Build Settings");
