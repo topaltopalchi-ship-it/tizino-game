@@ -114,6 +114,9 @@ namespace Tiizino.Gameplay
         {
             CancelInvoke();
             speechService?.Stop();
+            // The music AudioSource lives on a generated child, so stop it explicitly
+            // when this controller is disabled instead of leaving orphaned playback.
+            if (musicSource != null) musicSource.Stop();
         }
 
         private void ShowGradeSelection()
