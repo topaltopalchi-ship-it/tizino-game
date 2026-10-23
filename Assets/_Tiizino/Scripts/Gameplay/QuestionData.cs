@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 namespace Tiizino.Gameplay
@@ -20,12 +22,21 @@ namespace Tiizino.Gameplay
                 || options == null
                 || options.Length < 2
                 || correctOptionIndex < 0
-                || correctOptionIndex >= options.Length)
+                || correctOptionIndex >= options.Length
+                || string.IsNullOrWhiteSpace(explanation))
                 return false;
 
+            HashSet<string> normalizedOptions = new HashSet<string>(StringComparer.Ordinal);
             for (int i = 0; i < options.Length; i++)
             {
                 if (string.IsNullOrWhiteSpace(options[i]))
+                    return false;
+
+                // Treat whitespace and compatibility-equivalent glyphs consistently.
+                string normalizedOption = options[i].Normalize(NormalizationForm.FormKC).Trim();
+                normalizedOption = string.Join(" ", normalizedOption.Split((char[])null,
+                    StringSplitOptions.RemoveEmptyEntries));
+                if (!normalizedOptions.Add(normalizedOption))
                     return false;
             }
 
