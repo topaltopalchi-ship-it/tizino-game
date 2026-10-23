@@ -49,6 +49,10 @@ console.log("Preview smoke checks passed (static checks and JavaScript syntax on
 
 const levelBankPath = new URL("../Assets/_Tiizino/Data/Questions/Stage01_FourLevels_DRAFT.json", import.meta.url);
 const levelBank = JSON.parse(readFileSync(levelBankPath, "utf8"));
+const resourceBankPath = new URL("../Assets/_Tiizino/Resources/Stage01_FourLevels_DRAFT.json", import.meta.url);
+const resourceBank = JSON.parse(readFileSync(resourceBankPath, "utf8"));
+check(JSON.stringify(resourceBank) === JSON.stringify(levelBank),
+  "Unity Resources question bank must match the canonical draft bank");
 check(levelBank.stageId === "stage01_bridge", "Four-level bank must identify stage01_bridge");
 check(Array.isArray(levelBank.levels) && levelBank.levels.length === 4, "Draft bank must contain exactly four levels");
 for (const [levelIndex, level] of levelBank.levels.entries()) {
@@ -73,6 +77,8 @@ console.log("Four-level draft question bank structure validated.");
 
 const controllerPath = new URL("../Assets/_Tiizino/Scripts/Gameplay/BridgeStageController.cs", import.meta.url);
 const controller = readFileSync(controllerPath, "utf8");
+check(controller.includes('Resources.Load<TextAsset>("Stage01_FourLevels_DRAFT")'),
+  "Unity controller should load the packaged four-level bank when no asset is assigned");
 check(controller.includes("private Text levelText;"), "Unity controller must declare its level label field");
 check(controller.includes("private Button continueLevelButton;"), "Unity controller must declare its level continuation button");
 check(controller.includes("private string[] levelNames"), "Unity controller must retain level names");
