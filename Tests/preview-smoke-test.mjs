@@ -110,6 +110,8 @@ check(controller.includes("labelRect.anchorMin = Vector2.zero;")
   "Button label rect should stretch to fit the button without canvas-sized overflow");
 check(controller.includes("CurrentLevelEnd()"), "Unity controller must track the end of each level");
 check(controller.includes("contains duplicate options"), "Runtime question loading must reject duplicate answer choices");
+check(controller.includes("duplicates an earlier prompt") && controller.includes("seenPrompts.Add(normalizedPrompt)"), "Runtime question loading must reject repeated prompts after whitespace normalization");
+check(controller.includes("options[optionIndex]?.Trim()"), "Runtime question loading must reject answer choices duplicated only by surrounding whitespace");
 check(controller.includes('Tiizino.MusicEnabled'), "Music preference must persist between game sessions");
 check(controller.includes('musicEnabled ? "موسیقی: روشن" : "موسیقی: خاموش"'), "Music toggle label must reflect the current preference");
 check(controller.includes("private void OnDisable()") && controller.includes("speechService?.Stop();"), "Disabling or rebuilding the stage must stop question voice playback");
