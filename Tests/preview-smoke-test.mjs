@@ -73,6 +73,11 @@ console.log("Four-level draft question bank structure validated.");
 
 const controllerPath = new URL("../Assets/_Tiizino/Scripts/Gameplay/BridgeStageController.cs", import.meta.url);
 const controller = readFileSync(controllerPath, "utf8");
+check(controller.includes("private Text levelText;"), "Unity controller must declare its level label field");
+check(controller.includes("private Button continueLevelButton;"), "Unity controller must declare its level continuation button");
+check(controller.includes("private string[] levelNames"), "Unity controller must retain level names");
+check(controller.includes("private int[] levelEndIndices"), "Unity controller must retain level boundaries");
+check(controller.includes('CreateButton(canvasObject.transform, "Continue Level"'), "Unity UI must create the continue-level button");
 check(controller.includes("CurrentLevelEnd()"), "Unity controller must track the end of each level");
 check(controller.includes("ContinueToNextLevel()"), "Unity controller must provide explicit next-level flow");
 check(controller.includes("parsedLevelEnds.Add(flattened.Count)"), "Unity controller must derive level boundaries from question data");
