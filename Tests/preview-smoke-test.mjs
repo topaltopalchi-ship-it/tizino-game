@@ -58,6 +58,8 @@ check(Array.isArray(levelBank.levels) && levelBank.levels.length === 4, "Draft b
 for (const [levelIndex, level] of levelBank.levels.entries()) {
   check(level.levelId === levelIndex + 1, `Level ${levelIndex + 1} must have a sequential levelId`);
   check(typeof level.name === "string" && level.name.trim().length > 0, `Level ${levelIndex + 1} needs a name`);
+  check(typeof level.skill === "string" && level.skill.trim().length > 0,
+    `Level ${levelIndex + 1} needs a named learning skill`);
   check(Array.isArray(level.questions) && level.questions.length >= 2, `Level ${levelIndex + 1} needs at least two questions`);
   for (const [questionIndex, question] of level.questions.entries()) {
     check(typeof question.prompt === "string" && question.prompt.trim().length > 0,
@@ -66,6 +68,10 @@ for (const [levelIndex, level] of levelBank.levels.entries()) {
       `Level ${levelIndex + 1}, question ${questionIndex + 1} must have three options`);
     check(question.options.every(option => typeof option === "string" && option.trim().length > 0),
       `Level ${levelIndex + 1}, question ${questionIndex + 1} has an empty option`);
+    check(new Set(question.options).size === question.options.length,
+      `Level ${levelIndex + 1}, question ${questionIndex + 1} has duplicate answer options`);
+    check(Number.isInteger(question.difficulty) && question.difficulty >= 1 && question.difficulty <= 3,
+      `Level ${levelIndex + 1}, question ${questionIndex + 1} needs difficulty from 1 to 3`);
     check(Number.isInteger(question.correctOptionIndex)
       && question.correctOptionIndex >= 0 && question.correctOptionIndex < question.options.length,
       `Level ${levelIndex + 1}, question ${questionIndex + 1} has an invalid answer index`);
@@ -81,6 +87,9 @@ for (const level of levelBank.levels) {
 }
 check(expectedLevelEnds.length === 4 && expectedLevelEnds.every((end, i) => end === [2, 4, 6, 8][i]),
   "Current draft bank should produce cumulative level ends [2, 4, 6, 8]");
+check(cumulativeQuestionCount === 8, "Current stage draft must contain eight questions total");
+check(levelBank.levels.every(level => typeof level.skill === "string" && level.skill.trim()),
+  "Every level must declare its learning skill");
 console.log("Four-level draft question bank structure and boundaries validated.");
 
 const controllerPath = new URL("../Assets/_Tiizino/Scripts/Gameplay/BridgeStageController.cs", import.meta.url);
