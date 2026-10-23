@@ -159,6 +159,11 @@ check(chooseAnswerBody.includes("Invoke(nameof(NextQuestion), 1.8f)")
 check(chooseAnswerBody.includes("feedbackText.text = \"یک بار دیگر فکر کن! به الگو و گزینه‌ها دقت کن.\""),
   "Incorrect-answer feedback should encourage another attempt without revealing the answer");
 
+const questionData = readFileSync(new URL("../Assets/_Tiizino/Scripts/Gameplay/QuestionData.cs", import.meta.url), "utf8");
+check(questionData.includes("HashSet<string> normalizedOptions"), "Runtime question validation must reject duplicate normalized choices");
+check(questionData.includes("NormalizationForm.FormKC"), "Runtime choice normalization must handle compatibility-equivalent characters");
+check(questionData.includes("string.IsNullOrWhiteSpace(explanation)"), "Runtime question validation must require explanatory feedback");
+
 console.log("Four-level Unity controller structure checks passed (static checks only).");
 
 const bootstrapPath = new URL("../Assets/Editor/TiizinoSceneBootstrap.cs", import.meta.url);
