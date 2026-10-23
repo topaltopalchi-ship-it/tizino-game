@@ -1,0 +1,42 @@
+{
+  "stageId": "stage01_bridge",
+  "stageName": "نجات پل جنگل",
+  "levels": [
+    {
+      "levelId": 1,
+      "name": "تخته‌های رنگی",
+      "skill": "الگوی رنگی",
+      "questions": [
+        {"prompt":"قرمز، آبی، قرمز، آبی؛ بعدی کدام رنگ است؟","options":["قرمز","سبز","زرد"],"correctOptionIndex":0,"explanation":"الگو یکی در میان تکرار می‌شود.","difficulty":1},
+        {"prompt":"زرد، زرد، سبز، زرد، زرد؛ بعدی چیست؟","options":["قرمز","سبز","آبی"],"correctOptionIndex":1,"explanation":"پس از دو زرد، سبز می‌آید.","difficulty":1}
+      ]
+    },
+    {
+      "levelId": 2,
+      "name": "مسیر شکل‌ها",
+      "skill": "الگوی شکلی",
+      "questions": [
+        {"prompt":"دایره، دایره، ستاره، دایره، دایره؛ بعدی چیست؟","options":["ستاره","مربع","دایره"],"correctOptionIndex":0,"explanation":"پس از دو دایره، ستاره می‌آید.","difficulty":1},
+        {"prompt":"مثلث، مربع، مثلث، مربع؛ بعدی چیست؟","options":["دایره","مثلث","ستاره"],"correctOptionIndex":1,"explanation":"مثلث و مربع به نوبت تکرار می‌شوند.","difficulty":1}
+      ]
+    },
+    {
+      "levelId": 3,
+      "name": "سنگ‌چین عددی",
+      "skill": "شمارش و دنباله",
+      "questions": [
+        {"prompt":"۱، ۲، ۳؛ عدد بعدی چیست؟","options":["۴","۵","۲"],"correctOptionIndex":0,"explanation":"هر بار یک واحد اضافه می‌شود.","difficulty":1},
+        {"prompt":"۲، ۴، ۶؛ عدد بعدی چیست؟","options":["۷","۸","۹"],"correctOptionIndex":1,"explanation":"هر بار دو واحد اضافه می‌شود.","difficulty":2}
+      ]
+    },
+    {
+      "levelId": 4,
+      "name": "سبد جنگل",
+      "skill": "دسته‌بندی",
+      "questions": [
+        {"prompt":"کدام مورد با بقیه فرق دارد؟","options":["سیب","گلابی","صندلی"],"correctOptionIndex":2,"explanation":"صندلی وسیله است؛ دو مورد دیگر میوه‌اند.","difficulty":1},
+        {"prompt":"کدام مورد حیوان نیست؟","options":["گربه","خرگوش","هویج"],"correctOptionIndex":2,"explanation":"هویج خوراکی گیاهی است، نه حیوان.","difficulty":1}
+      ]
+    }
+  ]
+}
