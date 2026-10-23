@@ -30,10 +30,13 @@ check(questionCount === 4, `Expected 4 sample questions; found ${questionCount}`
 
 
 check(html.includes('id="repeat"'), "Repeat-question control is missing");
+check(html.includes('$("repeat").disabled=!q||locked'), "Repeat-question control must be disabled while an answer is resolving or after stage completion");
 check(html.includes("نمایش دوبارهٔ سؤال"), "Repeat-question control should describe its visual action clearly");
 check(html.includes('$("feedback").textContent="سؤال دوباره نمایش داده شد؛ پاسخ را با دقت انتخاب کن."'), "Repeat-question action should provide clear feedback without implying unavailable speech audio");
 check(html.includes('$("restart").addEventListener("click",()=>{if(pendingTurnTimer!==null){clearTimeout(pendingTurnTimer);pendingTurnTimer=null}index=0;stars=0;locked=false;render()})'), "Restart action should cancel pending callbacks and reset game state");
 check(script.includes("choice===q.a"), "Answer selection should compare against the answer key");
+check(script.includes('locked=true;$("repeat").disabled=true;'), "Resolving an answer must disable repeat-question interaction");
+check(script.includes('pendingTurnTimer=null;locked=false;$("repeat").disabled=false;'), "Retry state must re-enable repeat-question interaction");
 check(script.includes("pendingTurnTimer") && script.includes("clearTimeout(pendingTurnTimer)"), "Restart must cancel any pending answer timer before resetting progress");
 check(script.includes("pendingTurnTimer=null;index++;render()"), "A pending correct-answer timer must clear its handle before advancing");
 check(script.includes("document.querySelectorAll(\".answer\").forEach(b=>b.disabled=false)"), "Wrong answers should allow another attempt");
