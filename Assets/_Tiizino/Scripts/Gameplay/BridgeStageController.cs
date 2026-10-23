@@ -80,11 +80,33 @@ namespace Tiizino.Gameplay
         private void Update()
         {
             // A restrained idle motion adds life without sound or distracting effects.
-            if (mascotTransform == null) return;
-            Vector3 p = mascotBasePosition;
-            p.y += Mathf.Sin(Time.time * 1.45f) * 0.055f;
-            mascotTransform.localPosition = p;
-            mascotTransform.localRotation = Quaternion.Euler(0f, Mathf.Sin(Time.time * 0.7f) * 4f, 0f);
+            if (mascotTransform != null)
+            {
+                Vector3 p = mascotBasePosition;
+                p.y += Mathf.Sin(Time.time * 1.45f) * 0.055f;
+                mascotTransform.localPosition = p;
+                mascotTransform.localRotation = Quaternion.Euler(0f, Mathf.Sin(Time.time * 0.7f) * 4f, 0f);
+            }
+
+            // Tiizino Ribbon-Cam: slow, asymmetric drift around the stage.
+            // Keep this independent of the mascot so camera motion always runs.
+            if (cinematicCamera != null)
+            {
+                float t = Time.time;
+                Vector3 desired = cameraBasePosition;
+                desired.x += Mathf.Sin(t * 0.19f) * 1.15f + Mathf.Sin(t * 0.071f) * 0.28f;
+                desired.y += Mathf.Sin(t * 0.13f + 0.8f) * 0.24f;
+                desired.z += Mathf.Cos(t * 0.16f) * 0.55f;
+                cinematicCamera.position = Vector3.Lerp(cinematicCamera.position, desired, Time.deltaTime * 0.7f);
+
+                Vector3 look = cameraLookTarget + new Vector3(
+                    Mathf.Sin(t * 0.12f) * 0.22f,
+                    0f,
+                    Mathf.Cos(t * 0.15f) * 0.16f);
+                Quaternion targetRotation = Quaternion.LookRotation(look - cinematicCamera.position, Vector3.up);
+                cinematicCamera.rotation = Quaternion.Slerp(
+                    cinematicCamera.rotation, targetRotation, Time.deltaTime * 0.8f);
+            }
         }
 
         private void ShowGradeSelection()
@@ -529,7 +551,9 @@ namespace Tiizino.Gameplay
                 cam = cameraObject.AddComponent<Camera>();
             }
             cam.transform.position = new Vector3(0f, 8.5f, -12f);
-            cam.transform.rotation = Quaternion.Euler(32f, 0f, 0f);
+            cam.transform.rotation = Quaternion.LookRotation(cameraLookTarget - cam.transform.position, Vector3.up);
+            cameraBasePosition = cam.transform.position;
+            cinematicCamera = cam.transform;
             cam.fieldOfView = 43f;
             cam.clearFlags = CameraClearFlags.SolidColor;
             cam.backgroundColor = new Color(0.075f, 0.13f, 0.19f);
