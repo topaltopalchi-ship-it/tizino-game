@@ -26,14 +26,14 @@ namespace Tiizino.Gameplay
                 || string.IsNullOrWhiteSpace(explanation))
                 return false;
 
-            HashSet<string> normalizedOptions = new HashSet<string>(StringComparer.Ordinal);
+            HashSet<string> normalizedOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             for (int i = 0; i < options.Length; i++)
             {
                 if (string.IsNullOrWhiteSpace(options[i]))
                     return false;
 
                 // Treat whitespace and compatibility-equivalent glyphs consistently.
-                string normalizedOption = options[i].Normalize(NormalizationForm.FormKC).Trim();
+                string normalizedOption = options[i].Normalize(NormalizationForm.FormKC).Trim().ToUpperInvariant();
                 normalizedOption = string.Join(" ", normalizedOption.Split((char[])null,
                     StringSplitOptions.RemoveEmptyEntries));
                 if (!normalizedOptions.Add(normalizedOption))
