@@ -142,10 +142,11 @@ check(bootstrap.includes("new System.Collections.Generic.List<EditorBuildSetting
 const validator = readFileSync(new URL("../Assets/Editor/TiizinoProjectValidator.cs", import.meta.url), "utf8");
 check(validator.includes('MenuItem("Tools/Tiizino/Validate Project Setup")'),
   "Unity editor must expose a setup validation command");
-check(validator.includes("Stage01_FourLevels_DRAFT.json")
+check(validator.includes("Grade1_QuestionBank.json")
+  && validator.includes("Grade2_QuestionBank.json")
   && validator.includes("correctOptionIndex")
   && validator.includes("EditorBuildSettings.scenes"),
-  "Setup validator must check the question bank and build scene settings");
+  "Setup validator must check both starter-grade question banks and build scene settings");
 check(validator.includes("does not compile the project or verify Android/device behavior"),
   "Setup validator must not imply it replaces a real Unity/device build");
 const manifest = JSON.parse(readFileSync(new URL("../Packages/manifest.json", import.meta.url), "utf8"));
