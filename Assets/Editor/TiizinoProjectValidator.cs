@@ -123,6 +123,30 @@ namespace Tiizino.EditorTools
                 }
             }
 
+            if (!File.Exists("ProjectSettings/ProjectVersion.txt"))
+            {
+                Debug.LogError("Tiizino setup: ProjectSettings/ProjectVersion.txt is missing.");
+                hasErrors = true;
+            }
+            else
+            {
+                string projectVersion = File.ReadAllText("ProjectSettings/ProjectVersion.txt");
+                if (!projectVersion.Contains("6000.0.32f1"))
+                    Debug.LogWarning("Tiizino setup: project Editor version differs from the documented Unity 6000.0.32f1 baseline.");
+            }
+
+            string projectSettingsPath = "ProjectSettings/ProjectSettings.asset";
+            if (!File.Exists(projectSettingsPath))
+            {
+                Debug.LogWarning("Tiizino setup: ProjectSettings.asset is missing; confirm this is a complete Unity project.");
+            }
+            else
+            {
+                string settings = File.ReadAllText(projectSettingsPath);
+                if (!settings.Contains("com.tiizino.game"))
+                    Debug.LogWarning("Tiizino setup: Android package identifier is not yet set to com.tiizino.game; run Prepare Android Build.");
+            }
+
             bool sceneExists = File.Exists(ScenePath);
             bool sceneEnabled = false;
             EditorBuildSettingsScene[] scenes = EditorBuildSettings.scenes;
