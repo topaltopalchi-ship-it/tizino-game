@@ -342,6 +342,6 @@ check(gradePreview.includes("function choose(choice)")
   && gradePreview.includes("q.correctOptionIndex")
   && gradePreview.includes("q.explanation"),
   "Playable grade preview must check answers and show explanatory feedback");
-const gradePreviewScript = gradePreview.match(/<script\\b[^>]*>([\\s\\S]*?)<\\/script>/i)?.[1];
+const gradePreviewScript = gradePreview.split("<script>")[1]?.split("</script>")[0];
 check(Boolean(gradePreviewScript), "Could not extract playable grade preview script");
 new Function(gradePreviewScript);
