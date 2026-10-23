@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 
 const html = readFileSync(new URL("../Preview/index.html", import.meta.url), "utf8");
 const check = (condition, message) => assert.ok(condition, message);
@@ -45,3 +46,27 @@ for (const [i, line] of questionLines.entries()) {
 }
 
 console.log("Preview smoke checks passed (static checks and JavaScript syntax only).");
+
+const levelBankPath = new URL("../Assets/_Tiizino/Data/Questions/Stage01_FourLevels_DRAFT.json", import.meta.url);
+const levelBank = JSON.parse(readFileSync(levelBankPath, "utf8"));
+check(levelBank.stageId === "stage01_bridge", "Four-level bank must identify stage01_bridge");
+check(Array.isArray(levelBank.levels) && levelBank.levels.length === 4, "Draft bank must contain exactly four levels");
+for (const [levelIndex, level] of levelBank.levels.entries()) {
+  check(level.levelId === levelIndex + 1, `Level ${levelIndex + 1} must have a sequential levelId`);
+  check(typeof level.name === "string" && level.name.trim().length > 0, `Level ${levelIndex + 1} needs a name`);
+  check(Array.isArray(level.questions) && level.questions.length >= 2, `Level ${levelIndex + 1} needs at least two questions`);
+  for (const [questionIndex, question] of level.questions.entries()) {
+    check(typeof question.prompt === "string" && question.prompt.trim().length > 0,
+      `Level ${levelIndex + 1}, question ${questionIndex + 1} needs a prompt`);
+    check(Array.isArray(question.options) && question.options.length === 3,
+      `Level ${levelIndex + 1}, question ${questionIndex + 1} must have three options`);
+    check(question.options.every(option => typeof option === "string" && option.trim().length > 0),
+      `Level ${levelIndex + 1}, question ${questionIndex + 1} has an empty option`);
+    check(Number.isInteger(question.correctOptionIndex)
+      && question.correctOptionIndex >= 0 && question.correctOptionIndex < question.options.length,
+      `Level ${levelIndex + 1}, question ${questionIndex + 1} has an invalid answer index`);
+    check(typeof question.explanation === "string" && question.explanation.trim().length > 0,
+      `Level ${levelIndex + 1}, question ${questionIndex + 1} needs feedback text`);
+  }
+}
+console.log("Four-level draft question bank structure validated.");
