@@ -5,6 +5,7 @@ on:
     paths:
       - "Preview/**"
       - "Tests/**"
+      - "Assets/_Tiizino/Data/Questions/**"
       - ".github/workflows/preview-check.yml"
   pull_request:
     paths:
