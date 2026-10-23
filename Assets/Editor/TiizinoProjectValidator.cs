@@ -34,6 +34,7 @@ namespace Tiizino.EditorTools
             public string[] options;
             public int correctOptionIndex;
             public string explanation;
+            public int difficulty;
         }
 
         [MenuItem("Tools/Tiizino/Validate Project Setup")]
@@ -146,7 +147,8 @@ namespace Tiizino.EditorTools
 
         private static bool IsValid(Question question)
         {
-            if (question == null || question.options == null || question.options.Length != 3) return false;
+            if (question == null || question.options == null || question.options.Length != 3
+                || question.difficulty < 1 || question.difficulty > 3) return false;
             if (string.Equals(NormalizeOption(question.options[0]), NormalizeOption(question.options[1]), StringComparison.OrdinalIgnoreCase)
                 || string.Equals(NormalizeOption(question.options[0]), NormalizeOption(question.options[2]), StringComparison.OrdinalIgnoreCase)
                 || string.Equals(NormalizeOption(question.options[1]), NormalizeOption(question.options[2]), StringComparison.OrdinalIgnoreCase)) return false;
