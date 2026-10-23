@@ -322,12 +322,12 @@ check(sceneBuilder.includes("if (!found)") && sceneBuilder.includes("scenes.Add(
   "Scene builder must add Stage 01 without dropping unrelated build scenes");
 check(sceneBuilder.includes("AssetDatabase.IsValidFolder(path)"),
   "Scene builder must avoid recreating an existing scene folder");
-const validatorPath = new URL("../Assets/Editor/TiizinoProjectValidator.cs", import.meta.url);
-const validator = readFileSync(validatorPath, "utf8");
-check(validator.includes("public int levelId;"),
+const validatorLevelIdsPath = new URL("../Assets/Editor/TiizinoProjectValidator.cs", import.meta.url);
+const validatorLevelIds = readFileSync(validatorLevelIdsPath, "utf8");
+check(validatorLevelIds.includes("public int levelId;"),
   "Unity project validator must deserialize each level ID");
-check(validator.includes("HashSet<int> seenLevelIds")
-  && validator.includes("level.levelId < 1 || !seenLevelIds.Add(level.levelId)"),
+check(validatorLevelIds.includes("HashSet<int> seenLevelIds")
+  && validatorLevelIds.includes("level.levelId < 1 || !seenLevelIds.Add(level.levelId)"),
   "Unity project validator must reject missing, non-positive, or duplicate level IDs");
 
 const gradePreviewPath = new URL("../Preview/grades.html", import.meta.url);
@@ -416,14 +416,14 @@ check(androidBuild.includes("SwitchActiveBuildTarget(BuildTargetGroup.Android, B
   && androidBuild.includes("Install Android Build Support"),
   "Android setup and APK build must switch targets and explain missing Android modules");
 
-const validatorPath = new URL("../Assets/Editor/TiizinoProjectValidator.cs", import.meta.url);
-const validator = readFileSync(validatorPath, "utf8");
-check(validator.includes("ProjectSettings/ProjectVersion.txt")
-  && validator.includes("6000.0.32f1"),
+const validatorAndroidPath = new URL("../Assets/Editor/TiizinoProjectValidator.cs", import.meta.url);
+const validatorAndroid = readFileSync(validatorAndroidPath, "utf8");
+check(validatorAndroid.includes("ProjectSettings/ProjectVersion.txt")
+  && validatorAndroid.includes("6000.0.32f1"),
   "Unity project validator must check the expected Editor version baseline");
-check(validator.includes("ProjectSettings/ProjectSettings.asset")
-  && validator.includes("com.tiizino.game")
-  && validator.includes("Prepare Android Build"),
+check(validatorAndroid.includes("ProjectSettings/ProjectSettings.asset")
+  && validatorAndroid.includes("com.tiizino.game")
+  && validatorAndroid.includes("Prepare Android Build"),
   "Unity project validator must flag missing or unconfigured Android player settings");
 
 // Keep the shipped first- and second-grade curricula intentionally small and predictable.
