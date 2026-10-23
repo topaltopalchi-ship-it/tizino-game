@@ -1,0 +1,159 @@
+{
+  "stageId": "grade1_forest_bridge",
+  "stageName": "grade1_forest_bridge",
+  "levels": [
+    {
+      "levelId": 1,
+      "name": "جنگل رنگ‌ها",
+      "skill": "الگوی ساده و تکرار",
+      "questions": [
+        {
+          "prompt": "قرمز، آبی، قرمز، آبی؛ بعدی چیست؟",
+          "options": [
+            "قرمز",
+            "آبی",
+            "سبز"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "قرمز و آبی یکی‌درمیان تکرار می‌شوند.",
+          "difficulty": 1
+        },
+        {
+          "prompt": "⭐ ⭐ 🌙 ⭐ ⭐؛ بعدی چیست؟",
+          "options": [
+            "🌙",
+            "⭐",
+            "☀️"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "دو ستاره و سپس ماه تکرار می‌شوند.",
+          "difficulty": 1
+        },
+        {
+          "prompt": "۱، ۲، ۳؛ بعدی کدام است؟",
+          "options": [
+            "۵",
+            "۴",
+            "۲"
+          ],
+          "correctOptionIndex": 1,
+          "explanation": "هر بار یک عدد اضافه می‌شود.",
+          "difficulty": 1
+        },
+        {
+          "prompt": "دایره، مربع، دایره، مربع؛ بعدی چیست؟",
+          "options": [
+            "مربع",
+            "مثلث",
+            "دایره"
+          ],
+          "correctOptionIndex": 2,
+          "explanation": "دایره و مربع نوبتی می‌آیند.",
+          "difficulty": 1
+        }
+      ]
+    },
+    {
+      "levelId": 2,
+      "name": "پل شکل‌ها",
+      "skill": "شناخت شکل و دسته‌بندی",
+      "questions": [
+        {
+          "prompt": "کدام شکل گوشه ندارد؟",
+          "options": [
+            "مربع",
+            "دایره",
+            "مثلث"
+          ],
+          "correctOptionIndex": 1,
+          "explanation": "دایره گوشه ندارد.",
+          "difficulty": 1
+        },
+        {
+          "prompt": "کدام شکل سه گوشه دارد؟",
+          "options": [
+            "مثلث",
+            "دایره",
+            "مربع"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "مثلث سه گوشه دارد.",
+          "difficulty": 1
+        },
+        {
+          "prompt": "کدام یکی میوه نیست؟",
+          "options": [
+            "سیب",
+            "موز",
+            "کفش"
+          ],
+          "correctOptionIndex": 2,
+          "explanation": "کفش میوه نیست.",
+          "difficulty": 1
+        },
+        {
+          "prompt": "کدام دو چیز برای باران مناسب‌ترند؟",
+          "options": [
+            "چتر و بارانی",
+            "قاشق و بشقاب",
+            "توپ و مداد"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "چتر و بارانی برای باران‌اند.",
+          "difficulty": 1
+        }
+      ]
+    },
+    {
+      "levelId": 3,
+      "name": "مسیر شمارش",
+      "skill": "شمارش و منطق روزمره",
+      "questions": [
+        {
+          "prompt": "سه پرنده روی شاخه‌اند؛ یکی دیگر می‌آید. چند پرنده داریم؟",
+          "options": [
+            "۲",
+            "۳",
+            "۴"
+          ],
+          "correctOptionIndex": 2,
+          "explanation": "سه به‌علاوهٔ یک می‌شود چهار.",
+          "difficulty": 1
+        },
+        {
+          "prompt": "برای بازکردن در، کلید لازم است. کدام را باید پیدا کنی؟",
+          "options": [
+            "کلید",
+            "بالش",
+            "لیوان"
+          ],
+          "correctOptionIndex": 0,
+          "explanation": "کلید در را باز می‌کند.",
+          "difficulty": 1
+        },
+        {
+          "prompt": "کدام عدد از ۵ کوچک‌تر است؟",
+          "options": [
+            "۷",
+            "۴",
+            "۶"
+          ],
+          "correctOptionIndex": 1,
+          "explanation": "چهار از پنج کوچک‌تر است.",
+          "difficulty": 1
+        },
+        {
+          "prompt": "یک جوراب قرمز و یک جوراب آبی داریم. چند جوراب داریم؟",
+          "options": [
+            "۱",
+            "۲",
+            "۳"
+          ],
+          "correctOptionIndex": 1,
+          "explanation": "یک به‌علاوهٔ یک، دو جوراب است.",
+          "difficulty": 1
+        }
+      ]
+    }
+  ]
+}
