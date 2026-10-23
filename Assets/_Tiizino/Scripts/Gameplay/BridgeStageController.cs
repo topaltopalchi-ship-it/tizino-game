@@ -110,6 +110,12 @@ namespace Tiizino.Gameplay
             }
         }
 
+        private void OnDisable()
+        {
+            CancelInvoke();
+            speechService?.Stop();
+        }
+
         private void ShowGradeSelection()
         {
             if (titleScreenRoot != null) Destroy(titleScreenRoot);
@@ -244,6 +250,7 @@ namespace Tiizino.Gameplay
             }
             // Reset runtime state so rebuilding the stage always starts cleanly.
             CancelInvoke();
+            speechService?.Stop();
             questionIndex = 0;
             stars = 0;
             currentLevelIndex = 0;
