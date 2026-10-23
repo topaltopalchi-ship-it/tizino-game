@@ -125,6 +125,9 @@ check(bootstrap.includes("stage.AddComponent<BridgeStageController>()"),
   "Stage bootstrap must attach the runtime controller");
 check(bootstrap.includes('"/Stage01_Bridge.unity"'),
   "Stage bootstrap must save the expected scene path");
+check(bootstrap.includes("new System.Collections.Generic.List<EditorBuildSettingsScene>(")
+  && bootstrap.includes("scenes.Add(new EditorBuildSettingsScene(ScenePath, true))"),
+  "Stage bootstrap must preserve existing build scenes and append the stage");
 const manifest = JSON.parse(readFileSync(new URL("../Packages/manifest.json", import.meta.url), "utf8"));
 check(manifest.dependencies["com.unity.ugui"] === "2.0.0",
   "Unity package manifest must include the UI package");
