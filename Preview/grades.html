@@ -23,7 +23,8 @@ let grade=1,bank=null,levelIndex=0,questionIndex=0,stars=0,locked=false,timer=nu
 const fa=n=>String(n).replace(/[0-9]/g,d=>"۰۱۲۳۴۵۶۷۸۹"[Number(d)]);
 function currentLevel(){return bank?.levels?.[levelIndex]??null}
 function currentQuestion(){return currentLevel()?.questions?.[questionIndex]??null}
-function stopTimer(){if(timer!==null){clearTimeout(timer);timer=null}}\nfunction setFeedback(message,state="neutral"){const el=$("feedback");el.textContent=message;el.classList.remove("correct","incorrect","neutral");el.classList.add(state)}
+function stopTimer(){if(timer!==null){clearTimeout(timer);timer=null}}
+function setFeedback(message,state="neutral"){const el=$("feedback");el.textContent=message;el.classList.remove("correct","incorrect","neutral");el.classList.add(state)}
 function setGradeButtons(){for(const g of [1,2])$("grade"+g).setAttribute("aria-pressed",String(g===grade))}
 function render(){
  locked=false;const level=currentLevel(),q=currentQuestion();$("stars").textContent=fa(stars);
