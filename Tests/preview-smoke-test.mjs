@@ -100,6 +100,19 @@ check(levelBank.levels.every(level => level.questions.length === 10),
   "Each of the four stage levels must contain ten questions in this draft");
 check(levelBank.levels.every(level => typeof level.skill === "string" && level.skill.trim()),
   "Every level must declare its learning skill");
+
+const normalizedPrompts = new Set();
+for (const [levelIndex, level] of levelBank.levels.entries()) {
+  for (const [questionIndex, question] of level.questions.entries()) {
+    const normalizedPrompt = question.prompt.normalize("NFKC").trim().toLocaleUpperCase("fa");
+    const compactPrompt = normalizedPrompt.split(/\\s+/u).filter(Boolean).join(" ");
+    check(!normalizedPrompts.has(compactPrompt),
+      `Level ${levelIndex + 1}, question ${questionIndex + 1} repeats an earlier prompt after Unicode/whitespace normalization`);
+    normalizedPrompts.add(compactPrompt);
+  }
+}
+check(normalizedPrompts.size === cumulativeQuestionCount,
+  "Every question across all four levels must have a distinct normalized prompt");
 console.log("Four-level draft question bank structure and boundaries validated.");
 
 const controllerPath = new URL("../Assets/_Tiizino/Scripts/Gameplay/BridgeStageController.cs", import.meta.url);
