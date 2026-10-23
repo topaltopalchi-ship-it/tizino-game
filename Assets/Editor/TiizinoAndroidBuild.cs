@@ -37,11 +37,19 @@ namespace Tiizino.EditorTools
             }
             ConfigurePlayerSettings();
 
+            // Bootstrap the playable scene automatically so the APK command is one-click
+            // in a clean checkout rather than requiring a separate manual editor step.
             if (!File.Exists(StageScene))
             {
-                EditorUtility.DisplayDialog("تیزینو — صحنه موجود نیست",
-                    "ابتدا از مسیر Tools > Tiizino > Create Stage 01 Scene صحنه را بسازید؛ سپس دوباره APK بگیرید.", "باشه");
-                Debug.LogError("Tiizino Android build stopped: Stage 01 scene is missing at " + StageScene);
+                TiizinoSceneBuilder.CreateStage01Scene();
+                AssetDatabase.Refresh();
+            }
+
+            if (!File.Exists(StageScene))
+            {
+                EditorUtility.DisplayDialog("تیزینو — ساخت صحنه ناموفق بود",
+                    "Unity نتوانست صحنهٔ مرحلهٔ اول را بسازد. Console را بررسی کنید.", "باشه");
+                Debug.LogError("Tiizino Android build stopped: Stage 01 scene could not be generated at " + StageScene);
                 return;
             }
 
