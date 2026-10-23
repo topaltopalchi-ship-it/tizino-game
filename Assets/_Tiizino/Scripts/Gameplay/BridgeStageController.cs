@@ -449,7 +449,7 @@ namespace Tiizino.Gameplay
             else
             {
                 // Keep the explanation hidden until the child answers correctly.
-                feedbackText.text = "یک بار دیگر فکر کن! به الگو و گزینه‌ها دقت کن."
+                feedbackText.text = "یک بار دیگر فکر کن! به الگو و گزینه‌ها دقت کن.";
             }
 
             if (correct)
