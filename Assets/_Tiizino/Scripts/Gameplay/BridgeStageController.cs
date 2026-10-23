@@ -393,6 +393,8 @@ namespace Tiizino.Gameplay
                     return;
                 }
 
+                System.Collections.Generic.HashSet<string> seenPrompts =
+                    new System.Collections.Generic.HashSet<string>(System.StringComparer.Ordinal);
                 for (int i = 0; i < flattened.Count; i++)
                 {
                     if (flattened[i] == null || !flattened[i].IsValid())
@@ -400,11 +402,18 @@ namespace Tiizino.Gameplay
                         Debug.LogWarning("Tiizino: invalid question at JSON index " + i + "; using built-in sample questions.", this);
                         return;
                     }
+                    string normalizedPrompt = string.Join(" ",
+                        flattened[i].prompt.Trim().Split((char[])null, System.StringSplitOptions.RemoveEmptyEntries));
+                    if (!seenPrompts.Add(normalizedPrompt))
+                    {
+                        Debug.LogWarning("Tiizino: question " + i + " duplicates an earlier prompt; using built-in sample questions.", this);
+                        return;
+                    }
                     for (int optionIndex = 0; optionIndex < flattened[i].options.Length; optionIndex++)
                     {
                         for (int previousIndex = 0; previousIndex < optionIndex; previousIndex++)
                         {
-                            if (string.Equals(flattened[i].options[optionIndex], flattened[i].options[previousIndex],
+                            if (string.Equals(flattened[i].options[optionIndex]?.Trim(), flattened[i].options[previousIndex]?.Trim(),
                                 System.StringComparison.Ordinal))
                             {
                                 Debug.LogWarning("Tiizino: question " + i + " contains duplicate options; using built-in sample questions.", this);
