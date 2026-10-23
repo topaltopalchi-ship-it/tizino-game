@@ -137,9 +137,11 @@ namespace Tiizino.Gameplay
             if (shader == null) shader = Shader.Find("Standard");
             if (shader != null)
             {
-                Material material = new Material(shader);
-                material.color = color;
-                renderer.material = material;
+                MaterialPropertyBlock properties = new MaterialPropertyBlock();
+                renderer.GetPropertyBlock(properties);
+                properties.SetColor("_BaseColor", color);
+                properties.SetColor("_Color", color);
+                renderer.SetPropertyBlock(properties);
             }
         }
 
@@ -171,6 +173,7 @@ namespace Tiizino.Gameplay
         private void CreateUI()
         {
             GameObject canvasObject = new GameObject("Tiizino UI");
+            canvasObject.transform.SetParent(bridgeRoot.transform, false);
             Canvas canvas = canvasObject.AddComponent<Canvas>();
             canvas.renderMode = RenderMode.ScreenSpaceOverlay;
             CanvasScaler scaler = canvasObject.AddComponent<CanvasScaler>();
