@@ -141,10 +141,7 @@ namespace Tiizino.EditorTools
             if (string.Equals(question.options[0]?.Trim(), question.options[1]?.Trim(), StringComparison.Ordinal)
                 || string.Equals(question.options[0]?.Trim(), question.options[2]?.Trim(), StringComparison.Ordinal)
                 || string.Equals(question.options[1]?.Trim(), question.options[2]?.Trim(), StringComparison.Ordinal)) return false;
-            return question != null
-                && !string.IsNullOrWhiteSpace(question.prompt)
-                && question.options != null
-                && question.options.Length == 3
+            return !string.IsNullOrWhiteSpace(question.prompt)
                 && !string.IsNullOrWhiteSpace(question.options[0])
                 && !string.IsNullOrWhiteSpace(question.options[1])
                 && !string.IsNullOrWhiteSpace(question.options[2])
