@@ -85,9 +85,11 @@ for (const level of levelBank.levels) {
   cumulativeQuestionCount += level.questions.length;
   expectedLevelEnds.push(cumulativeQuestionCount);
 }
-check(expectedLevelEnds.length === 4 && expectedLevelEnds.every((end, i) => end === [2, 4, 6, 8][i]),
-  "Current draft bank should produce cumulative level ends [2, 4, 6, 8]");
-check(cumulativeQuestionCount === 8, "Current stage draft must contain eight questions total");
+check(expectedLevelEnds.length === 4 && expectedLevelEnds.every((end, i) => end === [10, 20, 30, 40][i]),
+  "Expanded stage draft should produce cumulative level ends [10, 20, 30, 40]");
+check(cumulativeQuestionCount === 40, "Expanded stage draft must contain forty questions total");
+check(levelBank.levels.every(level => level.questions.length === 10),
+  "Each of the four stage levels must contain ten questions in this draft");
 check(levelBank.levels.every(level => typeof level.skill === "string" && level.skill.trim()),
   "Every level must declare its learning skill");
 console.log("Four-level draft question bank structure and boundaries validated.");
