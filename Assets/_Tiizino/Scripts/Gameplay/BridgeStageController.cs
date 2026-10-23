@@ -325,6 +325,13 @@ namespace Tiizino.Gameplay
                 new Vector2(0.5f, 0.62f), new Vector2(0.55f, 0.055f));
             repeatButton.GetComponentInChildren<Text>().text = "شنیدن دوبارهٔ سؤال";
             repeatButton.onClick.AddListener(RepeatCurrentQuestion);
+
+            Button soundTestButton = CreateButton(canvasObject.transform, "Test Completion Sound",
+                new Vector2(0.5f, 0.56f), new Vector2(0.48f, 0.04f));
+            soundTestButton.GetComponentInChildren<Text>().text = "آزمایش صدای پایان مرحله";
+            soundTestButton.onClick.AddListener(PlayStageCompleteSound);
+            soundTestButton.interactable = stageCompleteClip != null;
+
             int optionCount = options.Length > 0 && options[0] != null ? options[0].Length : 0;
             answerButtons = new Button[optionCount];
             for (int i = 0; i < answerButtons.Length; i++)
