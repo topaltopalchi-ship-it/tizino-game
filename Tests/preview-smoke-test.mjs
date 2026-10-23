@@ -112,6 +112,9 @@ check(controller.includes("CurrentLevelEnd()"), "Unity controller must track the
 check(controller.includes("ContinueToNextLevel()"), "Unity controller must provide explicit next-level flow");
 check(controller.includes("parsedLevelEnds.Add(flattened.Count)"), "Unity controller must derive level boundaries from question data");
 check(controller.includes("لول ") && controller.includes("از "), "Unity controller should display current level progress");
+check(controller.includes('Tiizino.Grade" + grade + ".BestStars'), "Unity controller must persist a separate best-star record for each grade");
+check(controller.includes("TextAnchor.MiddleRight"), "Persian gameplay text should use right alignment");
+check(controller.includes("بهترین رکورد"), "Grade selection should show the saved best score");
 check(!controller.includes("PlayCompletionChime"), "No stage completion chime should be added");
 const chooseAnswerStart = controller.indexOf("private void ChooseAnswer(int choice)");
 const chooseAnswerEnd = controller.indexOf("private void AllowRetry()", chooseAnswerStart);
