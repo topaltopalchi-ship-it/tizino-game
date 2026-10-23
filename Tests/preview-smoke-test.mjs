@@ -389,3 +389,24 @@ for (const grade of [1, 2]) {
   }
   check(totalQuestions > 0, `Grade ${grade} bank must contain at least one question`);
 }
+
+
+const androidBuildPath = new URL("../Assets/Editor/TiizinoAndroidBuild.cs", import.meta.url);
+const androidBuild = readFileSync(androidBuildPath, "utf8");
+check(androidBuild.includes('MenuItem("Tools/Tiizino/Prepare Android Build")')
+  && androidBuild.includes('MenuItem("Tools/Tiizino/Build Android APK")'),
+  "Unity Editor must expose Android setup and APK build commands");
+check(androidBuild.includes('SetApplicationIdentifier(BuildTargetGroup.Android, PackageId)')
+  && androidBuild.includes('com.tiizino.game'),
+  "Android build setup must assign the package identifier");
+check(androidBuild.includes("AndroidSdkVersions.AndroidApiLevel23")
+  && androidBuild.includes("AndroidArchitecture.ARM64")
+  && androidBuild.includes("ScriptingImplementation.IL2CPP"),
+  "Android build setup must configure a minimum API, ARM64, and IL2CPP");
+check(androidBuild.includes('locationPathName = OutputPath')
+  && androidBuild.includes('"Builds/Android/Tiizino.apk"')
+  && androidBuild.includes("BuildPipeline.BuildPlayer(options)"),
+  "Android build command must target a predictable local APK output");
+check(androidBuild.includes("File.Exists(StageScene)")
+  && androidBuild.includes("EditorBuildSettings.scenes"),
+  "Android build must stop if the stage scene is missing or disabled");
