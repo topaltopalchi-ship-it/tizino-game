@@ -127,6 +127,7 @@ check(controller.includes("private void OnDisable()") && controller.includes("sp
 check(controller.includes("if (musicSource != null) musicSource.Stop();"), "Disabling the controller must stop music on its generated child AudioSource");
 check(controller.includes("private void OnEnable()") && controller.includes("musicEnabled && musicSource != null && !musicSource.isPlaying") && controller.includes("musicSource.Play();"), "Re-enabling the controller must resume background music when the saved preference is on");
 check(controller.includes("if (button != null && button.gameObject.activeInHierarchy)") && controller.includes("button.interactable = true;"), "Re-enabling the stage must not leave answer controls locked after a cancelled callback");
+check(controller.includes("private void ClearOldStage()"), "Stage cleanup method is missing");
 check(controller.includes("private bool currentQuestionResolved;"), "Unity controller must track whether the current question already awarded a reward");
 const rebuildStart = controller.indexOf("public void BuildStage()");
 const rebuildEnd = controller.indexOf("private sealed class QuestionBank", rebuildStart);
