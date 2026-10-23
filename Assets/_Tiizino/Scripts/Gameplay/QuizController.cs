@@ -15,6 +15,7 @@ namespace Tiizino.Gameplay
 
         private int currentIndex;
         private bool answeredCurrent;
+        private bool quizCompleted;
 
         public int QuestionCount => questions == null ? 0 : questions.Length;
         public int CurrentIndex => currentIndex;
@@ -22,12 +23,26 @@ namespace Tiizino.Gameplay
         private void Start()
         {
             currentIndex = 0;
+            answeredCurrent = false;
+            quizCompleted = false;
             ShowCurrentQuestion();
         }
 
         public void SubmitAnswer(int optionIndex)
         {
-            if (questions == null || currentIndex >= questions.Length || answeredCurrent)
+            if (questions == null || currentIndex < 0 || currentIndex >= questions.Length
+                || answeredCurrent || quizCompleted)
+                return;
+
+            if (optionIndex < 0 || questions[currentIndex] == null
+                || questions[currentIndex].options == null
+                || optionIndex >= questions[currentIndex].options.Length)
+            {
+                Debug.LogWarning($"Tiizino: answer option index {optionIndex} is out of range.", this);
+                return;
+            }
+
+            if (currentIndex < 0 || currentIndex >= questions.Length)
                 return;
 
             QuestionData question = questions[currentIndex];
@@ -44,13 +59,18 @@ namespace Tiizino.Gameplay
 
         public void Continue()
         {
-            if (questions == null || currentIndex >= questions.Length)
+            if (questions == null || currentIndex < 0 || currentIndex >= questions.Length
+                || quizCompleted || !answeredCurrent)
                 return;
 
             currentIndex++;
             answeredCurrent = false;
             if (currentIndex >= questions.Length)
+            {
+                quizCompleted = true;
+                speechService?.Stop();
                 onQuizCompleted?.Invoke();
+            }
             else
                 ShowCurrentQuestion();
         }
