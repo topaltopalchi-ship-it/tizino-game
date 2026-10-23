@@ -86,6 +86,16 @@ namespace Tiizino.Gameplay
         private sealed class QuestionBank
         {
             public QuestionData[] questions;
+            public LevelData[] levels;
+        }
+
+        [System.Serializable]
+        private sealed class LevelData
+        {
+            public int levelId;
+            public string name;
+            public string skill;
+            public QuestionData[] questions;
         }
 
         private void ResetBuiltInQuestionBank()
@@ -126,38 +136,55 @@ namespace Tiizino.Gameplay
             try
             {
                 QuestionBank bank = JsonUtility.FromJson<QuestionBank>(questionBankJson.text);
-                if (bank == null || bank.questions == null || bank.questions.Length == 0)
+                if (bank == null)
                 {
                     Debug.LogWarning("Tiizino: question bank is empty; using built-in sample questions.", this);
                     return;
                 }
 
-                int validCount = 0;
-                for (int i = 0; i < bank.questions.Length; i++)
+                // Accept the original flat format and the new four-level format.
+                System.Collections.Generic.List<QuestionData> flattened =
+                    new System.Collections.Generic.List<QuestionData>();
+                if (bank.levels != null && bank.levels.Length > 0)
                 {
-                    if (bank.questions[i] != null && bank.questions[i].IsValid())
-                        validCount++;
-                    else
-                        Debug.LogWarning("Tiizino: invalid question at JSON index " + i + ".", this);
+                    for (int levelIndex = 0; levelIndex < bank.levels.Length; levelIndex++)
+                    {
+                        LevelData level = bank.levels[levelIndex];
+                        if (level == null || level.questions == null || level.questions.Length == 0)
+                        {
+                            Debug.LogWarning("Tiizino: level " + (levelIndex + 1) + " has no questions; using built-in sample questions.", this);
+                            return;
+                        }
+                        foreach (QuestionData question in level.questions)
+                            flattened.Add(question);
+                    }
+                }
+                else if (bank.questions != null)
+                {
+                    flattened.AddRange(bank.questions);
                 }
 
-                if (validCount != bank.questions.Length)
+                if (flattened.Count == 0)
                 {
-                    Debug.LogWarning("Tiizino: JSON bank contains invalid questions; using built-in sample questions.", this);
+                    Debug.LogWarning("Tiizino: question bank is empty; using built-in sample questions.", this);
                     return;
                 }
 
-                int expectedOptionCount = bank.questions[0].options.Length;
-                for (int i = 1; i < bank.questions.Length; i++)
+                for (int i = 0; i < flattened.Count; i++)
                 {
-                    if (bank.questions[i].options.Length != expectedOptionCount)
+                    if (flattened[i] == null || !flattened[i].IsValid())
                     {
-                        Debug.LogWarning("Tiizino: every question in the JSON bank must have the same number of options; using built-in sample questions.", this);
+                        Debug.LogWarning("Tiizino: invalid question at JSON index " + i + "; using built-in sample questions.", this);
+                        return;
+                    }
+                    if (i > 0 && flattened[i].options.Length != flattened[0].options.Length)
+                    {
+                        Debug.LogWarning("Tiizino: every question must have the same number of options; using built-in sample questions.", this);
                         return;
                     }
                 }
 
-                int count = bank.questions.Length;
+                int count = flattened.Count;
                 prompts = new string[count];
                 options = new string[count][];
                 answers = new int[count];
@@ -166,7 +193,7 @@ namespace Tiizino.Gameplay
 
                 for (int i = 0; i < count; i++)
                 {
-                    QuestionData question = bank.questions[i];
+                    QuestionData question = flattened[i];
                     prompts[i] = question.prompt;
                     options[i] = question.options;
                     answers[i] = question.correctOptionIndex;
