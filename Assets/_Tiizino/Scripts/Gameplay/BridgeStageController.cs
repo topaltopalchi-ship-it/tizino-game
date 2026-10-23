@@ -747,9 +747,17 @@ namespace Tiizino.Gameplay
 
         private void ShowQuestion()
         {
+            int levelStart = currentLevelIndex == 0 || levelEndIndices == null
+                ? 0 : levelEndIndices[currentLevelIndex - 1];
+            int levelEnd = CurrentLevelEnd();
+            int questionsInLevel = Mathf.Max(1, levelEnd - levelStart);
+            int questionInLevel = Mathf.Clamp(questionIndex - levelStart + 1, 1, questionsInLevel);
             if (levelText != null)
-                levelText.text = "لول " + (currentLevelIndex + 1) + " از " + levelNames.Length + " — " + levelNames[currentLevelIndex];
-            if (questionIndex >= CurrentLevelEnd())
+                levelText.text = "لول " + ToPersianDigits(currentLevelIndex + 1)
+                    + " از " + ToPersianDigits(levelNames.Length) + " — " + levelNames[currentLevelIndex]
+                    + "  |  پرسش " + ToPersianDigits(questionInLevel)
+                    + " از " + ToPersianDigits(questionsInLevel);
+            if (questionIndex >= levelEnd)
             {
                 foreach (Button button in answerButtons) button.gameObject.SetActive(false);
                 if (continueLevelButton != null) continueLevelButton.gameObject.SetActive(currentLevelIndex + 1 < levelNames.Length);
