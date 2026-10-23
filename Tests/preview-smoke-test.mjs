@@ -78,6 +78,9 @@ for (const [levelIndex, level] of levelBank.levels.entries()) {
       `Level ${levelIndex + 1}, question ${questionIndex + 1} has an empty option`);
     check(new Set(question.options).size === question.options.length,
       `Level ${levelIndex + 1}, question ${questionIndex + 1} has duplicate answer options`);
+    const normalizedOptions = question.options.map(option => option.normalize("NFKC").trim().replace(/\s+/gu, " ").toLocaleUpperCase("fa"));
+    check(new Set(normalizedOptions).size === normalizedOptions.length,
+      `Level ${levelIndex + 1}, question ${questionIndex + 1} has duplicate options after Unicode/whitespace normalization`);
     check(Number.isInteger(question.difficulty) && question.difficulty >= 1 && question.difficulty <= 3,
       `Level ${levelIndex + 1}, question ${questionIndex + 1} needs difficulty from 1 to 3`);
     check(Number.isInteger(question.correctOptionIndex)
