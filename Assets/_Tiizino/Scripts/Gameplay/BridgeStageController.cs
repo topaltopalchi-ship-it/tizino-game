@@ -431,8 +431,8 @@ namespace Tiizino.Gameplay
                     {
                         for (int previousIndex = 0; previousIndex < optionIndex; previousIndex++)
                         {
-                            if (string.Equals(flattened[i].options[optionIndex]?.Trim(), flattened[i].options[previousIndex]?.Trim(),
-                                System.StringComparison.Ordinal))
+                            if (string.Equals(NormalizeOption(flattened[i].options[optionIndex]),
+                                NormalizeOption(flattened[i].options[previousIndex]), System.StringComparison.OrdinalIgnoreCase))
                             {
                                 Debug.LogWarning("Tiizino: question " + i + " contains duplicate options; using built-in sample questions.", this);
                                 return;
@@ -483,6 +483,13 @@ namespace Tiizino.Gameplay
         {
             Transform old = transform.Find("GeneratedStage");
             if (old != null) Destroy(old.gameObject);
+        }
+
+        private static string NormalizeOption(string option)
+        {
+            return string.IsNullOrWhiteSpace(option)
+                ? string.Empty
+                : string.Join(" ", option.Trim().Split((char[])null, System.StringSplitOptions.RemoveEmptyEntries));
         }
 
         private void SetupBackgroundMusic()
