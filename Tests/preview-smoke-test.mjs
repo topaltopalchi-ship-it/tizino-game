@@ -349,3 +349,43 @@ new Function(gradePreviewScript);
 check(gradePreview.includes('id="questionCount"')
   && gradePreview.includes('level.name+" ("'),
   "Playable grade preview must show the current level name and question progress");
+
+
+check(gradePreview.includes(".feedback.correct{color:#08784d}")
+  && gradePreview.includes(".feedback.incorrect{color:#b42318}"),
+  "Correct and incorrect answer feedback must have distinct visual states");
+check(gradePreview.includes('setFeedback("آفرین! "+q.explanation,"correct")')
+  && gradePreview.includes('setFeedback("نزدیک بود! "+q.explanation,"incorrect")'),
+  "Answer feedback must assign the matching correct/incorrect state");
+
+for (const grade of [1, 2]) {
+  const bankPath = new URL(`../Assets/_Tiizino/Resources/Grade${grade}_QuestionBank.json`, import.meta.url);
+  const bank = JSON.parse(readFileSync(bankPath, "utf8"));
+  check(Array.isArray(bank.levels) && bank.levels.length > 0,
+    `Grade ${grade} bank must contain levels`);
+  const levelIds = new Set();
+  let totalQuestions = 0;
+  for (const [levelIndex, level] of bank.levels.entries()) {
+    check(Number.isInteger(level.levelId) && level.levelId > 0 && !levelIds.has(level.levelId),
+      `Grade ${grade}, level ${levelIndex + 1} must have a unique positive level ID`);
+    levelIds.add(level.levelId);
+    check(typeof level.name === "string" && level.name.trim().length > 0,
+      `Grade ${grade}, level ${levelIndex + 1} needs a name`);
+    check(Array.isArray(level.questions) && level.questions.length > 0,
+      `Grade ${grade}, level ${levelIndex + 1} needs questions`);
+    for (const [questionIndex, question] of level.questions.entries()) {
+      totalQuestions++;
+      check(typeof question.prompt === "string" && question.prompt.trim().length > 0,
+        `Grade ${grade}, level ${levelIndex + 1}, question ${questionIndex + 1} needs a prompt`);
+      check(Array.isArray(question.options) && question.options.length >= 2
+        && question.options.every(option => typeof option === "string" && option.trim().length > 0),
+        `Grade ${grade}, level ${levelIndex + 1}, question ${questionIndex + 1} needs valid options`);
+      check(Number.isInteger(question.correctOptionIndex)
+        && question.correctOptionIndex >= 0 && question.correctOptionIndex < question.options.length,
+        `Grade ${grade}, level ${levelIndex + 1}, question ${questionIndex + 1} has an invalid answer index`);
+      check(typeof question.explanation === "string" && question.explanation.trim().length > 0,
+        `Grade ${grade}, level ${levelIndex + 1}, question ${questionIndex + 1} needs an explanation`);
+    }
+  }
+  check(totalQuestions > 0, `Grade ${grade} bank must contain at least one question`);
+}
