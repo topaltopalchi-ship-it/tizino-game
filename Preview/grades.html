@@ -13,7 +13,7 @@
 <header><h1>✨ تیزینو و جزیرهٔ ستاره‌ها</h1><p>پیش‌نمایش قابل‌بازی پایهٔ اول و دوم</p></header>
 <main>
 <section class="panel" aria-labelledby="gradeHeading"><h2 id="gradeHeading">پایهٔ موردنظرت را انتخاب کن</h2><div class="grades"><button type="button" id="grade1" aria-pressed="true">پایهٔ اول</button><button type="button" id="grade2" aria-pressed="false">پایهٔ دوم</button></div><p id="bankStatus" class="feedback" role="status" aria-live="polite">در حال آماده‌سازی سؤال‌ها…</p></section>
-<section class="panel"><div class="progress"><span id="levelLabel">مرحلهٔ ۱</span><div class="track"><div id="fill" class="fill"></div></div><span>⭐ <b id="stars">۰</b></span></div><p id="questionCount" class="foot">سؤال ۱</p><h2 id="prompt">لطفاً صبر کن…</h2><div id="answers" class="answers"></div><p id="feedback" class="feedback" role="status" aria-live="polite"></p><div class="actions"><button id="repeat" class="action" type="button">🔁 نمایش دوبارهٔ سؤال</button><button id="restart" class="action primary" type="button">از اول بازی کن</button></div></section>
+<section class="panel"><div class="progress"><span id="levelLabel">مرحلهٔ ۱</span><div id="progressTrack" class="track" role="progressbar" aria-label="پیشرفت مرحله‌ها" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="fill" class="fill"></div></div><span>⭐ <b id="stars">۰</b></span></div><p id="questionCount" class="foot">سؤال ۱</p><h2 id="prompt">لطفاً صبر کن…</h2><div id="answers" class="answers"></div><p id="feedback" class="feedback" role="status" aria-live="polite"></p><div class="actions"><button id="repeat" class="action" type="button">🔁 نمایش دوبارهٔ سؤال</button><button id="restart" class="action primary" type="button">از اول بازی کن</button></div></section>
 <p class="foot">این پیش‌نمایش از بانک سؤال پایهٔ اول و دوم پروژه استفاده می‌کند. پیشرفت در این صفحه فقط برای همین نوبت بازی است.</p>
 </main>
 <script>
@@ -30,7 +30,7 @@ function render(){
  locked=false;const level=currentLevel(),q=currentQuestion();$("stars").textContent=fa(stars);
  $("levelLabel").textContent=level?level.name+" ("+fa(levelIndex+1)+"/"+fa(bank.levels.length)+")":"پایان";
  $("questionCount").textContent=level&&q?"سؤال "+fa(questionIndex+1)+" از "+fa(level.questions.length):"همهٔ سؤال‌ها تمام شد";
- $("fill").style.width=bank?((levelIndex+(level?questionIndex/Math.max(1,level.questions.length):1))/bank.levels.length*100)+"%":"0%";
+ const progress=bank?Math.min(100,Math.max(0,(levelIndex+(level?questionIndex/Math.max(1,level.questions.length):1))/bank.levels.length*100)):0;$("fill").style.width=progress+"%";$("progressTrack").setAttribute("aria-valuenow",String(Math.round(progress)));
  $("answers").replaceChildren();$("repeat").disabled=!q;
  if(!q){$("prompt").textContent="🎉 آفرین! همهٔ مرحله‌ها را تمام کردی."; setFeedback(fa(stars)+" ستاره گرفتی. برای بازی دوباره دکمه را بزن.","correct");return}
  $("prompt").textContent=q.prompt;setFeedback(level?.skill??"","neutral");
