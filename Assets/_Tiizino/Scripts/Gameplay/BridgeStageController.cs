@@ -380,6 +380,16 @@ namespace Tiizino.Gameplay
                 eventSystem.gameObject.AddComponent<UnityEngine.EventSystems.StandaloneInputModule>();
             }
 
+            // Persistent in-game grade switch for the two prepared starter banks.
+            Button gradeOneButton = CreateButton(canvasObject.transform, "Grade 1", new Vector2(0.28f, 0.985f),
+                new Vector2(0.34f, 0.045f));
+            gradeOneButton.GetComponentInChildren<Text>().text = "پایهٔ اول";
+            gradeOneButton.onClick.AddListener(() => SelectGrade(1));
+            Button gradeTwoButton = CreateButton(canvasObject.transform, "Grade 2", new Vector2(0.72f, 0.985f),
+                new Vector2(0.34f, 0.045f));
+            gradeTwoButton.GetComponentInChildren<Text>().text = "پایهٔ دوم";
+            gradeTwoButton.onClick.AddListener(() => SelectGrade(2));
+
             levelText = CreateText(canvasObject.transform, "Level", new Vector2(0.5f, 0.94f),
                 new Vector2(0.88f, 0.045f), 24, TextAnchor.MiddleCenter);
             promptText = CreateText(canvasObject.transform, "Prompt", new Vector2(0.5f, 0.84f),
@@ -407,6 +417,15 @@ namespace Tiizino.Gameplay
                 button.onClick.AddListener(() => ChooseAnswer(captured));
                 answerButtons[i] = button;
             }
+        }
+
+        private void SelectGrade(int grade)
+        {
+            PlayerPrefs.SetInt("Tiizino.SelectedGrade", Mathf.Clamp(grade, 1, 2));
+            PlayerPrefs.Save();
+            // Clear any Inspector override so the selected grade-specific resource is loaded.
+            questionBankJson = null;
+            BuildStage();
         }
 
         private Text CreateText(Transform parent, string name, Vector2 anchor, Vector2 size,
