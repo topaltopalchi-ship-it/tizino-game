@@ -448,7 +448,8 @@ namespace Tiizino.Gameplay
             }
             else
             {
-                feedbackText.text = "یک بار دیگر فکر کن! " + explanations[questionIndex];
+                // Keep the explanation hidden until the child answers correctly.
+                feedbackText.text = "یک بار دیگر فکر کن! به الگو و گزینه‌ها دقت کن."
             }
 
             if (correct)
