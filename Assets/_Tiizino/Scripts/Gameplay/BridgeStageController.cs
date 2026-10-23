@@ -439,7 +439,7 @@ namespace Tiizino.Gameplay
 
         private void SetupBackgroundMusic()
         {
-            musicEnabled = musicEnabledByDefault;
+            musicEnabled = PlayerPrefs.GetInt("Tiizino.MusicEnabled", musicEnabledByDefault ? 1 : 0) == 1;
             if (musicSource == null)
             {
                 musicSource = GetComponent<AudioSource>();
@@ -457,6 +457,8 @@ namespace Tiizino.Gameplay
         private void ToggleBackgroundMusic()
         {
             musicEnabled = !musicEnabled;
+            PlayerPrefs.SetInt("Tiizino.MusicEnabled", musicEnabled ? 1 : 0);
+            PlayerPrefs.Save();
             if (musicSource == null || backgroundMusic == null) return;
             if (musicEnabled)
             {
