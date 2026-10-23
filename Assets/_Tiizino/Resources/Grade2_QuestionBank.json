@@ -67,7 +67,7 @@
           ],
           "correctOptionIndex": 2,
           "explanation": "عدد ۸ بر ۲ بخش‌پذیر است.",
-          "difficulty": 1
+          "difficulty": 2
         },
         {
           "prompt": "کدام مورد با بقیه فرق دارد؟",
@@ -78,7 +78,7 @@
           ],
           "correctOptionIndex": 1,
           "explanation": "هویج سبزی است؛ دو مورد دیگر میوه‌اند.",
-          "difficulty": 1
+          "difficulty": 2
         },
         {
           "prompt": "کدام شکل چهار ضلع دارد؟",
@@ -89,7 +89,7 @@
           ],
           "correctOptionIndex": 1,
           "explanation": "مربع چهار ضلع دارد.",
-          "difficulty": 1
+          "difficulty": 2
         },
         {
           "prompt": "اگر همهٔ قایق‌ها روی آب حرکت کنند، کدام وسیله مناسب آب است؟",
@@ -100,7 +100,7 @@
           ],
           "correctOptionIndex": 0,
           "explanation": "قایق برای حرکت روی آب ساخته شده است.",
-          "difficulty": 1
+          "difficulty": 2
         }
       ]
     },
@@ -118,7 +118,7 @@
           ],
           "correctOptionIndex": 2,
           "explanation": "ندا از مینا و سارا کوتاه‌تر است.",
-          "difficulty": 1
+          "difficulty": 3
         },
         {
           "prompt": "۱۲ مهره داریم و ۴ مهره را برمی‌داریم. چند مهره می‌ماند؟",
@@ -129,7 +129,7 @@
           ],
           "correctOptionIndex": 0,
           "explanation": "۱۲ منهای ۴ برابر ۸ است.",
-          "difficulty": 1
+          "difficulty": 3
         },
         {
           "prompt": "یک چراغ در هر مرحله روشن و خاموش می‌شود. اگر اکنون روشن است، مرحلهٔ بعد چیست؟",
@@ -140,7 +140,7 @@
           ],
           "correctOptionIndex": 1,
           "explanation": "وضعیت هر بار عوض می‌شود.",
-          "difficulty": 1
+          "difficulty": 3
         },
         {
           "prompt": "سه جعبه داریم؛ توپ در جعبهٔ قرمز نیست و در جعبهٔ آبی است. توپ کجاست؟",
@@ -151,7 +151,7 @@
           ],
           "correctOptionIndex": 1,
           "explanation": "سرنخ می‌گوید توپ در جعبهٔ آبی است.",
-          "difficulty": 1
+          "difficulty": 3
         }
       ]
     }
