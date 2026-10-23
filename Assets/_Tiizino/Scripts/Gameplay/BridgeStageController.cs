@@ -67,7 +67,10 @@ namespace Tiizino.Gameplay
         private GameObject titleScreenRoot;
         private GameObject[] planks;
         private Transform mascotTransform;
-        private Vector3 mascotBasePosition;\n        private Transform cinematicCamera;\n        private Vector3 cameraLookTarget = new Vector3(0f, 0.25f, 0f);\n        private Vector3 cameraBasePosition;
+        private Vector3 mascotBasePosition;
+        private Transform cinematicCamera;
+        private Vector3 cameraLookTarget = new Vector3(0f, 0.25f, 0f);
+        private Vector3 cameraBasePosition;
 
         private void Start()
         {
@@ -448,14 +451,29 @@ namespace Tiizino.Gameplay
             mascot.transform.SetParent(bridgeRoot.transform, false);
             mascot.transform.localPosition = new Vector3(-3.0f, 0.65f, -1.5f);
             mascot.transform.localScale = new Vector3(0.9f, 0.9f, 0.75f);
-            SetColor(mascot, new Color(0.95f, 0.36f, 0.22f));\n            mascotTransform = mascot.transform;\n            mascotBasePosition = mascot.transform.localPosition;
+            SetColor(mascot, new Color(0.95f, 0.36f, 0.22f));
+            mascotTransform = mascot.transform;
+            mascotBasePosition = mascot.transform.localPosition;
 
             GameObject cap = MakeCube("Mascot Cap Placeholder",
                 new Vector3(-3f, 1.18f, -1.5f), new Vector3(0.8f, 0.12f, 0.65f),
                 new Color(0.10f, 0.15f, 0.23f));
             cap.transform.SetParent(bridgeRoot.transform, true);
 
-            // Bright stepping-stone accents make the route easier for young players to read.\n            for (int i = 0; i < 8; i++)\n            {\n                float x = i % 2 == 0 ? -2.1f : 2.1f;\n                float z = -3.1f + (i / 2) * 1.9f;\n                GameObject stone = GameObject.CreatePrimitive(PrimitiveType.Sphere);\n                stone.name = "River Pebble " + i;\n                stone.transform.SetParent(bridgeRoot.transform, false);\n                stone.transform.localPosition = new Vector3(x, 0.02f, z);\n                stone.transform.localScale = new Vector3(0.34f, 0.12f, 0.24f);\n                SetColor(stone, i % 2 == 0 ? new Color(0.95f, 0.65f, 0.30f) : new Color(0.22f, 0.66f, 0.68f));\n            }\n\n            // Small decorative trees on both banks.
+            // Bright stepping-stone accents make the route easier for young players to read.
+            for (int i = 0; i < 8; i++)
+            {
+                float x = i % 2 == 0 ? -2.1f : 2.1f;
+                float z = -3.1f + (i / 2) * 1.9f;
+                GameObject stone = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                stone.name = "River Pebble " + i;
+                stone.transform.SetParent(bridgeRoot.transform, false);
+                stone.transform.localPosition = new Vector3(x, 0.02f, z);
+                stone.transform.localScale = new Vector3(0.34f, 0.12f, 0.24f);
+                SetColor(stone, i % 2 == 0 ? new Color(0.95f, 0.65f, 0.30f) : new Color(0.22f, 0.66f, 0.68f));
+            }
+
+            // Small decorative trees on both banks.
             for (int i = 0; i < 6; i++)
             {
                 float x = i % 2 == 0 ? -4f : 4f;
@@ -495,7 +513,9 @@ namespace Tiizino.Gameplay
                 renderer.GetPropertyBlock(properties);
                 properties.SetColor("_BaseColor", color);
                 properties.SetColor("_Color", color);
-                renderer.SetPropertyBlock(properties);\n                renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;\n                renderer.receiveShadows = true;
+                renderer.SetPropertyBlock(properties);
+                renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
+                renderer.receiveShadows = true;
             }
         }
 
@@ -549,7 +569,12 @@ namespace Tiizino.Gameplay
                 eventSystem.gameObject.AddComponent<UnityEngine.EventSystems.StandaloneInputModule>();
             }
 
-            Button musicButton = CreateButton(canvasObject.transform, "Music Toggle", new Vector2(0.5f, 0.985f),\n                new Vector2(0.28f, 0.045f));\n            musicButton.GetComponentInChildren<Text>().text = "موسیقی: روشن/خاموش";\n            musicButton.onClick.AddListener(ToggleBackgroundMusic);\n\n            // Persistent in-game grade switch for the two prepared starter banks.
+            Button musicButton = CreateButton(canvasObject.transform, "Music Toggle", new Vector2(0.5f, 0.985f),
+                new Vector2(0.28f, 0.045f));
+            musicButton.GetComponentInChildren<Text>().text = "موسیقی: روشن/خاموش";
+            musicButton.onClick.AddListener(ToggleBackgroundMusic);
+
+            // Persistent in-game grade switch for the two prepared starter banks.
             Button gradeOneButton = CreateButton(canvasObject.transform, "Grade 1", new Vector2(0.28f, 0.985f),
                 new Vector2(0.34f, 0.045f));
             gradeOneButton.GetComponentInChildren<Text>().text = "پایهٔ اول";
