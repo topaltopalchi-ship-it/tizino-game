@@ -410,3 +410,18 @@ check(androidBuild.includes('locationPathName = OutputPath')
 check(androidBuild.includes("File.Exists(StageScene)")
   && androidBuild.includes("EditorBuildSettings.scenes"),
   "Android build must stop if the stage scene is missing or disabled");
+
+
+check(androidBuild.includes("SwitchActiveBuildTarget(BuildTargetGroup.Android, BuildTarget.Android)")
+  && androidBuild.includes("Install Android Build Support"),
+  "Android setup and APK build must switch targets and explain missing Android modules");
+
+const validatorPath = new URL("../Assets/Editor/TiizinoProjectValidator.cs", import.meta.url);
+const validator = readFileSync(validatorPath, "utf8");
+check(validator.includes("ProjectSettings/ProjectVersion.txt")
+  && validator.includes("6000.0.32f1"),
+  "Unity project validator must check the expected Editor version baseline");
+check(validator.includes("ProjectSettings/ProjectSettings.asset")
+  && validator.includes("com.tiizino.game")
+  && validator.includes("Prepare Android Build"),
+  "Unity project validator must flag missing or unconfigured Android player settings");
