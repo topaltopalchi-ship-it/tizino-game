@@ -308,3 +308,10 @@ check(sceneBuilder.includes("if (!found)") && sceneBuilder.includes("scenes.Add(
   "Scene builder must add Stage 01 without dropping unrelated build scenes");
 check(sceneBuilder.includes("AssetDatabase.IsValidFolder(path)"),
   "Scene builder must avoid recreating an existing scene folder");
+const validatorPath = new URL("../Assets/Editor/TiizinoProjectValidator.cs", import.meta.url);
+const validator = readFileSync(validatorPath, "utf8");
+check(validator.includes("public int levelId;"),
+  "Unity project validator must deserialize each level ID");
+check(validator.includes("HashSet<int> seenLevelIds")
+  && validator.includes("level.levelId < 1 || !seenLevelIds.Add(level.levelId)"),
+  "Unity project validator must reject missing, non-positive, or duplicate level IDs");
