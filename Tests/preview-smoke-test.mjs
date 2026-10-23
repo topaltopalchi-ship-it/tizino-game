@@ -246,3 +246,39 @@ console.log("Unity project scaffold and Android setup documentation checks passe
 
 check(readFileSync(new URL("../Assets/_Tiizino/Scripts/Gameplay/QuestionData.cs", import.meta.url), "utf8").includes("StringComparer.OrdinalIgnoreCase"), "Runtime question model must reject case-insensitive duplicate options");
 check(controller.includes("flattened[i].prompt.Normalize(System.Text.NormalizationForm.FormKC)") && controller.includes("ToUpperInvariant()"), "Runtime prompt deduplication must normalize Unicode and casing");
+
+for (const grade of [1, 2]) {
+  const bankPath = new URL(`../Assets/_Tiizino/Resources/Grade${grade}_QuestionBank.json`, import.meta.url);
+  const bank = JSON.parse(readFileSync(bankPath, "utf8"));
+  check(Array.isArray(bank.levels) && bank.levels.length > 0,
+    `Grade ${grade} bank must contain at least one level`);
+  const gradePrompts = new Set();
+  for (const [levelIndex, level] of bank.levels.entries()) {
+    check(typeof level.name === "string" && level.name.trim().length > 0
+      && typeof level.skill === "string" && level.skill.trim().length > 0,
+      `Grade ${grade}, level ${levelIndex + 1} must name its level and learning skill`);
+    check(Array.isArray(level.questions) && level.questions.length > 0,
+      `Grade ${grade}, level ${levelIndex + 1} must contain questions`);
+    for (const [questionIndex, question] of level.questions.entries()) {
+      const label = `Grade ${grade}, level ${levelIndex + 1}, question ${questionIndex + 1}`;
+      check(typeof question.prompt === "string" && question.prompt.trim().length > 0,
+        `${label} must have a prompt`);
+      check(Array.isArray(question.options) && question.options.length === 3
+        && question.options.every(option => typeof option === "string" && option.trim().length > 0),
+        `${label} must have three non-empty answer options`);
+      const normalizedOptions = question.options.map(option =>
+        option.normalize("NFKC").trim().replace(/\\s+/gu, " ").toLocaleUpperCase("fa"));
+      check(new Set(normalizedOptions).size === normalizedOptions.length,
+        `${label} has duplicate answer options after normalization`);
+      check(Number.isInteger(question.correctOptionIndex)
+        && question.correctOptionIndex >= 0 && question.correctOptionIndex < question.options.length,
+        `${label} has an invalid answer index`);
+      check(typeof question.explanation === "string" && question.explanation.trim().length > 0,
+        `${label} must include explanatory feedback`);
+      const normalizedPrompt = normalizePrompt(question.prompt);
+      check(!gradePrompts.has(normalizedPrompt), `${label} repeats a prompt within its grade bank`);
+      gradePrompts.add(normalizedPrompt);
+    }
+  }
+}
+
