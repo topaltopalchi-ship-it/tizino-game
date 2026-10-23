@@ -104,13 +104,13 @@ check(levelBank.levels.every(level => level.questions.length === 10),
 check(levelBank.levels.every(level => typeof level.skill === "string" && level.skill.trim()),
   "Every level must declare its learning skill");
 
-check("  سؤال\t   آزمایشی \n".normalize("NFKC").trim().toLocaleUpperCase("fa").replace(/\s+/gu, " ") === "سؤال آزمایشی",
+const normalizePrompt = prompt => prompt.normalize("NFKC").trim().replace(/\s+/gu, " ").toLocaleUpperCase("fa");
+check(normalizePrompt("  سؤال\t   آزمایشی \n") === normalizePrompt("سؤال آزمایشی"),
   "Prompt normalization must collapse repeated spaces, tabs, and newlines");
 const normalizedPrompts = new Set();
 for (const [levelIndex, level] of levelBank.levels.entries()) {
   for (const [questionIndex, question] of level.questions.entries()) {
-    const normalizedPrompt = question.prompt.normalize("NFKC").trim().toLocaleUpperCase("fa");
-    const compactPrompt = normalizedPrompt.replace(/\s+/gu, " ");
+    const compactPrompt = normalizePrompt(question.prompt);
     check(!normalizedPrompts.has(compactPrompt),
       `Level ${levelIndex + 1}, question ${questionIndex + 1} repeats an earlier prompt after Unicode/whitespace normalization`);
     normalizedPrompts.add(compactPrompt);
