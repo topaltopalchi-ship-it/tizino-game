@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "catalogId": "iran_gifted_exam_ten_years",
+  "coverage": {
+    "startYear": null,
+    "endYear": null,
+    "yearsToCover": 10,
+    "status": "not_imported"
+  },
+  "noteFa": "قالب فهرست آرشیو است؛ تا وقتی دفترچهٔ منبع ثبت نشده، سؤال واقعی یا پوشش ده‌ساله ادعا نمی‌شود.",
+  "items": [
+    {
+      "questionId": "sample-not-a-real-exam-question",
+      "source": {
+        "examYear": null,
+        "grade": null,
+        "track": null,
+        "bookletId": null,
+        "questionNumber": null,
+        "page": null,
+        "sourceFile": null,
+        "sourceUrl": null,
+        "rightsStatus": "needs_review"
+      },
+      "contentType": "adapted",
+      "skillTags": [
+        "visual_pattern"
+      ],
+      "prerequisites": [],
+      "sourceDifficulty": null,
+      "recommendedGameGrades": [
+        1
+      ],
+      "adaptationType": "simplified",
+      "gameScenario": {
+        "stageId": "stage01_bridge",
+        "interaction": "select",
+        "narrativeGoal": "بازسازی تختهٔ پل"
+      },
+      "hintSteps": [],
+      "answerKey": null,
+      "explanationFa": "",
+      "review": {
+        "answerVerified": false,
+        "ageFitVerified": false,
+        "languageVerified": false,
+        "reviewStatus": "draft"
+      },
+      "isExampleOnly": true
+    }
+  ]
+}
