@@ -21,6 +21,7 @@ namespace Tiizino.Gameplay
         [SerializeField] private bool musicEnabledByDefault = true;
         private AudioSource musicSource;
         private bool musicEnabled;
+        private Text musicButtonLabel;
         [SerializeField] private TextAsset questionBankJson;
         [Tooltip("Optional font asset with Persian glyphs. Proper RTL shaping still requires a shaping solution.")]
         [SerializeField] private Font uiFont;
@@ -452,6 +453,7 @@ namespace Tiizino.Gameplay
             musicSource.clip = backgroundMusic;
             if (backgroundMusic != null && musicEnabled) musicSource.Play();
             else musicSource.Stop();
+            UpdateMusicButtonLabel();
         }
 
         private void ToggleBackgroundMusic()
@@ -462,10 +464,20 @@ namespace Tiizino.Gameplay
             if (musicSource == null || backgroundMusic == null) return;
             if (musicEnabled)
             {
-                musicSource.volume = Mathf.Clamp01(musicVolume);
-                if (!musicSource.isPlaying) musicSource.Play();
+                if (musicSource != null && backgroundMusic != null)
+                {
+                    musicSource.volume = Mathf.Clamp01(musicVolume);
+                    if (!musicSource.isPlaying) musicSource.Play();
+                }
             }
-            else musicSource.Stop();
+            else if (musicSource != null) musicSource.Stop();
+            UpdateMusicButtonLabel();
+        }
+
+        private void UpdateMusicButtonLabel()
+        {
+            if (musicButtonLabel == null) return;
+            musicButtonLabel.text = musicEnabled ? "موسیقی: روشن" : "موسیقی: خاموش";
         }
 
         private void CreateWorld()
@@ -618,7 +630,8 @@ namespace Tiizino.Gameplay
 
             Button musicButton = CreateButton(canvasObject.transform, "Music Toggle", new Vector2(0.5f, 0.985f),
                 new Vector2(0.30f, 0.04f));
-            musicButton.GetComponentInChildren<Text>().text = "موسیقی: روشن/خاموش";
+            musicButtonLabel = musicButton.GetComponentInChildren<Text>();
+            UpdateMusicButtonLabel();
             musicButton.onClick.AddListener(ToggleBackgroundMusic);
 
             // Persistent in-game grade switch for the two prepared starter banks.
