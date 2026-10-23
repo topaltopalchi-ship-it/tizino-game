@@ -18,6 +18,11 @@ namespace Tiizino.EditorTools
         [MenuItem("Tools/Tiizino/Prepare Android Build")]
         public static void PrepareAndroidBuild()
         {
+            if (!EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Android, BuildTarget.Android))
+            {
+                Debug.LogError("Tiizino: Unity could not switch the active build target to Android. Confirm Android Build Support is installed in Unity Hub.");
+                return;
+            }
             ConfigurePlayerSettings();
             Debug.Log("Tiizino: Android player settings prepared. Generate the Stage 01 scene and run Validate Project Setup before building.");
         }
@@ -25,6 +30,11 @@ namespace Tiizino.EditorTools
         [MenuItem("Tools/Tiizino/Build Android APK")]
         public static void BuildAndroidApk()
         {
+            if (!EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Android, BuildTarget.Android))
+            {
+                Debug.LogError("Tiizino Android build stopped: Unity could not switch to Android. Install Android Build Support, SDK & NDK Tools, and OpenJDK for this Unity version.");
+                return;
+            }
             ConfigurePlayerSettings();
 
             if (!File.Exists(StageScene))
