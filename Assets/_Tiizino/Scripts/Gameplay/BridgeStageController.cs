@@ -494,9 +494,9 @@ namespace Tiizino.Gameplay
 
         private static string NormalizeOption(string option)
         {
-            return string.IsNullOrWhiteSpace(option)
-                ? string.Empty
-                : string.Join(" ", option.Trim().Split((char[])null, System.StringSplitOptions.RemoveEmptyEntries));
+            if (string.IsNullOrWhiteSpace(option)) return string.Empty;
+            string normalized = option.Normalize(System.Text.NormalizationForm.FormKC).Trim();
+            return string.Join(" ", normalized.Split((char[])null, System.StringSplitOptions.RemoveEmptyEntries));
         }
 
         private void SetupBackgroundMusic()
