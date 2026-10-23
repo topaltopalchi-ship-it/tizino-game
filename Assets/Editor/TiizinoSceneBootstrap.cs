@@ -17,11 +17,12 @@ namespace Tiizino.EditorTools
         private const string SceneFolder = "Assets/_Tiizino/Scenes";
         private const string ScenePath = SceneFolder + "/Stage01_Bridge.unity";
 
-        [MenuItem("Tools/Tiizino/Create Stage 01 Scene (Legacy)")]
+        [MenuItem("Tools/Tiizino/Create Stage 01 Scene")]
         public static void CreateStage01Scene()
         {
             if (!Directory.Exists(SceneFolder))
                 Directory.CreateDirectory(SceneFolder);
+            AssetDatabase.Refresh();
 
             Scene scene = EditorSceneManager.NewScene(
                 NewSceneSetup.EmptyScene, NewSceneMode.Single);
