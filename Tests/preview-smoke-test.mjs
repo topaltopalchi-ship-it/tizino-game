@@ -31,6 +31,8 @@ check(questionCount === 4, `Expected 4 sample questions; found ${questionCount}`
 check(html.includes('id="repeat"'), "Repeat-question control is missing");
 check(html.includes('addEventListener("click",restart)') || html.includes('addEventListener("click",()=>{index=0'), "Restart action should be wired");
 check(script.includes("choice===q.a"), "Answer selection should compare against the answer key");
+check(script.includes("pendingTurnTimer") && script.includes("clearTimeout(pendingTurnTimer)"), "Restart must cancel any pending answer timer before resetting progress");
+check(script.includes("pendingTurnTimer=null;index++;render()"), "A pending correct-answer timer must clear its handle before advancing");
 check(script.includes("document.querySelectorAll(\".answer\").forEach(b=>b.disabled=false)"), "Wrong answers should allow another attempt");
 
 const questionLines = script.split("\n").filter(line => /^\{p:/.test(line.trim()));
