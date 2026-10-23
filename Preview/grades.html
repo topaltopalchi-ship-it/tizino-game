@@ -49,9 +49,16 @@ async function loadGrade(nextGrade){
   const data=await response.json();
   if(requestId!==loadRequestId)return;
   if(!Array.isArray(data.levels)||data.levels.length===0)throw new Error("بانک سطح ندارد");
+  const seenLevelIds=new Set(),seenPrompts=new Set();
   for(const [i,level] of data.levels.entries()){
-   if(!Number.isInteger(level.levelId)||level.levelId<1||!level.name?.trim()||!level.skill?.trim()||!Array.isArray(level.questions)||!level.questions.length)throw new Error("اطلاعات مرحلهٔ "+(i+1)+" ناقص است");
-   for(const q of level.questions)if(!q.prompt?.trim()||!Array.isArray(q.options)||q.options.length<2||!Number.isInteger(q.correctOptionIndex)||q.correctOptionIndex<0||q.correctOptionIndex>=q.options.length||!q.explanation?.trim())throw new Error("یک سؤال نامعتبر است");
+   if(!Number.isInteger(level.levelId)||level.levelId<1||seenLevelIds.has(level.levelId)||!level.name?.trim()||!level.skill?.trim()||!Array.isArray(level.questions)||!level.questions.length)throw new Error("اطلاعات مرحلهٔ "+(i+1)+" ناقص یا تکراری است");
+   seenLevelIds.add(level.levelId);
+   for(const q of level.questions){
+    if(!q.prompt?.trim()||!Array.isArray(q.options)||q.options.length!==3||q.options.some(option=>typeof option!=="string"||!option.trim())||new Set(q.options.map(option=>option.normalize("NFKC").trim().replace(/\s+/gu," ").toLocaleUpperCase("fa"))).size!==q.options.length||!Number.isInteger(q.correctOptionIndex)||q.correctOptionIndex<0||q.correctOptionIndex>=q.options.length||!q.explanation?.trim()||!Number.isInteger(q.difficulty)||q.difficulty<1||q.difficulty>3)throw new Error("یک سؤال نامعتبر است");
+    const normalizedPrompt=q.prompt.normalize("NFKC").trim().replace(/\s+/gu," ").toLocaleUpperCase("fa");
+    if(seenPrompts.has(normalizedPrompt))throw new Error("یک سؤال تکراری است");
+    seenPrompts.add(normalizedPrompt);
+   }
   }
   bank=data;locked=false;$("bankStatus").textContent="بانک پایهٔ "+fa(grade)+" آماده است؛ "+fa(data.levels.length)+" مرحله.";render();
  }catch(error){if(requestId!==loadRequestId)return;locked=true;$("bankStatus").textContent="بانک سؤال بارگذاری نشد. این صفحه را از GitHub Pages یا یک وب‌سرور باز کن."; $("prompt").textContent="دسترسی به بانک سؤال ممکن نیست";setFeedback("جزئیات: "+error.message,"incorrect");$("repeat").disabled=true}
