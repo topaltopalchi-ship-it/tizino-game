@@ -181,6 +181,7 @@ const validator = readFileSync(new URL("../Assets/Editor/TiizinoProjectValidator
 check(validator.includes('MenuItem("Tools/Tiizino/Validate Project Setup")'),
   "Unity editor must expose a setup validation command");
 check(validator.includes("NormalizePrompt") && validator.includes("HashSet<string> seenPrompts"), "Unity setup validator must reject duplicate prompts across levels");
+check(validator.includes("NormalizationForm.FormKC") && validator.includes("ToLowerInvariant()"), "Duplicate prompt detection must normalize Unicode and casing");
 check(validator.includes("NormalizeOption(question.options[0])")
   && validator.includes("StringComparison.OrdinalIgnoreCase"),
   "Unity setup validator must reject duplicate answer choices after normalization");
