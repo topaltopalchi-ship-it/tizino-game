@@ -37,7 +37,7 @@ for (const { grade, path } of banks) {
       assert.ok(q.options.every(option => typeof option === "string" && option.trim()),
         `${label}: every option must be non-empty text`);
       const normalizedOptions = q.options.map(option =>
-        option.normalize("NFKC").trim().replace(/\\s+/g, " ").toLocaleLowerCase("fa"));
+        option.normalize("NFKC").trim().replace(/\s+/g, " ").toLocaleLowerCase("fa"));
       assert.ok(new Set(normalizedOptions).size === normalizedOptions.length,
         `${label}: duplicate answer options after Unicode, whitespace, and case normalization`);
       if (expectedOptionCount == null) expectedOptionCount = q.options.length;
