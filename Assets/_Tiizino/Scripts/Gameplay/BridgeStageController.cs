@@ -113,6 +113,16 @@ namespace Tiizino.Gameplay
                     return;
                 }
 
+                int expectedOptionCount = bank.questions[0].options.Length;
+                for (int i = 1; i < bank.questions.Length; i++)
+                {
+                    if (bank.questions[i].options.Length != expectedOptionCount)
+                    {
+                        Debug.LogWarning("Tiizino: every question in the JSON bank must have the same number of options; using built-in sample questions.", this);
+                        return;
+                    }
+                }
+
                 int count = bank.questions.Length;
                 prompts = new string[count];
                 options = new string[count][];
