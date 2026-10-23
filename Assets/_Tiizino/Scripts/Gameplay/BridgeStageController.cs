@@ -145,6 +145,10 @@ namespace Tiizino.Gameplay
                 // Accept the original flat format and the new four-level format.
                 System.Collections.Generic.List<QuestionData> flattened =
                     new System.Collections.Generic.List<QuestionData>();
+                System.Collections.Generic.List<string> parsedLevelNames =
+                    new System.Collections.Generic.List<string>();
+                System.Collections.Generic.List<int> parsedLevelEnds =
+                    new System.Collections.Generic.List<int>();
                 if (bank.levels != null && bank.levels.Length > 0)
                 {
                     for (int levelIndex = 0; levelIndex < bank.levels.Length; levelIndex++)
@@ -155,8 +159,11 @@ namespace Tiizino.Gameplay
                             Debug.LogWarning("Tiizino: level " + (levelIndex + 1) + " has no questions; using built-in sample questions.", this);
                             return;
                         }
+                        parsedLevelNames.Add(string.IsNullOrWhiteSpace(level.name)
+                            ? "لول " + (levelIndex + 1) : level.name);
                         foreach (QuestionData question in level.questions)
                             flattened.Add(question);
+                        parsedLevelEnds.Add(flattened.Count);
                     }
                 }
                 else if (bank.questions != null)
@@ -185,6 +192,16 @@ namespace Tiizino.Gameplay
                 }
 
                 int count = flattened.Count;
+                if (parsedLevelNames.Count > 0)
+                {
+                    levelNames = parsedLevelNames.ToArray();
+                    levelEndIndices = parsedLevelEnds.ToArray();
+                }
+                else
+                {
+                    levelNames = new[] { "نجات پل جنگل" };
+                    levelEndIndices = new[] { count };
+                }
                 prompts = new string[count];
                 options = new string[count][];
                 answers = new int[count];
