@@ -132,7 +132,9 @@ namespace Tiizino.EditorTools
 
         private static string NormalizePrompt(string prompt)
         {
-            return string.IsNullOrWhiteSpace(prompt) ? string.Empty : string.Join(" ", prompt.Trim().Split((char[])null, StringSplitOptions.RemoveEmptyEntries));
+            if (string.IsNullOrWhiteSpace(prompt)) return string.Empty;
+            string normalized = prompt.Normalize(System.Text.NormalizationForm.FormKC).Trim().ToLowerInvariant();
+            return string.Join(" ", normalized.Split((char[])null, StringSplitOptions.RemoveEmptyEntries));
         }
 
         private static string NormalizeOption(string option)
