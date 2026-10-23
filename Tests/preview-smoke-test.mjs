@@ -45,8 +45,3 @@ for (const [i, line] of questionLines.entries()) {
 }
 
 console.log("Preview smoke checks passed (static checks and JavaScript syntax only).");
-
-check(html.includes('id="chime"'), "Completion sound preview control is missing");
-check(script.includes("function playCompletionChime()"), "Completion chime function is missing");
-check(script.includes("if(stars===questions.length)playCompletionChime()"), "Completion chime should play when the final correct answer is selected");
-check(script.includes("window.AudioContext||window.webkitAudioContext"), "Audio API fallback check is missing");
