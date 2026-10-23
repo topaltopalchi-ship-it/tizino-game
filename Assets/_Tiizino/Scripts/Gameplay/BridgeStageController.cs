@@ -715,7 +715,19 @@ namespace Tiizino.Gameplay
                 else
                 {
                     promptText.text = "آفرین! پل جنگل نجات پیدا کرد!";
-                    feedbackText.text = "همهٔ لول‌ها تمام شدند. ستاره‌ها: " + stars + " از " + prompts.Length;
+                    int grade = Mathf.Clamp(PlayerPrefs.GetInt("Tiizino.SelectedGrade", 1), 1, 2);
+                    string bestKey = "Tiizino.Grade" + grade + ".BestStars";
+                    int bestStars = PlayerPrefs.GetInt(bestKey, 0);
+                    bool newRecord = stars > bestStars;
+                    if (newRecord)
+                    {
+                        bestStars = stars;
+                        PlayerPrefs.SetInt(bestKey, bestStars);
+                        PlayerPrefs.Save();
+                    }
+                    feedbackText.text = "ستاره‌های این بازی: " + stars + " از " + prompts.Length
+                        + " | بهترین رکورد: " + bestStars
+                        + (newRecord ? " — رکورد تازه!" : string.Empty);
                 }
                 return;
             }
