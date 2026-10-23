@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
+using Tiizino.Audio;
 
 namespace Tiizino.Gameplay
 {
@@ -7,6 +8,7 @@ namespace Tiizino.Gameplay
     public class QuizController : MonoBehaviour
     {
         [SerializeField] private QuestionData[] questions;
+        [SerializeField] private AudioClipSpeechService speechService;
         [SerializeField] private UnityEvent<string, string[]> onQuestionShown;
         [SerializeField] private UnityEvent<bool, string> onAnswerChecked;
         [SerializeField] private UnityEvent onQuizCompleted;
@@ -53,6 +55,25 @@ namespace Tiizino.Gameplay
                 ShowCurrentQuestion();
         }
 
+        /// <summary>Replays the configured prerecorded voice line for the current question.</summary>
+        public void RepeatCurrentQuestion()
+        {
+            SpeakCurrentQuestion();
+        }
+
+        private void SpeakCurrentQuestion()
+        {
+            if (speechService == null || questions == null
+                || currentIndex < 0 || currentIndex >= questions.Length)
+                return;
+
+            QuestionData question = questions[currentIndex];
+            if (question == null || string.IsNullOrWhiteSpace(question.audioPhraseId))
+                return;
+
+            speechService.Speak(question.audioPhraseId);
+        }
+
         private void ShowCurrentQuestion()
         {
             if (questions == null || questions.Length == 0)
@@ -69,6 +90,7 @@ namespace Tiizino.Gameplay
             }
 
             onQuestionShown?.Invoke(question.prompt, question.options);
+            SpeakCurrentQuestion();
         }
     }
 }
