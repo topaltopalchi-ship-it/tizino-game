@@ -102,7 +102,11 @@ check(controller.includes("ContinueToNextLevel()"), "Unity controller must provi
 check(controller.includes("parsedLevelEnds.Add(flattened.Count)"), "Unity controller must derive level boundaries from question data");
 check(controller.includes("لول ") && controller.includes("از "), "Unity controller should display current level progress");
 check(!controller.includes("PlayCompletionChime"), "No stage completion chime should be added");
-const chooseAnswerBody = controller.match(/private void ChooseAnswer\\(int choice\\)([\\s\\S]*?)\\n        private void AllowRetry\\(/)?.[1] ?? "";
+const chooseAnswerStart = controller.indexOf("private void ChooseAnswer(int choice)");
+const chooseAnswerEnd = controller.indexOf("private void AllowRetry()", chooseAnswerStart);
+const chooseAnswerBody = chooseAnswerStart >= 0 && chooseAnswerEnd > chooseAnswerStart
+  ? controller.slice(chooseAnswerStart, chooseAnswerEnd) : "";
+check(chooseAnswerBody.length > 0, "Unity controller must contain the answer selection handler");
 check(chooseAnswerBody.includes("if (correct)") && chooseAnswerBody.includes("stars++"),
   "Correct answers should award a star");
 check(chooseAnswerBody.includes("Invoke(nameof(NextQuestion), 1.8f)")
