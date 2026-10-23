@@ -136,5 +136,12 @@ check(manifest.dependencies["com.unity.render-pipelines.universal"] === "17.0.3"
 check(readFileSync(new URL("../ProjectSettings/ProjectVersion.txt", import.meta.url), "utf8")
   .includes("m_EditorVersion: 6000.0.32f1"),
   "Unity project must pin its editor version");
-console.log("Unity project scaffold static checks passed (Unity Editor execution not available).");
+const setupGuide = readFileSync(new URL("../Docs/UNITY_SETUP_FA.md", import.meta.url), "utf8");
+check(setupGuide.includes("Android Build Support")
+  && setupGuide.includes("Android SDK & NDK Tools")
+  && setupGuide.includes("JDK"),
+  "Unity setup guide must document Android build prerequisites");
+check(setupGuide.includes("تست‌های GitHub Actions فقط تست‌های ایستای فایل‌ها هستند"),
+  "Setup guide must clearly distinguish static checks from real Android builds");
+console.log("Unity project scaffold and Android setup documentation checks passed (static checks only).");
 
