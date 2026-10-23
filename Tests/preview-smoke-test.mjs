@@ -253,7 +253,13 @@ for (const grade of [1, 2]) {
   check(Array.isArray(bank.levels) && bank.levels.length > 0,
     `Grade ${grade} bank must contain at least one level`);
   const gradePrompts = new Set();
+  const levelIds = new Set();
   for (const [levelIndex, level] of bank.levels.entries()) {
+    check(Number.isInteger(level.levelId) && level.levelId >= 1,
+      `Grade ${grade}, level ${levelIndex + 1} must have a positive integer levelId`);
+    check(!levelIds.has(level.levelId),
+      `Grade ${grade} has duplicate levelId ${level.levelId}`);
+    levelIds.add(level.levelId);
     check(typeof level.name === "string" && level.name.trim().length > 0
       && typeof level.skill === "string" && level.skill.trim().length > 0,
       `Grade ${grade}, level ${levelIndex + 1} must name its level and learning skill`);
