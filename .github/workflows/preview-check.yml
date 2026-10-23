@@ -37,3 +37,5 @@ jobs:
           node-version: 20
       - name: Run preview smoke checks
         run: node Tests/preview-smoke-test.mjs
+      - name: Validate grade question banks
+        run: node Tests/question-bank-test.mjs
