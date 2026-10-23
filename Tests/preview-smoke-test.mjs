@@ -112,6 +112,7 @@ check(controller.includes("CurrentLevelEnd()"), "Unity controller must track the
 check(controller.includes("contains duplicate options"), "Runtime question loading must reject duplicate answer choices");
 check(controller.includes('Tiizino.MusicEnabled'), "Music preference must persist between game sessions");
 check(controller.includes('musicEnabled ? "موسیقی: روشن" : "موسیقی: خاموش"'), "Music toggle label must reflect the current preference");
+check(controller.includes("private void OnDisable()") && controller.includes("speechService?.Stop();"), "Disabling or rebuilding the stage must stop question voice playback");
 check(controller.includes("ContinueToNextLevel()"), "Unity controller must provide explicit next-level flow");
 check(controller.includes("parsedLevelEnds.Add(flattened.Count)"), "Unity controller must derive level boundaries from question data");
 check(controller.includes("لول ") && controller.includes("از "), "Unity controller should display current level progress");
