@@ -36,7 +36,10 @@ for (const { grade, path } of banks) {
       assert.ok(Array.isArray(q.options) && q.options.length >= 2, `${label}: at least two options required`);
       assert.ok(q.options.every(option => typeof option === "string" && option.trim()),
         `${label}: every option must be non-empty text`);
-      assert.ok(new Set(q.options).size === q.options.length, `${label}: duplicate answer options`);
+      const normalizedOptions = q.options.map(option =>
+        option.normalize("NFKC").trim().replace(/\\s+/g, " ").toLocaleLowerCase("fa"));
+      assert.ok(new Set(normalizedOptions).size === normalizedOptions.length,
+        `${label}: duplicate answer options after Unicode, whitespace, and case normalization`);
       if (expectedOptionCount == null) expectedOptionCount = q.options.length;
       assert.equal(q.options.length, expectedOptionCount,
         `${label}: option count must match other questions because the runtime UI uses a shared button row`);
