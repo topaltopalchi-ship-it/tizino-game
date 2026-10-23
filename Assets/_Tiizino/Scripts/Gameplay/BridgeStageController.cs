@@ -49,9 +49,14 @@ namespace Tiizino.Gameplay
 
         private int questionIndex;
         private int stars;
+        private int currentLevelIndex;
+        private string[] levelNames = { "نجات پل جنگل" };
+        private int[] levelEndIndices;
+        private Text levelText;
         private Text promptText;
         private Text feedbackText;
         private Button[] answerButtons;
+        private Button continueLevelButton;
         private GameObject bridgeRoot;
         private GameObject[] planks;
 
@@ -67,6 +72,11 @@ namespace Tiizino.Gameplay
             CancelInvoke();
             questionIndex = 0;
             stars = 0;
+            currentLevelIndex = 0;
+            levelNames = new[] { "نجات پل جنگل" };
+            levelEndIndices = null;
+            levelText = null;
+            continueLevelButton = null;
             promptText = null;
             feedbackText = null;
             answerButtons = null;
@@ -359,14 +369,22 @@ namespace Tiizino.Gameplay
                 eventSystem.gameObject.AddComponent<UnityEngine.EventSystems.StandaloneInputModule>();
             }
 
-            promptText = CreateText(canvasObject.transform, "Prompt", new Vector2(0.5f, 0.86f),
+            levelText = CreateText(canvasObject.transform, "Level", new Vector2(0.5f, 0.94f),
+                new Vector2(0.88f, 0.045f), 24, TextAnchor.MiddleCenter);
+            promptText = CreateText(canvasObject.transform, "Prompt", new Vector2(0.5f, 0.84f),
                 new Vector2(0.88f, 0.15f), 32, TextAnchor.MiddleCenter);
-            feedbackText = CreateText(canvasObject.transform, "Feedback", new Vector2(0.5f, 0.72f),
+            feedbackText = CreateText(canvasObject.transform, "Feedback", new Vector2(0.5f, 0.70f),
                 new Vector2(0.85f, 0.06f), 26, TextAnchor.MiddleCenter);
             Button repeatButton = CreateButton(canvasObject.transform, "Repeat Question",
                 new Vector2(0.5f, 0.62f), new Vector2(0.55f, 0.055f));
             repeatButton.GetComponentInChildren<Text>().text = "شنیدن دوبارهٔ سؤال";
             repeatButton.onClick.AddListener(RepeatCurrentQuestion);
+
+            continueLevelButton = CreateButton(canvasObject.transform, "Continue Level",
+                new Vector2(0.5f, 0.25f), new Vector2(0.65f, 0.075f));
+            continueLevelButton.GetComponentInChildren<Text>().text = "رفتن به لول بعدی";
+            continueLevelButton.onClick.AddListener(ContinueToNextLevel);
+            continueLevelButton.gameObject.SetActive(false);
 
             int optionCount = options.Length > 0 && options[0] != null ? options[0].Length : 0;
             answerButtons = new Button[optionCount];
