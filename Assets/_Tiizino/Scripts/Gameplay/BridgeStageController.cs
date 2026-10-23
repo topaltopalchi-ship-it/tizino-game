@@ -12,8 +12,8 @@ namespace Tiizino.Gameplay
     {
         [Header("Scene")]
         [SerializeField] private bool buildOnStart = true;
-        [SerializeField] private Color grassColor = new Color(0.22f, 0.55f, 0.28f);
-        [SerializeField] private Color waterColor = new Color(0.12f, 0.58f, 0.82f);
+        [SerializeField] private Color grassColor = new Color(0.105f, 0.31f, 0.29f);
+        [SerializeField] private Color waterColor = new Color(0.055f, 0.34f, 0.48f);
         [SerializeField] private AudioClipSpeechService speechService;
         [Header("Music (assign a licensed child-friendly loop in the Inspector)")]
         [SerializeField] private AudioClip backgroundMusic;
@@ -426,7 +426,7 @@ namespace Tiizino.Gameplay
                 planks[i] = MakeCube("Bridge Plank " + (i + 1),
                     new Vector3(-1.2f + i * 0.8f, 0.18f, 0f),
                     new Vector3(0.7f, 0.22f, 1.5f),
-                    new Color(0.85f, 0.55f, 0.24f));
+                    new Color(0.91f, 0.57f, 0.25f));
                 planks[i].SetActive(false);
             }
 
@@ -436,27 +436,27 @@ namespace Tiizino.Gameplay
             mascot.transform.SetParent(bridgeRoot.transform, false);
             mascot.transform.localPosition = new Vector3(-3.0f, 0.65f, -1.5f);
             mascot.transform.localScale = new Vector3(0.9f, 0.9f, 0.75f);
-            SetColor(mascot, new Color(1f, 0.62f, 0.12f));
+            SetColor(mascot, new Color(0.95f, 0.36f, 0.22f));
 
             GameObject cap = MakeCube("Mascot Cap Placeholder",
                 new Vector3(-3f, 1.18f, -1.5f), new Vector3(0.8f, 0.12f, 0.65f),
-                new Color(0.08f, 0.12f, 0.28f));
+                new Color(0.10f, 0.15f, 0.23f));
             cap.transform.SetParent(bridgeRoot.transform, true);
 
-            // Bright stepping-stone accents make the route easier for young players to read.\n            for (int i = 0; i < 8; i++)\n            {\n                float x = i % 2 == 0 ? -2.1f : 2.1f;\n                float z = -3.1f + (i / 2) * 1.9f;\n                GameObject stone = GameObject.CreatePrimitive(PrimitiveType.Sphere);\n                stone.name = "River Pebble " + i;\n                stone.transform.SetParent(bridgeRoot.transform, false);\n                stone.transform.localPosition = new Vector3(x, 0.02f, z);\n                stone.transform.localScale = new Vector3(0.34f, 0.12f, 0.24f);\n                SetColor(stone, i % 2 == 0 ? new Color(0.96f, 0.78f, 0.36f) : new Color(0.55f, 0.83f, 0.94f));\n            }\n\n            // Small decorative trees on both banks.
+            // Bright stepping-stone accents make the route easier for young players to read.\n            for (int i = 0; i < 8; i++)\n            {\n                float x = i % 2 == 0 ? -2.1f : 2.1f;\n                float z = -3.1f + (i / 2) * 1.9f;\n                GameObject stone = GameObject.CreatePrimitive(PrimitiveType.Sphere);\n                stone.name = "River Pebble " + i;\n                stone.transform.SetParent(bridgeRoot.transform, false);\n                stone.transform.localPosition = new Vector3(x, 0.02f, z);\n                stone.transform.localScale = new Vector3(0.34f, 0.12f, 0.24f);\n                SetColor(stone, i % 2 == 0 ? new Color(0.95f, 0.65f, 0.30f) : new Color(0.22f, 0.66f, 0.68f));\n            }\n\n            // Small decorative trees on both banks.
             for (int i = 0; i < 6; i++)
             {
                 float x = i % 2 == 0 ? -4f : 4f;
                 float z = -2.7f + (i / 2) * 2.5f;
                 GameObject trunk = MakeCube("Tree Trunk " + i,
                     new Vector3(x, 0.45f, z), new Vector3(0.25f, 1.4f, 0.25f),
-                    new Color(0.35f, 0.2f, 0.1f));
+                    new Color(0.25f, 0.16f, 0.13f));
                 GameObject crown = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                 crown.name = "Tree Crown " + i;
                 crown.transform.SetParent(bridgeRoot.transform, false);
                 crown.transform.localPosition = new Vector3(x, 1.45f, z);
                 crown.transform.localScale = Vector3.one * 1.1f;
-                SetColor(crown, new Color(0.12f, 0.38f, 0.18f));
+                SetColor(crown, new Color(0.07f, 0.25f, 0.22f));
             }
         }
 
@@ -498,9 +498,9 @@ namespace Tiizino.Gameplay
             }
             cam.transform.position = new Vector3(0f, 8.5f, -12f);
             cam.transform.rotation = Quaternion.Euler(32f, 0f, 0f);
-            cam.fieldOfView = 48f;
+            cam.fieldOfView = 43f;
             cam.clearFlags = CameraClearFlags.SolidColor;
-            cam.backgroundColor = new Color(0.58f, 0.82f, 0.96f);
+            cam.backgroundColor = new Color(0.075f, 0.13f, 0.19f);
 
             if (FindObjectOfType<Light>() == null)
             {
