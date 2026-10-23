@@ -106,6 +106,8 @@ for (const [levelIndex, level] of levelBank.levels.entries()) {
   for (const [questionIndex, question] of level.questions.entries()) {
     const normalizedPrompt = question.prompt.normalize("NFKC").trim().toLocaleUpperCase("fa");
     const compactPrompt = normalizedPrompt.replace(/\s+/gu, " ");
+    check(compactPrompt === normalizedPrompt.replace(/\s+/gu, " "),
+      `Level ${levelIndex + 1}, question ${questionIndex + 1} whitespace normalization is inconsistent`);
     check(!normalizedPrompts.has(compactPrompt),
       `Level ${levelIndex + 1}, question ${questionIndex + 1} repeats an earlier prompt after Unicode/whitespace normalization`);
     normalizedPrompts.add(compactPrompt);
