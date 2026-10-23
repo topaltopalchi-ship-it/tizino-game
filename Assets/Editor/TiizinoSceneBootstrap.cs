@@ -36,10 +36,20 @@ namespace Tiizino.EditorTools
                 return;
             }
 
-            EditorBuildSettings.scenes = new[]
+            var scenes = new System.Collections.Generic.List<EditorBuildSettingsScene>(
+                EditorBuildSettings.scenes);
+            bool alreadyListed = false;
+            for (int i = 0; i < scenes.Count; i++)
             {
-                new EditorBuildSettingsScene(ScenePath, true)
-            };
+                if (scenes[i].path != ScenePath) continue;
+                scenes[i] = new EditorBuildSettingsScene(ScenePath, true);
+                alreadyListed = true;
+                break;
+            }
+            if (!alreadyListed)
+                scenes.Add(new EditorBuildSettingsScene(ScenePath, true));
+            EditorBuildSettings.scenes = scenes.ToArray();
+
             Selection.activeGameObject = stage;
             Debug.Log("Tiizino: created " + ScenePath
                 + ". Open the scene and press Play to test the prototype.");
