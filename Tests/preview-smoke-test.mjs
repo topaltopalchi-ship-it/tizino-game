@@ -117,6 +117,7 @@ check(controller.includes("if (musicSource != null) musicSource.Stop();"), "Disa
 check(controller.includes("ContinueToNextLevel()"), "Unity controller must provide explicit next-level flow");
 check(controller.includes("parsedLevelEnds.Add(flattened.Count)"), "Unity controller must derive level boundaries from question data");
 check(controller.includes("لول ") && controller.includes("از "), "Unity controller should display current level progress");
+check(controller.includes("پرسش ") && controller.includes("questionsInLevel") && controller.includes("questionInLevel"), "Unity UI should show the current question number within each level");
 check(controller.includes('Tiizino.Grade" + grade + ".BestStars'), "Unity controller must persist a separate best-star record for each grade");
 check(controller.includes("TextAnchor.MiddleRight"), "Persian gameplay text should use right alignment");
 check(controller.includes("بهترین رکورد"), "Grade selection should show the saved best score");
