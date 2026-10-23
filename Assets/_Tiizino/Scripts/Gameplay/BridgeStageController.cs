@@ -66,6 +66,8 @@ namespace Tiizino.Gameplay
         private GameObject bridgeRoot;
         private GameObject titleScreenRoot;
         private GameObject[] planks;
+        private Transform mascotTransform;
+        private Vector3 mascotBasePosition;
 
         private void Start()
         {
@@ -436,7 +438,7 @@ namespace Tiizino.Gameplay
             mascot.transform.SetParent(bridgeRoot.transform, false);
             mascot.transform.localPosition = new Vector3(-3.0f, 0.65f, -1.5f);
             mascot.transform.localScale = new Vector3(0.9f, 0.9f, 0.75f);
-            SetColor(mascot, new Color(0.95f, 0.36f, 0.22f));
+            SetColor(mascot, new Color(0.95f, 0.36f, 0.22f));\n            mascotTransform = mascot.transform;\n            mascotBasePosition = mascot.transform.localPosition;
 
             GameObject cap = MakeCube("Mascot Cap Placeholder",
                 new Vector3(-3f, 1.18f, -1.5f), new Vector3(0.8f, 0.12f, 0.65f),
@@ -483,7 +485,7 @@ namespace Tiizino.Gameplay
                 renderer.GetPropertyBlock(properties);
                 properties.SetColor("_BaseColor", color);
                 properties.SetColor("_Color", color);
-                renderer.SetPropertyBlock(properties);
+                renderer.SetPropertyBlock(properties);\n                renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;\n                renderer.receiveShadows = true;
             }
         }
 
