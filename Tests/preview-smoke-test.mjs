@@ -117,3 +117,21 @@ check(chooseAnswerBody.includes("feedbackText.text = \"یک بار دیگر فک
 
 console.log("Four-level Unity controller structure checks passed (static checks only).");
 
+const bootstrapPath = new URL("../Assets/Editor/TiizinoSceneBootstrap.cs", import.meta.url);
+const bootstrap = readFileSync(bootstrapPath, "utf8");
+check(bootstrap.includes('MenuItem("Tools/Tiizino/Create Stage 01 Scene")'),
+  "Unity editor must expose a menu command to create the stage scene");
+check(bootstrap.includes("stage.AddComponent<BridgeStageController>()"),
+  "Stage bootstrap must attach the runtime controller");
+check(bootstrap.includes('"/Stage01_Bridge.unity"'),
+  "Stage bootstrap must save the expected scene path");
+const manifest = JSON.parse(readFileSync(new URL("../Packages/manifest.json", import.meta.url), "utf8"));
+check(manifest.dependencies["com.unity.ugui"] === "2.0.0",
+  "Unity package manifest must include the UI package");
+check(manifest.dependencies["com.unity.render-pipelines.universal"] === "17.0.3",
+  "Unity package manifest must include URP");
+check(readFileSync(new URL("../ProjectSettings/ProjectVersion.txt", import.meta.url), "utf8")
+  .includes("m_EditorVersion: 6000.0.32f1"),
+  "Unity project must pin its editor version");
+console.log("Unity project scaffold static checks passed (Unity Editor execution not available).");
+
