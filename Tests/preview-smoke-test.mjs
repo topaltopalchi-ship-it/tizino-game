@@ -202,7 +202,7 @@ check(questionData.includes("string.IsNullOrWhiteSpace(explanation)"), "Runtime 
 console.log("Four-level Unity controller structure checks passed (static checks only).");
 
 const bootstrap = readFileSync(new URL("../Assets/Editor/TiizinoSceneBootstrap.cs", import.meta.url), "utf8");
-check(bootstrap.includes('MenuItem("Tools/Tiizino/Create Stage 01 Scene")'),
+check(bootstrap.includes('MenuItem("Tools/Tiizino/Legacy/Create Stage 01 Scene (Bootstrap)")'),
   "Unity editor must expose the documented scene creation menu");
 check(bootstrap.includes("AssetDatabase.Refresh();"),
   "Scene bootstrap must refresh the AssetDatabase after creating the scene folder");
