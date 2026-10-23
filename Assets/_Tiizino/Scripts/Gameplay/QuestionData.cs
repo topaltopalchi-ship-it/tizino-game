@@ -7,6 +7,8 @@ namespace Tiizino.Gameplay
     public class QuestionData
     {
         [TextArea(2, 4)] public string prompt;
+        [Tooltip("Optional ID mapped to a prerecorded voice line, for example grade1_bridge_q1.")]
+        public string audioPhraseId;
         public string[] options;
         [Min(0)] public int correctOptionIndex;
         [TextArea(1, 3)] public string explanation;
