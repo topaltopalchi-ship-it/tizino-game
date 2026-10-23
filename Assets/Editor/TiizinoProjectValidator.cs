@@ -1,6 +1,7 @@
 #if UNITY_EDITOR
 using System;
 using System.IO;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -67,6 +68,7 @@ namespace Tiizino.EditorTools
                         continue;
                     }
 
+                    HashSet<string> seenPrompts = new HashSet<string>(StringComparer.Ordinal);
                     if (bank.levels != null && bank.levels.Length > 0)
                     {
                         for (int i = 0; i < bank.levels.Length; i++)
@@ -81,7 +83,7 @@ namespace Tiizino.EditorTools
                                 continue;
                             }
                             for (int j = 0; j < level.questions.Length; j++)
-                                if (!IsValid(level.questions[j]))
+                                if (!IsValid(level.questions[j]) || !seenPrompts.Add(NormalizePrompt(level.questions[j]?.prompt)))
                                 {
                                     Debug.LogError("Tiizino setup: invalid question at level " + (i + 1)
                                         + ", question " + (j + 1) + " in " + questionPath);
@@ -92,7 +94,7 @@ namespace Tiizino.EditorTools
                     else
                     {
                         for (int i = 0; i < bank.questions.Length; i++)
-                            if (!IsValid(bank.questions[i]))
+                            if (!IsValid(bank.questions[i]) || !seenPrompts.Add(NormalizePrompt(bank.questions[i]?.prompt)))
                             {
                                 Debug.LogError("Tiizino setup: invalid flat question " + (i + 1)
                                     + " in " + questionPath);
@@ -128,8 +130,17 @@ namespace Tiizino.EditorTools
                 Debug.Log("Tiizino setup validation passed its basic file checks. This does not compile the project or verify Android/device behavior.");
         }
 
+        private static string NormalizePrompt(string prompt)
+        {
+            return string.IsNullOrWhiteSpace(prompt) ? string.Empty : string.Join(" ", prompt.Trim().Split((char[])null, StringSplitOptions.RemoveEmptyEntries));
+        }
+
         private static bool IsValid(Question question)
         {
+            if (question == null || question.options == null || question.options.Length != 3) return false;
+            if (string.Equals(question.options[0]?.Trim(), question.options[1]?.Trim(), StringComparison.Ordinal)
+                || string.Equals(question.options[0]?.Trim(), question.options[2]?.Trim(), StringComparison.Ordinal)
+                || string.Equals(question.options[1]?.Trim(), question.options[2]?.Trim(), StringComparison.Ordinal)) return false;
             return question != null
                 && !string.IsNullOrWhiteSpace(question.prompt)
                 && question.options != null
