@@ -105,7 +105,7 @@ const normalizedPrompts = new Set();
 for (const [levelIndex, level] of levelBank.levels.entries()) {
   for (const [questionIndex, question] of level.questions.entries()) {
     const normalizedPrompt = question.prompt.normalize("NFKC").trim().toLocaleUpperCase("fa");
-    const compactPrompt = normalizedPrompt.split(/\\s+/u).filter(Boolean).join(" ");
+    const compactPrompt = normalizedPrompt.replace(/\s+/gu, " ");
     check(!normalizedPrompts.has(compactPrompt),
       `Level ${levelIndex + 1}, question ${questionIndex + 1} repeats an earlier prompt after Unicode/whitespace normalization`);
     normalizedPrompts.add(compactPrompt);
