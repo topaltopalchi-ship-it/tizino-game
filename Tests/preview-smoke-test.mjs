@@ -329,3 +329,19 @@ check(validator.includes("public int levelId;"),
 check(validator.includes("HashSet<int> seenLevelIds")
   && validator.includes("level.levelId < 1 || !seenLevelIds.Add(level.levelId)"),
   "Unity project validator must reject missing, non-positive, or duplicate level IDs");
+
+const gradePreviewPath = new URL("../Preview/grades.html", import.meta.url);
+const gradePreview = readFileSync(gradePreviewPath, "utf8");
+check(gradePreview.includes('../Assets/_Tiizino/Resources/Grade1_QuestionBank.json')
+  && gradePreview.includes('../Assets/_Tiizino/Resources/Grade2_QuestionBank.json'),
+  "Playable grade preview must load both official question banks");
+check(gradePreview.includes('$("grade1").addEventListener("click",()=>loadGrade(1))')
+  && gradePreview.includes('$("grade2").addEventListener("click",()=>loadGrade(2))'),
+  "Playable grade preview must allow selecting either grade");
+check(gradePreview.includes("function choose(choice)")
+  && gradePreview.includes("q.correctOptionIndex")
+  && gradePreview.includes("q.explanation"),
+  "Playable grade preview must check answers and show explanatory feedback");
+const gradePreviewScript = gradePreview.match(/<script\\b[^>]*>([\\s\\S]*?)<\\/script>/i)?.[1];
+check(Boolean(gradePreviewScript), "Could not extract playable grade preview script");
+new Function(gradePreviewScript);
