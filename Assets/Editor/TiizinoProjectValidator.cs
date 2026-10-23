@@ -10,7 +10,11 @@ namespace Tiizino.EditorTools
     public static class TiizinoProjectValidator
     {
         private const string ScenePath = "Assets/_Tiizino/Scenes/Stage01_Bridge.unity";
-        private const string QuestionPath = "Assets/_Tiizino/Resources/Grade1_QuestionBank.json";
+        private static readonly string[] QuestionPaths =
+        {
+            "Assets/_Tiizino/Resources/Grade1_QuestionBank.json",
+            "Assets/_Tiizino/Resources/Grade2_QuestionBank.json"
+        };
 
         [Serializable] private sealed class QuestionBank
         {
@@ -41,23 +45,29 @@ namespace Tiizino.EditorTools
                 hasErrors = true;
             }
 
-            if (!File.Exists(QuestionPath))
+            for (int bankIndex = 0; bankIndex < QuestionPaths.Length; bankIndex++)
             {
-                Debug.LogError("Tiizino setup: grade 1 question bank is missing at " + QuestionPath);
-                hasErrors = true;
-            }
-            else
-            {
+                string questionPath = QuestionPaths[bankIndex];
+                if (!File.Exists(questionPath))
+                {
+                    Debug.LogError("Tiizino setup: grade " + (bankIndex + 1)
+                        + " question bank is missing at " + questionPath);
+                    hasErrors = true;
+                    continue;
+                }
+
                 try
                 {
-                    QuestionBank bank = JsonUtility.FromJson<QuestionBank>(File.ReadAllText(QuestionPath));
+                    QuestionBank bank = JsonUtility.FromJson<QuestionBank>(File.ReadAllText(questionPath));
                     if (bank == null || ((bank.levels == null || bank.levels.Length == 0)
                         && (bank.questions == null || bank.questions.Length == 0)))
                     {
-                        Debug.LogError("Tiizino setup: question bank has no levels or questions.");
+                        Debug.LogError("Tiizino setup: question bank has no levels or questions: " + questionPath);
                         hasErrors = true;
+                        continue;
                     }
-                    else if (bank.levels != null && bank.levels.Length > 0)
+
+                    if (bank.levels != null && bank.levels.Length > 0)
                     {
                         for (int i = 0; i < bank.levels.Length; i++)
                         {
@@ -66,14 +76,15 @@ namespace Tiizino.EditorTools
                                 || string.IsNullOrWhiteSpace(level.skill)
                                 || level.questions == null || level.questions.Length == 0)
                             {
-                                Debug.LogError("Tiizino setup: level " + (i + 1) + " is missing its name, skill, or questions.");
+                                Debug.LogError("Tiizino setup: invalid level " + (i + 1) + " in " + questionPath);
                                 hasErrors = true;
                                 continue;
                             }
                             for (int j = 0; j < level.questions.Length; j++)
                                 if (!IsValid(level.questions[j]))
                                 {
-                                    Debug.LogError("Tiizino setup: invalid question at level " + (i + 1) + ", question " + (j + 1) + ".");
+                                    Debug.LogError("Tiizino setup: invalid question at level " + (i + 1)
+                                        + ", question " + (j + 1) + " in " + questionPath);
                                     hasErrors = true;
                                 }
                         }
@@ -83,14 +94,15 @@ namespace Tiizino.EditorTools
                         for (int i = 0; i < bank.questions.Length; i++)
                             if (!IsValid(bank.questions[i]))
                             {
-                                Debug.LogError("Tiizino setup: invalid flat question " + (i + 1) + ".");
+                                Debug.LogError("Tiizino setup: invalid flat question " + (i + 1)
+                                    + " in " + questionPath);
                                 hasErrors = true;
                             }
                     }
                 }
                 catch (Exception exception)
                 {
-                    Debug.LogError("Tiizino setup: could not parse question bank JSON. " + exception.Message);
+                    Debug.LogError("Tiizino setup: could not parse " + questionPath + ". " + exception.Message);
                     hasErrors = true;
                 }
             }
