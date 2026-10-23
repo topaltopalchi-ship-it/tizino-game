@@ -45,3 +45,36 @@ jobs:
           path: site/
           if-no-files-found: error
           retention-days: 14
+
+
+  package-preview:
+    name: Package playable preview (fallback)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Assemble minimal preview site
+        run: |
+          mkdir -p site/Preview site/Assets/_Tiizino/Resources
+          cp Preview/grades.html site/Preview/grades.html
+          cp Assets/_Tiizino/Resources/Grade1_QuestionBank.json site/Assets/_Tiizino/Resources/
+          cp Assets/_Tiizino/Resources/Grade2_QuestionBank.json site/Assets/_Tiizino/Resources/
+          cat > site/index.html <<'EOF'
+          <!doctype html>
+          <html lang="fa" dir="rtl">
+          <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width,initial-scale=1">
+            <meta http-equiv="refresh" content="0; url=Preview/grades.html">
+            <title>تیزینو — پیش‌نمایش بازی</title>
+          </head>
+          <body><p><a href="Preview/grades.html">شروع پیش‌نمایش بازی تیزینو</a></p></body>
+          </html>
+          EOF
+      - name: Upload playable preview artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: tizino-playable-preview
+          path: site/
+          if-no-files-found: error
+          retention-days: 14
