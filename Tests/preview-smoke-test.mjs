@@ -123,6 +123,9 @@ check(controller.includes("private static string NormalizeOption(string option)"
 check(editor.includes("NormalizeOption(question.options[0])")
   && editor.includes("StringComparison.OrdinalIgnoreCase"),
   "Editor validation must use the same normalized, case-insensitive option comparison");
+check(editor.includes("option.Normalize(System.Text.NormalizationForm.FormKC)")
+  && controller.includes("option.Normalize(System.Text.NormalizationForm.FormKC)"),
+  "Editor and runtime option validation must normalize Unicode compatibility forms consistently");
 check(controller.includes('Tiizino.MusicEnabled'), "Music preference must persist between game sessions");
 check(controller.includes('musicEnabled ? "موسیقی: روشن" : "موسیقی: خاموش"'), "Music toggle label must reflect the current preference");
 check(controller.includes("private void OnDisable()") && controller.includes("speechService?.Stop();"), "Disabling or rebuilding the stage must stop question voice playback");
